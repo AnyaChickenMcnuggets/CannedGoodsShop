@@ -25,13 +25,13 @@ public class SecurityConfig{
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         // конфигурация работы Spring Security
         http.authorizeHttpRequests() //указываем что все страницы должны быть защищены аутентификацией
-                .requestMatchers("/authentication", "/error", "/registration", "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/", "/product", "/product/info/{id}").permitAll() // указываем список общедоступных страниц без авторизации
+                .requestMatchers("/authentication", "/error", "/registration", "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/product", "/product/info/{id}").permitAll() // указываем список общедоступных страниц без авторизации
                 .requestMatchers("/admin").hasRole("ADMIN").anyRequest().hasAnyRole("USER", "ADMIN")
 //                .anyRequest().authenticated() // указываем что для всех остальных страниц необходима аутентификация
                 .and()
                 .formLogin().loginPage("/authentication") // где формировать страницу аутентификации
                 .loginProcessingUrl("/process_login") // куда отправляются данные с формы аутентификации (это базовый юрл, реализованный)
-                .defaultSuccessUrl("/", true) // куда отправляет при удачном входе
+                .defaultSuccessUrl("/my", true) // куда отправляет при удачном входе
                 .failureForwardUrl("/authentication?error") // при неудачном сюда
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/authentication");
