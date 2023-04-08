@@ -13,7 +13,7 @@
 <p th:text="'Продавец: ' + ${product.getSeller()}"></p>
 <p th:text="'Категория: ' + ${product.getCategory().getName()}"></p>
 <div th:each="image : ${product.getImageList()}">
-  <img th:src="'/img/' + ${img.getFileName()}">
+  <img th:src="'/img/' + ${image.getFileName()}">
 </div>
 </body>
 </html>
