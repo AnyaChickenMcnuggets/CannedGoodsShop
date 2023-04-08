@@ -1,15 +1,36 @@
 package com.example.finalfullstack.config;
 
 import com.example.finalfullstack.services.PersonDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+import org.springframework.security.web.SecurityFilterChain;
 
-@EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfiguration {
+@Configuration
+public class SecurityConfig{
 
     private final PersonDetailsService personDetailsService;
 
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        // конфигурация работы Spring Security
+        http.csrf().disable() //отключаем защиту межсайтовой подделки запросов
+                .authorizeHttpRequests() //указываем что все страницы должны быть защищены аутентификацией
+                .requestMatchers("/authentication", "/error").permitAll() // указываем список общедоступных страниц без авторизации
+                .anyRequest().authenticated() // указываем что для всех остальных страниц необходима аутентификация
+                .and()
+                .formLogin().loginPage("/authentication") // где формировать страницу аутентификации
+                .loginProcessingUrl("/process_login") // куда отправляются данные с формы аутентификации (это базовый юрл, реализованный)
+                .defaultSuccessUrl("/", true) // куда отправляет при удачном входе
+                .failureForwardUrl("/authentication"); // при неудачном сюда
+        return http.build();
+    }
+
+    @Autowired
     public SecurityConfig(PersonDetailsService personDetailsService) {
         this.personDetailsService = personDetailsService;
     }
