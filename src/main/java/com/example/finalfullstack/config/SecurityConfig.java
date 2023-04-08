@@ -26,13 +26,13 @@ public class SecurityConfig{
         // конфигурация работы Spring Security
         http.csrf().disable() //отключаем защиту межсайтовой подделки запросов
                 .authorizeHttpRequests() //указываем что все страницы должны быть защищены аутентификацией
-                .requestMatchers("/authentication", "/error").permitAll() // указываем список общедоступных страниц без авторизации
+                .requestMatchers("/authentication", "/error", "/registration").permitAll() // указываем список общедоступных страниц без авторизации
                 .anyRequest().authenticated() // указываем что для всех остальных страниц необходима аутентификация
                 .and()
                 .formLogin().loginPage("/authentication") // где формировать страницу аутентификации
                 .loginProcessingUrl("/process_login") // куда отправляются данные с формы аутентификации (это базовый юрл, реализованный)
                 .defaultSuccessUrl("/", true) // куда отправляет при удачном входе
-                .failureForwardUrl("/authentication"); // при неудачном сюда
+                .failureForwardUrl("/authentication?error"); // при неудачном сюда
         return http.build();
     }
 

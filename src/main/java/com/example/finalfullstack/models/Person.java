@@ -19,7 +19,7 @@ public class Person {
     private String login;
 
     @NotEmpty(message = "Пароль не может быть пустым")
-    @Size(min = 5, max = 100, message = "Логин должен быть от 5 до 100 символов")
+    @Size(min = 5, max = 100, message = "Пароль должен быть от 5 до 100 символов")
     @Column(name = "password")
     private String password;
 
