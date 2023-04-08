@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "Person")
 public class Person {
@@ -22,6 +24,17 @@ public class Person {
     @Size(min = 5, max = 100, message = "Пароль должен быть от 5 до 100 символов")
     @Column(name = "password")
     private String password;
+
+    @Column(name = "role")
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public int getId() {
         return id;
@@ -45,5 +58,18 @@ public class Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return id == person.id && Objects.equals(login, person.login) && Objects.equals(password, person.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, login, password);
     }
 }
