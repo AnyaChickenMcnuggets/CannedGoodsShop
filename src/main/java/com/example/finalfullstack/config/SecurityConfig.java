@@ -1,6 +1,6 @@
 package com.example.finalfullstack.config;
 
-import com.example.finalfullstack.security.AuthenticationProvider;
+import com.example.finalfullstack.services.PersonDetailsService;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
@@ -8,13 +8,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfiguration {
 
-    private final AuthenticationProvider authenticationProvider;
+    private final PersonDetailsService personDetailsService;
 
-    public SecurityConfig(AuthenticationProvider authenticationProvider) {
-        this.authenticationProvider = authenticationProvider;
+    public SecurityConfig(PersonDetailsService personDetailsService) {
+        this.personDetailsService = personDetailsService;
     }
 
-    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder){
-        authenticationManagerBuilder.authenticationProvider(authenticationProvider);
+//    private final AuthenticationProvider authenticationProvider;
+
+//    public SecurityConfig(AuthenticationProvider authenticationProvider) {
+//        this.authenticationProvider = authenticationProvider;
+//    }
+
+    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+//        authenticationManagerBuilder.authenticationProvider(authenticationProvider);
+        authenticationManagerBuilder.userDetailsService(personDetailsService);
     }
 }
