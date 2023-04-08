@@ -33,6 +33,7 @@ public class MainController {
         if (role.equals("ROLE_ADMIN")){
             return "redirect:/admin";
         }
+
 //        System.out.println(personDetails.getPerson());
 //        System.out.println("ID : " + personDetails.getPerson().getId());
 //        System.out.println("login : " + personDetails.getPerson().getLogin());
