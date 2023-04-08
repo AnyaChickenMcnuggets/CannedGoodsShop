@@ -24,9 +24,8 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         // конфигурация работы Spring Security
-        http.csrf().disable() //отключаем защиту межсайтовой подделки запросов
-                .authorizeHttpRequests() //указываем что все страницы должны быть защищены аутентификацией
-                .requestMatchers("/authentication", "/error", "/registration").permitAll() // указываем список общедоступных страниц без авторизации
+        http.authorizeHttpRequests() //указываем что все страницы должны быть защищены аутентификацией
+                .requestMatchers("/authentication", "/error", "/registration", "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**").permitAll() // указываем список общедоступных страниц без авторизации
                 .requestMatchers("/admin").hasRole("ADMIN").anyRequest().hasAnyRole("USER", "ADMIN")
 //                .anyRequest().authenticated() // указываем что для всех остальных страниц необходима аутентификация
                 .and()

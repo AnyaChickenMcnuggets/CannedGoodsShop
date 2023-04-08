@@ -6,6 +6,8 @@
 </head>
 <body>
 <h3>главная страница</h3>
-<a href="/logout">Выйти из ЛК</a>
+<form method="post" th:action="@{/logout}">
+    <button type="submit">Выйти из ЛК</button>
+</form>
 </body>
 </html>
