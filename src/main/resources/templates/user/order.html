@@ -35,9 +35,6 @@
     </div>
 </nav>
 
-
-
-
 <div class="card-columns row d-flex justify-content-center">
     <div class="card border-info m-4 p-2 col-6" th:each="order : ${orders}">
         <h3 class="card-header text-left" th:text="'Заказ № ' + ${order.getNumber()}"></h3>

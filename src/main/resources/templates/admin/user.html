@@ -42,7 +42,9 @@
       <div class="card text-center border-info col-12">
         <div class="card-body">
           <h5 th:text="'Login: ' + ${user.getLogin()}"></h5>
-          <a class="btn btn-outline-danger m-1" role="button" th:href="@{/admin/person/downcast/{id}(id=${user.getId()})}">Понизить в правах</a>
+          <form method="post" th:action="@{/admin/person/downcast/{id}(id=${user.getId()})}">
+            <button class="btn btn-outline-danger m-1" type="submit">Понизить в правах</button>
+          </form>
         </div>
       </div>
     </div>
@@ -50,17 +52,19 @@
 </div>
 <h1 class="display-4 text-center">Список пользователей</h1>
 <hr>
-<div class=" d-flex card-deck m-1  justify-content-center">
+<div class="d-flex card-deck m-1  justify-content-center">
   <div class="row equal h-100 ">
-    <div class="col-2 m-2 mt-3 d-flex align-items-stretch justify-content-center"  th:each="user : ${users}" th:if="${user.getRole().equals('ROLE_USER')}">
+    <div class="col-2 mt-3 d-flex align-items-stretch justify-content-center"  th:each="user : ${users}" th:if="${user.getRole().equals('ROLE_USER')}">
       <div class="card text-center border-info col-12">
         <div class="card-body">
           <h5 th:text="'Login: ' + ${user.getLogin()}"></h5>
-          <a class="btn btn-outline-success m-1" role="button" th:href="@{/admin/person/upcast/{id}(id=${user.getId()})}">Повысить в правах</a>
+          <form method="post" th:action="@{/admin/person/upcast/{id}(id=${user.getId()})}">
+            <button class="btn btn-outline-success m-1" type="submit">Повысить в правах</button>
+          </form>
         </div>
       </div>
     </div>
-    <div class="col-2 m-1 mt-3 d-flex align-items-stretch flex-wrap">
+    <div class="col-2 mt-3 d-flex align-items-stretch flex-wrap">
       <div class="card text-center border-info col-12">
         <div class="card-body ">
           <a class="btn btn-outline-success my-2 py-3 btn-block"  role="button" th:href="@{/admin/registration}">Создать пользователя</a>

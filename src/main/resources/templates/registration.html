@@ -1,22 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>registration</title>
+  <meta charset="UTF-8">
+  <title>registration</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+
+  <style>
+    @import url(//fonts.googleapis.com/css?family=Montserrat:300,400,500);
+    .bform {
+      font-family: "Montserrat", sans-serif;
+      color: #8d97ad;
+      font-weight: 300;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bform h1,
+    .bform h2,
+    .bform h3,
+    .bform h4,
+    .bform h5,
+    .bform h6 {
+      color: #3e4555;
+    }
+
+    .bform a {
+      text-decoration: none;
+    }
+
+    .bform .btn-danger-gradiant {
+      background: #4d74ff;
+      background: -webkit-linear-gradient(legacy-direction(to right), #4d6bff 0%, #1267c2 100%);
+      background: -webkit-gradient(linear, left top, right top, from(#4d6bff), to(#1267c2));
+      background: -webkit-linear-gradient(left, #4d6bff 0%, #1267c2 100%);
+      background: -o-linear-gradient(left, #4d6bff 0%, #1267c2 100%);
+      background: linear-gradient(to right, #4d6bff 0%, #1267c2 100%);
+    }
+
+    .bform .btn-danger-gradiant:hover {
+      background: #1267c2;
+      background: -webkit-linear-gradient(legacy-direction(to right), #1267c2 0%, #0098cb 100%);
+      background: -webkit-gradient(linear, left top, right top, from(#1267c2), to(#0098cb));
+      background: -webkit-linear-gradient(left, #1267c2 0%, #0098cb 100%);
+      background: -o-linear-gradient(left, #1267c2 0%, #0098cb 100%);
+      background: linear-gradient(to right, #1267c2 0%, #0098cb 100%);
+    }
+
+    .bform .btn-md {
+      padding: 15px 45px;
+      font-size: 16px;
+    }
+
+  </style>
 </head>
 <body>
-<h3>Регистрация</h3>
-<form method="post" th:action="@{/registration}" th:object="${person}">
-  <input type="text" th:field="*{login}" id="login">
-  <div th:if="${#fields.hasErrors('login')}" th:errors="*{login}" style="color: red">
+
+<div class="bform py-5 m-5 d-flex justify-content-center">
+  <!-- Row -->
+  <div class="row">
+
+    <div class="container">
+      <div class="col-lg-12 align-justify-center pr-4 pl-0 contact-form">
+        <div class="">
+
+          <h2 class="mb-3 font-weight-light text-center">Регистрация</h2>
+          <form class="mt-3" method="post" th:action="@{/registration}" th:object="${person}">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <input class="form-control" type="text" placeholder="login" th:field="*{login}" id="login">
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <input class="form-control" type="password" placeholder="password" th:field="*{password}" id="password">
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <button type="submit" class="btn btn-md btn-block btn-danger-gradiant text-white border-0"><span>Создать пользователя</span></button>
+                <!-- -->
+              </div>
+              <div class="col-lg-12 text-center mt-4">
+                Уже есть аккаунт? <a href="/authentication" class="text-danger">Войти</a>
+              </div>
+              <div class="text-center" th:if="${#fields.hasErrors('login')}" th:errors="*{login}" style="color: red">
+              </div>
+              <div class="text-center" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-  <br>
-  <input type="password" th:field="*{password}" id="password">
-  <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red">
-  </div>
-  <br>
-  <input type="submit" value="Зарегистрироваться">
-</form>
-<a href="/authentication">Уже зарегистрирован</a>
+</div>
+
+</div>
 </body>
 </html>

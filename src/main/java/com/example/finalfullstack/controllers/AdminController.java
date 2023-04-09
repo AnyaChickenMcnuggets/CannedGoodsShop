@@ -241,4 +241,17 @@ public class AdminController {
         personService.register(person);
         return "redirect:/admin/person";
     }
+
+    @PostMapping("/admin/person/upcast/{id}")
+    public String upgradePerson(@PathVariable("id") int id){
+        Person person = personService.getPersonById(id);
+        personService.upgradePersonById(person, id);
+        return "redirect:/admin/person";
+    }
+    @PostMapping("/admin/person/downcast/{id}")
+    public String downgradePerson(@PathVariable("id") int id){
+        Person person = personService.getPersonById(id);
+        personService.downgradePersonById(person, id);
+        return "redirect:/admin/person";
+    }
 }
