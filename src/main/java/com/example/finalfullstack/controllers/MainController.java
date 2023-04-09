@@ -1,6 +1,9 @@
 package com.example.finalfullstack.controllers;
 
+import com.example.finalfullstack.models.Cart;
 import com.example.finalfullstack.models.Person;
+import com.example.finalfullstack.models.Product;
+import com.example.finalfullstack.repositories.CartRepository;
 import com.example.finalfullstack.repositories.ProductRepository;
 import com.example.finalfullstack.security.PersonDetails;
 import com.example.finalfullstack.services.PersonService;
@@ -14,6 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class MainController {
 
@@ -21,16 +27,18 @@ public class MainController {
     private final PersonService personService;
     private final ProductService productService;
     private final ProductRepository productRepository;
+    private final CartRepository cartRepository;
 
-    public MainController(PersonValidator personValidator, PersonService personService, ProductService productService, ProductRepository productRepository) {
+    public MainController(PersonValidator personValidator, PersonService personService, ProductService productService, ProductRepository productRepository, CartRepository cartRepository) {
         this.personValidator = personValidator;
         this.personService = personService;
         this.productService = productService;
         this.productRepository = productRepository;
+        this.cartRepository = cartRepository;
     }
 
     @GetMapping("/my/product")
-    public String index(Model model){
+    public String index(@RequestParam(name = "search", defaultValue = "") String search, Model model){
         // объект аутентификации -> обращаемся к контексту и на нем вызываем метод аутентификации. Из сессии текущего пользователя получаем объект, который был положен в данную сессию после аутентификации пользователя
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
@@ -38,7 +46,9 @@ public class MainController {
         if (role.equals("ROLE_ADMIN")){
             return "redirect:/admin";
         }
+        model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCase(search));
         model.addAttribute("products", productService.getAllProduct());
+        model.addAttribute("value_search", search);
         return "user/index";
     }
 
@@ -111,5 +121,37 @@ public class MainController {
         model.addAttribute("value_price_do", dO);
         return "user/index";
     }
+
+    @GetMapping("/my/cart/add/{id}")
+    public String addProductInCart(@PathVariable("id") int id, Model model){
+        Product product = productService.getProductById(id);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+        int person_id = personDetails.getPerson().getId();
+
+        Cart cart = new Cart(person_id, product.getId());
+        cartRepository.save(cart);
+
+        return "redirect:/my/cart";
+    }
+
+    @GetMapping("/my/cart")
+    public String cart(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+        int person_id = personDetails.getPerson().getId();
+
+        List<Cart> cartList = cartRepository.findByPersonId(person_id);
+        List<Product> productList = new ArrayList<>();
+        for (Cart cart:cartList) {
+            productList.add(productService.getProductById(cart.getProductId()));
+        }
+        model.addAttribute("cart_product", productList);
+        return "user/cart";
+    }
+
 }
 

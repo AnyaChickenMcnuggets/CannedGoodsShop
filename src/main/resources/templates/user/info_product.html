@@ -6,6 +6,7 @@
 </head>
 <body>
 <h3>Информация о товаре: </h3>
+<a th:href="@{/my/cart/add/{id}(id=${product.getId()})}">Добавить товар в корзину</a>
 <p th:text="'Наименование: ' + ${product.getTitle()}"></p>
 <p th:text="'Описание: ' + ${product.getDescription()}"></p>
 <p th:text="'Цена: ' + ${product.getPrice()}"></p>
@@ -15,5 +16,6 @@
 <div th:each="image : ${product.getImageList()}">
   <img th:src="'/img/' + ${image.getFileName()}">
 </div>
+
 </body>
 </html>
