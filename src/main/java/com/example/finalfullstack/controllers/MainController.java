@@ -149,9 +149,33 @@ public class MainController {
         for (Cart cart:cartList) {
             productList.add(productService.getProductById(cart.getProductId()));
         }
+
+        float finalPrice = 0;
+        for (Product product :
+                productList) {
+            finalPrice += product.getPrice();
+        }
+
+        model.addAttribute("final_price", finalPrice);
         model.addAttribute("cart_product", productList);
         return "user/cart";
     }
 
+    @GetMapping("/cart/delete/{id}")
+    public String deleteProductFromCart(Model model, @PathVariable("id") int id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+        int person_id = personDetails.getPerson().getId();
+
+        List<Cart> cartList = cartRepository.findByPersonId(person_id);
+        List<Product> productList = new ArrayList<>();
+        for (Cart cart:cartList) {
+            productList.add(productService.getProductById(cart.getProductId()));
+        }
+        cartRepository.deleteCartByProductIdAndByPersonId(id, person_id);
+
+        return "redirect:/my/cart";
+    }
 }
 
