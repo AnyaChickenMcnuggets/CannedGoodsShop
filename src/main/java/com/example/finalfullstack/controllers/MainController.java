@@ -221,7 +221,7 @@ public class MainController {
     public String orderUser(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-        List<Order> orderList = orderRepository.findByPerson(personDetails.getPerson());
+        List<Order> orderList = orderRepository.findByPersonOrderByDateTimeDesc(personDetails.getPerson());
 
         List<ProductOrder> productOrderList = productOrderRepository.findAll();
         List<Product> productList = productRepository.findAll();
