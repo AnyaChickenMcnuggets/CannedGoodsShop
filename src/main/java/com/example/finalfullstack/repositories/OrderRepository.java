@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
+
+    List<Order> findByNumberEndingWith(String search);
+
     @Query(value = "select * from orders order by date_time desc", nativeQuery = true)
     List<Order> findOrderByDateTimeDesc();
     List<Order> findByPersonOrderByDateTimeDesc(Person person);

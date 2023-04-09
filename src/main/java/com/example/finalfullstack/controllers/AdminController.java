@@ -135,20 +135,84 @@ public class AdminController {
         model.addAttribute("products", productList);
         model.addAttribute("productOrders", productOrderList);
         model.addAttribute("orders", orderList);
+        model.addAttribute("value_search", "");
         return "admin/order";
     }
 
     @PostMapping("/admin/order/status_upgrade/{id}")
-    public String orderUpgradeStatus(@PathVariable("id") int id){
+    public String orderUpgradeStatus(@PathVariable("id") int id, @RequestParam(value = "search", defaultValue = "") String search, Model model){
+        System.out.println(search);
         Order order = orderService.getOrderById(id);
         orderService.updateProductById(order, id);
-        return "redirect:/admin/order";
+        if (search.length() >=4){
+            model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search.substring(search.length() - 4)));
+            System.out.println(orderRepository.findByNumberEndingWith(search.substring(search.length() - 4)));
+        } else {
+            model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search));
+            System.out.println(orderRepository.findByNumberEndingWith(search));
+        }
+
+
+        List<Order> orderList = orderRepository.findOrderByDateTimeDesc();
+        List<ProductOrder> productOrderList = productOrderRepository.findAll();
+        List<Product> productList = productRepository.findAll();
+        List<Person> personList = personRepository.findAll();
+
+        model.addAttribute("users", personList);
+        model.addAttribute("products", productList);
+        model.addAttribute("productOrders", productOrderList);
+        model.addAttribute("orders", orderList);
+        model.addAttribute("value_search", search);
+        return "admin/order";
     }
 
     @PostMapping("/admin/order/status_remove/{id}")
-    public String orderRemoveStatus(@PathVariable("id") int id){
+    public String orderRemoveStatus(@PathVariable("id") int id, @RequestParam(value = "search", defaultValue = "") String search, Model model){
         Order order = orderService.getOrderById(id);
         orderService.stopProductById(order, id);
-        return "redirect:/admin/order";
+        if (search.length() >=4){
+            model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search.substring(search.length() - 4)));
+            System.out.println(orderRepository.findByNumberEndingWith(search.substring(search.length() - 4)));
+        } else {
+            model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search));
+            System.out.println(orderRepository.findByNumberEndingWith(search));
+        }
+
+
+        List<Order> orderList = orderRepository.findOrderByDateTimeDesc();
+        List<ProductOrder> productOrderList = productOrderRepository.findAll();
+        List<Product> productList = productRepository.findAll();
+        List<Person> personList = personRepository.findAll();
+
+        model.addAttribute("users", personList);
+        model.addAttribute("products", productList);
+        model.addAttribute("productOrders", productOrderList);
+        model.addAttribute("orders", orderList);
+        model.addAttribute("value_search", search);
+        return "admin/order";
+    }
+
+    @PostMapping("/admin/order")
+    public String orderSearch(@RequestParam(value = "search", defaultValue = "") String search, Model model){
+        if (search.length() >=4){
+            model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search.substring(search.length() - 4)));
+            System.out.println(orderRepository.findByNumberEndingWith(search.substring(search.length() - 4)));
+        } else {
+            model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search));
+            System.out.println(orderRepository.findByNumberEndingWith(search));
+        }
+
+
+        List<Order> orderList = orderRepository.findOrderByDateTimeDesc();
+        List<ProductOrder> productOrderList = productOrderRepository.findAll();
+        List<Product> productList = productRepository.findAll();
+        List<Person> personList = personRepository.findAll();
+
+        model.addAttribute("users", personList);
+        model.addAttribute("products", productList);
+        model.addAttribute("productOrders", productOrderList);
+        model.addAttribute("orders", orderList);
+        model.addAttribute("value_search", search);
+        return "admin/order";
     }
 }

@@ -27,7 +27,7 @@
           <a class="nav-link active" aria-current="page" href="/admin/person">Пользователи</a>
         </li>
       </ul>
-      <form class="d-flex" role="search" th:method="POST" th:action="@{/admin/order/search}">
+      <form class="d-flex" role="search" th:method="POST" th:action="@{/admin/order}">
         <input class="form-control me-2" type="search" placeholder="Поиск заказа" aria-label="Search" id="search" name="search" th:value="*{value_search}">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
@@ -37,7 +37,62 @@
     </div>
   </div>
 </nav>
-<div class="card-columns row d-flex justify-content-center">
+<div th:if="${!value_search.equals('')}" class="card-columns row d-flex justify-content-center">
+  <div class="card border-info m-4 p-2 col-6" th:each="order : ${search_order}">
+    <div class="card-header col d-flex ">
+      <h5 class="col-7" th:text="'Заказ № ' + ${order.getNumber()}"></h5>
+      <div th:each="user:${users}" th:if="${user.getId()==order.getPerson().getId()}">
+        <h5 class="col-lg" th:text="'Пользователь: ' + ${user.getLogin()}"></h5>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="row d-flex col-3 mt-5">
+          <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy')}"></p>
+          <p th:text="'Статус заказа: ' + ${order.getStatus()}"></p>
+        </div>
+        <div class="col-sm">
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">Товар</th>
+              <th scope="col">Кол-во</th>
+              <th scope="col">Цена</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product:${products}">
+              <div th:each="product_order:${productOrders}" th:if="${order.getId() == product_order.getOrderId() && product.getId() == product_order.getProductId()}">
+                <td th:text="${product.getTitle()}"></td>
+                <td th:text="${product_order.getQuantity()}"></td>
+                <td th:text="${product.getPrice()}"></td>
+              </div>
+            </tr>
+            </tbody>
+            <tr>
+              <td >Стоимость заказа: </td>
+              <td ></td>
+              <td th:text="${order.getFinalPrice()}"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <form method="post" th:action="@{/admin/order/status_upgrade/{id}(id=${order.getId()})}">
+        <button class="btn btn-success mx-5 col-8" type="submit">Повысить статус</button>
+        <input type="hidden" placeholder="Поиск заказа" aria-label="Search" name="search" th:value="*{value_search}">
+      </form>
+      <form method="post" th:action="@{/admin/order/status_remove/{id}(id=${order.getId()})}">
+        <input type="hidden" placeholder="Поиск заказа" aria-label="Search" name="search" th:value="*{value_search}">
+        <button class="btn btn-danger mx-5 col-1" type="submit">x</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+<div th:if="${value_search.equals('')}" class="card-columns row d-flex justify-content-center">
   <div class="card border-info m-4 p-2 col-6" th:each="order : ${orders}">
     <div class="card-header col d-flex ">
       <h5 class="col-7" th:text="'Заказ № ' + ${order.getNumber()}"></h5>

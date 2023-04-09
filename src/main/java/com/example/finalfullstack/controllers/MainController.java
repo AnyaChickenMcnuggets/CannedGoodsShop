@@ -203,7 +203,7 @@ public class MainController {
             finalPrice += product.getPrice();
         }
 
-        String uuid = UUID.randomUUID().toString();
+        String uuid = UUID.randomUUID().toString() + (int) finalPrice + person_id;
         Order newOrder = new Order(uuid, personDetails.getPerson(), finalPrice, Status.Оформлен);
         orderRepository.save(newOrder);
 
