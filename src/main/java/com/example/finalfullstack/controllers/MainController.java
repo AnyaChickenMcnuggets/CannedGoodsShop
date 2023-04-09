@@ -1,6 +1,7 @@
 package com.example.finalfullstack.controllers;
 
 import com.example.finalfullstack.models.Person;
+import com.example.finalfullstack.repositories.ProductRepository;
 import com.example.finalfullstack.security.PersonDetails;
 import com.example.finalfullstack.services.PersonService;
 import com.example.finalfullstack.services.ProductService;
@@ -11,10 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class MainController {
@@ -22,14 +20,16 @@ public class MainController {
     private final PersonValidator personValidator;
     private final PersonService personService;
     private final ProductService productService;
+    private final ProductRepository productRepository;
 
-    public MainController(PersonValidator personValidator, PersonService personService, ProductService productService) {
+    public MainController(PersonValidator personValidator, PersonService personService, ProductService productService, ProductRepository productRepository) {
         this.personValidator = personValidator;
         this.personService = personService;
         this.productService = productService;
+        this.productRepository = productRepository;
     }
 
-    @GetMapping("/my")
+    @GetMapping("/my/product")
     public String index(Model model){
         // объект аутентификации -> обращаемся к контексту и на нем вызываем метод аутентификации. Из сессии текущего пользователя получаем объект, который был положен в данную сессию после аутентификации пользователя
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -40,7 +40,6 @@ public class MainController {
         }
         model.addAttribute("products", productService.getAllProduct());
         return "user/index";
-
     }
 
     @GetMapping("/registration")
@@ -62,4 +61,55 @@ public class MainController {
         model.addAttribute("product", productService.getProductById(id));
         return "user/info_product";
     }
+
+    @PostMapping("/my/product/search")
+    public String productSearch(@RequestParam("search") String search, Model model){
+
+        model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCase(search));
+        model.addAttribute("products", productService.getAllProduct());
+        model.addAttribute("value_search", search);
+        return "user/index";
+    }
+
+
+    @PostMapping("/my/product/sort")
+    public String productSort(@RequestParam("ot") String ot, @RequestParam("do") String dO, @RequestParam(value = "price", required = false, defaultValue = "") String price, @RequestParam(value = "contract", required = false, defaultValue = "") String contract, Model model){
+        model.addAttribute("products", productService.getAllProduct());
+
+        if (!ot.isEmpty() & !dO.isEmpty()){
+            if (!price.isEmpty()){
+                if (price.equals("sorted_by_ascending_price")){
+                    if (!contract.isEmpty()){
+                        if (contract.equals("furniture")){
+                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO), 1));
+                        } else if (contract.equals("appliances")){
+                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO), 3));
+                        } else if (contract.equals("clothes")){
+                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO), 2));
+                        }
+                    } else {
+                        model.addAttribute("sort_product", productRepository.findAllOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO)));
+                    }
+                } else if (price.equals("sorted_by_descending_price")){
+                    if (!contract.isEmpty()){
+                        if(contract.equals("furniture")){
+                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceDesc(Float.parseFloat(ot), Float.parseFloat(dO), 1));
+                        }else if (contract.equals("appliances")) {
+                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceDesc(Float.parseFloat(ot), Float.parseFloat(dO), 3));
+                        } else if (contract.equals("clothes")) {
+                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceDesc(Float.parseFloat(ot), Float.parseFloat(dO), 2));
+                        }
+                    } else {
+                        model.addAttribute("sort_product", productRepository.findAllOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO)));
+                    }
+                }
+            } else {
+                model.addAttribute("sort_product", productRepository.findAllPriceGreaterThanEqualAndPriceLessThanEqual(Float.parseFloat(ot), Float.parseFloat(dO)));
+            }
+        }
+        model.addAttribute("value_price_ot", ot);
+        model.addAttribute("value_price_do", dO);
+        return "user/index";
+    }
 }
+

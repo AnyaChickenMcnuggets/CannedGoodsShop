@@ -31,7 +31,7 @@ public class SecurityConfig{
                 .and()
                 .formLogin().loginPage("/authentication") // где формировать страницу аутентификации
                 .loginProcessingUrl("/process_login") // куда отправляются данные с формы аутентификации (это базовый юрл, реализованный)
-                .defaultSuccessUrl("/my", true) // куда отправляет при удачном входе
+                .defaultSuccessUrl("/my/product", true) // куда отправляет при удачном входе
                 .failureForwardUrl("/authentication?error") // при неудачном сюда
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/authentication");
