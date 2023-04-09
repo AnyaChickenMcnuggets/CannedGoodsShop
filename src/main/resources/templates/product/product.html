@@ -35,29 +35,30 @@
                 </li>
             </ul>
             <form class="d-flex" role="search" th:method="POST" th:action="@{/product/search}">
-                <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search" id="search" name="search">
+                <input class="form-control me-2" type="text" placeholder="Поиск" aria-label="Search" id="search" name="search" th:value="*{value_search}">
                 <button class="btn btn-outline-success" type="submit">Найти</button>
             </form>
+            <a href="/authentication">Уже зарегистрирован</a>
         </div>
     </div>
 </nav>
 
 <div class="container">
-    <h3>Сортировка, поиск и фильтрация</h3>
-    <form class="row g-3" th:method="POST" th:action="@{/product/search}">
+    <h3>Сортировка и фильтрация</h3>
+    <form class="row g-3" th:method="POST" th:action="@{/product/sort}">
         <div class="col-md-6">
             <label for="otDo" class="form-label">Цена, Р</label>
             <div class="input-group" id="otDo">
                 <span class="input-group-text">От</span>
-                <input type="text" class="form-control" aria-label="ot" aria-describedby="addon-wrapping" id="ot">
+                <input type="text" class="form-control" aria-label="ot" aria-describedby="addon-wrapping" id="ot" name="ot" th:value="*{value_price_ot}">
                 <span class="input-group-text">До</span>
-                <input type="text" class="form-control"  aria-label="do" aria-describedby="addon-wrapping" id="do">
+                <input type="text" class="form-control"  aria-label="do" aria-describedby="addon-wrapping" name="do" id="do" th:value="*{value_price_do}">
             </div>
         </div>
         <div>
-            <input type="radio" id="ascending_price" name="price">
+            <input type="radio" id="ascending_price" name="price" value="sorted_by_ascending_price">
             <label for="ascending_price">Сортировка по возрастанию цены</label>
-            <input type="radio" id="descending_price" name="price">
+            <input type="radio" id="descending_price" name="price" value="sorted_by_descending_price">
             <label for="descending_price">Сортировка по убыванию цены</label>
 
             <p>Категория товаров</p>
@@ -72,6 +73,28 @@
         </div>
 
     </form>
+</div>
+<hr>
+<div class="container">
+    <h3>Поиск: </h3>
+    <div th:each="product : ${search_product}">
+        <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
+        <br>
+        <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+        <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+        <hr>
+    </div>
+</div>
+<hr>
+<div class="container">
+    <h3>Сортировка и фильтрация: </h3>
+    <div th:each="product : ${sort_product}">
+        <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
+        <br>
+        <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+        <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+        <hr>
+    </div>
 </div>
 <hr>
 <div class="container">

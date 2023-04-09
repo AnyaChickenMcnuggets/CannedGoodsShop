@@ -41,11 +41,6 @@ public class MainController {
         model.addAttribute("products", productService.getAllProduct());
         return "user/index";
 
-//        System.out.println(personDetails.getPerson());
-//        System.out.println("ID : " + personDetails.getPerson().getId());
-//        System.out.println("login : " + personDetails.getPerson().getLogin());
-//        System.out.println("password : " + personDetails.getPerson().getPassword());
-
     }
 
     @GetMapping("/registration")

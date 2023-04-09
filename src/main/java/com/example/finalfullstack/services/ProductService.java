@@ -43,4 +43,9 @@ public class ProductService {
     public void deleteProductById(int id){
         productRepository.deleteById(id);
     }
+    // TODO добавить методы репозитория!
+
+    public List<Product> getProductByTitleContaining(String title){
+        return productRepository.findByTitleContainingIgnoreCase(title);
+    }
 }
