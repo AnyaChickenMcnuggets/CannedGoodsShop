@@ -43,7 +43,7 @@
         <h3 class="card-header text-left" th:text="'Заказ № ' + ${order.getNumber()}"></h3>
         <div class="container">
             <div class="row">
-                <div class="row d-flex col-4 mt-5">
+                <div class="row d-flex col-3 mt-5">
                     <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy')}"></p>
                     <p th:text="'Статус заказа: ' + ${order.getStatus()}"></p>
                 </div>
@@ -66,9 +66,9 @@
                         </tr>
                         </tbody>
                         <tr>
-                            <th scope="col">Стоимость заказа: </th>
-                            <th scope="col">#</th>
-                            <th scope="col" th:text="${order.getFinalPrice()}"></th>
+                            <td >Стоимость заказа: </td>
+                            <td ></td>
+                            <td th:text="${order.getFinalPrice()}"></td>
                         </tr>
                     </table>
                 </div>

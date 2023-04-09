@@ -37,33 +37,58 @@
     </div>
   </div>
 </nav>
-<div th:each="number : ${numbers}">
-  <h3 th:text="'Заказ № ' + ${number}"></h3>
-  <div th:each="order : ${orders}">
-    <div th:if="${order.getNumber()} == ${number}">
-      <img th:src="'/img/' + ${order.getProduct().getImageList[0].getFileName()}" width="300px">
-      <p th:text="'Наименование ' + ${order.getProduct().getTitle()}"></p>
-      <p th:text="'Количество ' + ${order.getQuantity()}"></p>
-      <p th:text="'Цена  ' + ${order.getPrice()}"></p>
+<div class="card-columns row d-flex justify-content-center">
+  <div class="card border-info m-4 p-2 col-6" th:each="order : ${orders}">
+    <div class="card-header col d-flex ">
+      <h5 class="col-7" th:text="'Заказ № ' + ${order.getNumber()}"></h5>
+      <div th:each="user:${users}" th:if="${user.getId()==order.getPerson().getId()}">
+        <h5 class="col-lg" th:text="'Пользователь: ' + ${user.getLogin()}"></h5>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="row d-flex col-3 mt-5">
+          <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy')}"></p>
+          <p th:text="'Статус заказа: ' + ${order.getStatus()}"></p>
+        </div>
+        <div class="col-sm">
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">Товар</th>
+              <th scope="col">Кол-во</th>
+              <th scope="col">Цена</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product:${products}">
+              <div th:each="product_order:${productOrders}" th:if="${order.getId() == product_order.getOrderId() && product.getId() == product_order.getProductId()}">
+                <td th:text="${product.getTitle()}"></td>
+                <td th:text="${product_order.getQuantity()}"></td>
+                <td th:text="${product.getPrice()}"></td>
+              </div>
+            </tr>
+            </tbody>
+            <tr>
+              <td >Стоимость заказа: </td>
+              <td ></td>
+              <td th:text="${order.getFinalPrice()}"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <form method="post" th:action="@{/admin/order/status_upgrade/{id}(id=${order.getId()})}">
+        <button class="btn btn-success mx-5 col-8" type="submit">Повысить статус</button>
+      </form>
+      <form method="post" th:action="@{/admin/order/status_remove/{id}(id=${order.getId()})}">
+        <button class="btn btn-danger mx-5 col-1" type="submit">x</button>
+      </form>
     </div>
 
   </div>
-
-
-
-    <p th:text="'Дата заказа ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy')}"></p>
-    <p th:text="'Статус заказа ' + ${order.getStatus()}"></p>
-
-</div>
-
-<div th:each="order : ${orders}">
-  <h3 th:text="'Заказ № ' + ${order.getNumber()}"></h3>
-  <img th:src="'/img/' + ${order.getProduct().getImageList[0].getFileName()}" width="300px">
-  <p th:text="'Наименование ' + ${order.getProduct().getTitle()}"></p>
-  <p th:text="'Количество ' + ${order.getQuantity()}"></p>
-  <p th:text="'Цена  ' + ${order.getPrice()}"></p>
-  <p th:text="'Дата заказа ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy')}"></p>
-  <p th:text="'Статус заказа ' + ${order.getStatus()}"></p>
 </div>
 
 

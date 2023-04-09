@@ -1,5 +1,14 @@
 package com.example.finalfullstack.enums;
 
 public enum Status {
-    Принят, Оформлен, Ожидает, Получен
+    Оформлен("Оформлен"), Оплачен("Оплачен"), Доставка("Доставка"), Получен("Получен"),Отменен("Отменен");
+    private final String displayValue;
+
+    Status(String displayValue) {
+        this.displayValue = displayValue;
+    }
+
+    public String getDisplayValue() {
+        return displayValue;
+    }
 }

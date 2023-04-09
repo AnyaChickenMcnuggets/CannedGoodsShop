@@ -1,11 +1,8 @@
 package com.example.finalfullstack.controllers;
 
-import com.example.finalfullstack.models.Category;
-import com.example.finalfullstack.models.Image;
-import com.example.finalfullstack.models.Order;
-import com.example.finalfullstack.models.Product;
-import com.example.finalfullstack.repositories.CategoryRepository;
-import com.example.finalfullstack.repositories.OrderRepository;
+import com.example.finalfullstack.models.*;
+import com.example.finalfullstack.repositories.*;
+import com.example.finalfullstack.services.OrderService;
 import com.example.finalfullstack.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -25,14 +23,23 @@ public class AdminController {
 
     private final ProductService productService;
     private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
+    private final ProductOrderRepository productOrderRepository;
+    private final PersonRepository personRepository;
+    private final OrderService orderService;
+
 
     @Value("${upload.path}")
     private String uploadPath;
     private final CategoryRepository categoryRepository;
 
-    public AdminController(ProductService productService, OrderRepository orderRepository, CategoryRepository categoryRepository) {
+    public AdminController(ProductService productService, OrderRepository orderRepository, ProductRepository productRepository, ProductOrderRepository productOrderRepository, PersonRepository personRepository, OrderService orderService, CategoryRepository categoryRepository) {
         this.productService = productService;
         this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
+        this.productOrderRepository = productOrderRepository;
+        this.personRepository = personRepository;
+        this.orderService = orderService;
         this.categoryRepository = categoryRepository;
     }
 
@@ -118,10 +125,30 @@ public class AdminController {
 
     @GetMapping("/admin/order")
     public String order(Model model){
-//        List<Order> orderList = orderRepository.findAll();
-//        List<String> orderNumberList = orderRepository.findDistinctNumber();
-//        model.addAttribute("numbers", orderNumberList);
-//        model.addAttribute("orders", orderList);
+        List<Order> orderList = orderRepository.findOrderByDateTimeDesc();
+
+        List<ProductOrder> productOrderList = productOrderRepository.findAll();
+        List<Product> productList = productRepository.findAll();
+        List<Person> personList = personRepository.findAll();
+
+        model.addAttribute("users", personList);
+        model.addAttribute("products", productList);
+        model.addAttribute("productOrders", productOrderList);
+        model.addAttribute("orders", orderList);
         return "admin/order";
+    }
+
+    @PostMapping("/admin/order/status_upgrade/{id}")
+    public String orderUpgradeStatus(@PathVariable("id") int id){
+        Order order = orderService.getOrderById(id);
+        orderService.updateProductById(order, id);
+        return "redirect:/admin/order";
+    }
+
+    @PostMapping("/admin/order/status_remove/{id}")
+    public String orderRemoveStatus(@PathVariable("id") int id){
+        Order order = orderService.getOrderById(id);
+        orderService.stopProductById(order, id);
+        return "redirect:/admin/order";
     }
 }
