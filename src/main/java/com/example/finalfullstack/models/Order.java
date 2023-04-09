@@ -4,6 +4,8 @@ import com.example.finalfullstack.enums.Status;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -14,15 +16,14 @@ public class Order {
 
     private String number;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private Product product;
+    @ManyToMany()
+    @JoinTable(name = "product_order", joinColumns = @JoinColumn(name = "orders_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private List<Product> productList;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Person person;
 
-    private int quantity;
-
-    private float price;
+    private float finalPrice;
 
     private LocalDateTime dateTime;
 
@@ -33,12 +34,10 @@ public class Order {
         dateTime = LocalDateTime.now();
     }
 
-    public Order(String number, Product product, Person person, int quantity, float price, Status status) {
+    public Order(String number, Person person, float finalPrice, Status status) {
         this.number = number;
-        this.product = product;
         this.person = person;
-        this.quantity = quantity;
-        this.price = price;
+        this.finalPrice = finalPrice;
         this.status = status;
     }
 
@@ -61,12 +60,12 @@ public class Order {
         this.number = number;
     }
 
-    public Product getProduct() {
-        return product;
+    public List<Product> getProductList() {
+        return productList;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
     }
 
     public Person getPerson() {
@@ -77,20 +76,12 @@ public class Order {
         this.person = person;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public float getFinalPrice() {
+        return finalPrice;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
+    public void setFinalPrice(float finalPrice) {
+        this.finalPrice = finalPrice;
     }
 
     public LocalDateTime getDateTime() {

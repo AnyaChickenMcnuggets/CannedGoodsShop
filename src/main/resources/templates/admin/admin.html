@@ -28,9 +28,9 @@
                     <a class="nav-link active" aria-current="page" href="/admin/person">Пользователи</a>
                 </li>
             </ul>
-            <form class="d-flex" role="search" th:method="POST" th:action="@{/my/product/search}">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search" name="search" th:value="*{value_search}">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+            <form class="d-flex" role="search" th:method="POST" th:action="@{/admin/search}">
+                <input class="form-control me-2" type="search" placeholder="Поиск товара" aria-label="Search" id="search" name="search" th:value="*{value_search}">
+                <button class="btn btn-outline-success" type="submit">Найти</button>
             </form>
             <form method="post" th:action="@{/logout}">
                 <button class="btn btn-outline-danger m-2" type="submit">Выйти из ЛК</button>
@@ -42,9 +42,9 @@
     <a class="btn btn-primary btn-lg col-4 m-2 p-2 "  role="button"  href="admin/product/add">Добавить товар</a>
 </div>
 <div class="card-deck m-5">
-    <div class="row ">
+    <div class="row equal h-100">
         <div class="col-2 m-1 mt-3 d-flex align-items-stretch"  th:each="product : ${products}">
-                <div class="card text-center border-info w-100">
+                <div class="card text-center border-info">
                     <div class="card-body">
                         <h5 class="card-header" th:text="${product.getTitle()}"></h5>
                         <p class="col-12 text-truncate" th:text="'Описание: ' + ${product.getDescription()}"></p>

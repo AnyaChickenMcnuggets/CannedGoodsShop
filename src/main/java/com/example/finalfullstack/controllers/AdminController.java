@@ -2,8 +2,10 @@ package com.example.finalfullstack.controllers;
 
 import com.example.finalfullstack.models.Category;
 import com.example.finalfullstack.models.Image;
+import com.example.finalfullstack.models.Order;
 import com.example.finalfullstack.models.Product;
 import com.example.finalfullstack.repositories.CategoryRepository;
+import com.example.finalfullstack.repositories.OrderRepository;
 import com.example.finalfullstack.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,19 +17,22 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
 public class AdminController {
 
     private final ProductService productService;
+    private final OrderRepository orderRepository;
 
     @Value("${upload.path}")
     private String uploadPath;
     private final CategoryRepository categoryRepository;
 
-    public AdminController(ProductService productService, CategoryRepository categoryRepository) {
+    public AdminController(ProductService productService, OrderRepository orderRepository, CategoryRepository categoryRepository) {
         this.productService = productService;
+        this.orderRepository = orderRepository;
         this.categoryRepository = categoryRepository;
     }
 
@@ -109,5 +114,14 @@ public class AdminController {
         }
         productService.updateProductById(product, id);
         return "redirect:/admin";
+    }
+
+    @GetMapping("/admin/order")
+    public String order(Model model){
+//        List<Order> orderList = orderRepository.findAll();
+//        List<String> orderNumberList = orderRepository.findDistinctNumber();
+//        model.addAttribute("numbers", orderNumberList);
+//        model.addAttribute("orders", orderList);
+        return "admin/order";
     }
 }

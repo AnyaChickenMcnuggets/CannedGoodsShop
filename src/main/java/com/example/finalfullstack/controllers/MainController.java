@@ -1,12 +1,10 @@
 package com.example.finalfullstack.controllers;
 
 import com.example.finalfullstack.enums.Status;
-import com.example.finalfullstack.models.Cart;
-import com.example.finalfullstack.models.Order;
-import com.example.finalfullstack.models.Person;
-import com.example.finalfullstack.models.Product;
+import com.example.finalfullstack.models.*;
 import com.example.finalfullstack.repositories.CartRepository;
 import com.example.finalfullstack.repositories.OrderRepository;
+import com.example.finalfullstack.repositories.ProductOrderRepository;
 import com.example.finalfullstack.repositories.ProductRepository;
 import com.example.finalfullstack.security.PersonDetails;
 import com.example.finalfullstack.services.PersonService;
@@ -33,14 +31,16 @@ public class MainController {
     private final ProductRepository productRepository;
     private final CartRepository cartRepository;
     private final OrderRepository orderRepository;
+    private final ProductOrderRepository productOrderRepository;
 
-    public MainController(PersonValidator personValidator, PersonService personService, ProductService productService, ProductRepository productRepository, CartRepository cartRepository, OrderRepository orderRepository) {
+    public MainController(PersonValidator personValidator, PersonService personService, ProductService productService, ProductRepository productRepository, CartRepository cartRepository, OrderRepository orderRepository, ProductOrderRepository productOrderRepository) {
         this.personValidator = personValidator;
         this.personService = personService;
         this.productService = productService;
         this.productRepository = productRepository;
         this.cartRepository = cartRepository;
         this.orderRepository = orderRepository;
+        this.productOrderRepository = productOrderRepository;
     }
 
     @GetMapping("/my/product")
@@ -204,10 +204,13 @@ public class MainController {
         }
 
         String uuid = UUID.randomUUID().toString();
+        Order newOrder = new Order(uuid, personDetails.getPerson(), finalPrice, Status.Оформлен);
+        orderRepository.save(newOrder);
+
         for (Product product :
                 productList) {
-            Order newOrder = new Order(uuid, product, personDetails.getPerson(), 1, product.getPrice(), Status.Оформлен);
-            orderRepository.save(newOrder);
+            ProductOrder productOrder = new ProductOrder(1, product.getPrice(), newOrder.getId(), product.getId());
+            productOrderRepository.save(productOrder);
             cartRepository.deleteCartByProductIdAndByPersonId(product.getId(), person_id);
         }
 
@@ -219,8 +222,13 @@ public class MainController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         List<Order> orderList = orderRepository.findByPerson(personDetails.getPerson());
-        model.addAttribute("orders", orderList);
 
+        List<ProductOrder> productOrderList = productOrderRepository.findAll();
+        List<Product> productList = productRepository.findAll();
+
+        model.addAttribute("products", productList);
+        model.addAttribute("productOrders", productOrderList);
+        model.addAttribute("orders", orderList);
         return "user/order";
 
     }

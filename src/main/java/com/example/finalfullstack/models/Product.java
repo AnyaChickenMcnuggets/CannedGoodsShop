@@ -57,7 +57,8 @@ public class Product {
     @JoinTable(name = "product_cart", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "person_id"))
     private List<Person> personList;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @ManyToMany()
+    @JoinTable(name = "product_order", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "orders_id"))
     private List<Order> orderList;
 
     public Product(String title, String description, float price, String warehouse, String seller, Category category, LocalDateTime dateTime, List<Image> imageList) {
