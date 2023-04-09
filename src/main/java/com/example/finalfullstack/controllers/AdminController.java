@@ -3,7 +3,9 @@ package com.example.finalfullstack.controllers;
 import com.example.finalfullstack.models.*;
 import com.example.finalfullstack.repositories.*;
 import com.example.finalfullstack.services.OrderService;
+import com.example.finalfullstack.services.PersonService;
 import com.example.finalfullstack.services.ProductService;
+import com.example.finalfullstack.util.PersonValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -15,11 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Controller
 public class AdminController {
+    private final PersonService personService;
+    private final PersonValidator personValidator;
 
     private final ProductService productService;
     private final OrderRepository orderRepository;
@@ -33,7 +36,9 @@ public class AdminController {
     private String uploadPath;
     private final CategoryRepository categoryRepository;
 
-    public AdminController(ProductService productService, OrderRepository orderRepository, ProductRepository productRepository, ProductOrderRepository productOrderRepository, PersonRepository personRepository, OrderService orderService, CategoryRepository categoryRepository) {
+    public AdminController(PersonService personService, PersonValidator personValidator, ProductService productService, OrderRepository orderRepository, ProductRepository productRepository, ProductOrderRepository productOrderRepository, PersonRepository personRepository, OrderService orderService, CategoryRepository categoryRepository) {
+        this.personService = personService;
+        this.personValidator = personValidator;
         this.productService = productService;
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
@@ -214,5 +219,26 @@ public class AdminController {
         model.addAttribute("orders", orderList);
         model.addAttribute("value_search", search);
         return "admin/order";
+    }
+
+    @GetMapping("/admin/person")
+    public String users(Model model){
+        model.addAttribute("users", personRepository.findAll());
+        return "admin/user";
+    }
+
+    @GetMapping("/admin/registration")
+    public String registration(@ModelAttribute("person") Person person){
+        return "admin/registration";
+    }
+
+    @PostMapping("/admin/registration")
+    public String resultRegistration(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult){
+        personValidator.validate(person, bindingResult);
+        if (bindingResult.hasErrors()){
+            return "admin/registration";
+        }
+        personService.register(person);
+        return "redirect:/admin/person";
     }
 }

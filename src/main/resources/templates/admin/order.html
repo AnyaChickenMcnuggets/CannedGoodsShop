@@ -79,15 +79,19 @@
         </div>
       </div>
     </div>
-    <div class="col">
-      <form method="post" th:action="@{/admin/order/status_upgrade/{id}(id=${order.getId()})}">
-        <button class="btn btn-success mx-5 col-8" type="submit">Повысить статус</button>
-        <input type="hidden" placeholder="Поиск заказа" aria-label="Search" name="search" th:value="*{value_search}">
-      </form>
-      <form method="post" th:action="@{/admin/order/status_remove/{id}(id=${order.getId()})}">
-        <input type="hidden" placeholder="Поиск заказа" aria-label="Search" name="search" th:value="*{value_search}">
-        <button class="btn btn-danger mx-5 col-1" type="submit">x</button>
-      </form>
+    <div class="row">
+      <div class="col-10">
+        <form method="post" th:action="@{/admin/order/status_upgrade/{id}(id=${order.getId()})}">
+          <button class="btn btn-success mx-5 col-12" type="submit">Повысить статус</button>
+          <input type="hidden" placeholder="Поиск заказа" aria-label="Search" name="search" th:value="*{value_search}">
+        </form>
+      </div>
+      <div class="col-1">
+        <form method="post" th:action="@{/admin/order/status_remove/{id}(id=${order.getId()})}">
+          <input type="hidden" placeholder="Поиск заказа" aria-label="Search" name="search" th:value="*{value_search}">
+          <button class="btn btn-danger mx-5" type="submit">x</button>
+        </form>
+      </div>
     </div>
 
   </div>
@@ -134,13 +138,19 @@
         </div>
       </div>
     </div>
-    <div class="col">
-      <form method="post" th:action="@{/admin/order/status_upgrade/{id}(id=${order.getId()})}">
-        <button class="btn btn-success mx-5 col-8" type="submit">Повысить статус</button>
-      </form>
-      <form method="post" th:action="@{/admin/order/status_remove/{id}(id=${order.getId()})}">
-        <button class="btn btn-danger mx-5 col-1" type="submit">x</button>
-      </form>
+    <div class="row">
+      <div class="col-10">
+        <form method="post" th:action="@{/admin/order/status_upgrade/{id}(id=${order.getId()})}">
+          <button class="btn btn-success mx-5 col-12" type="submit">Повысить статус</button>
+          <input type="hidden" placeholder="Поиск заказа" aria-label="Search" name="search" th:value="*{value_search}">
+        </form>
+      </div>
+      <div class="col-1">
+        <form method="post" th:action="@{/admin/order/status_remove/{id}(id=${order.getId()})}">
+          <input type="hidden" placeholder="Поиск заказа" aria-label="Search" name="search" th:value="*{value_search}">
+          <button class="btn btn-danger mx-5" type="submit">x</button>
+        </form>
+      </div>
     </div>
 
   </div>
