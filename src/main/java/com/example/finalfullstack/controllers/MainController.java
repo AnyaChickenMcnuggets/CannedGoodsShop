@@ -7,6 +7,7 @@ import com.example.finalfullstack.repositories.OrderRepository;
 import com.example.finalfullstack.repositories.ProductOrderRepository;
 import com.example.finalfullstack.repositories.ProductRepository;
 import com.example.finalfullstack.security.PersonDetails;
+import com.example.finalfullstack.services.CartService;
 import com.example.finalfullstack.services.PersonService;
 import com.example.finalfullstack.services.ProductService;
 import com.example.finalfullstack.util.PersonValidator;
@@ -32,8 +33,9 @@ public class MainController {
     private final CartRepository cartRepository;
     private final OrderRepository orderRepository;
     private final ProductOrderRepository productOrderRepository;
+    private final CartService cartService;
 
-    public MainController(PersonValidator personValidator, PersonService personService, ProductService productService, ProductRepository productRepository, CartRepository cartRepository, OrderRepository orderRepository, ProductOrderRepository productOrderRepository) {
+    public MainController(PersonValidator personValidator, PersonService personService, ProductService productService, ProductRepository productRepository, CartRepository cartRepository, OrderRepository orderRepository, ProductOrderRepository productOrderRepository, CartService cartService) {
         this.personValidator = personValidator;
         this.personService = personService;
         this.productService = productService;
@@ -41,6 +43,7 @@ public class MainController {
         this.cartRepository = cartRepository;
         this.orderRepository = orderRepository;
         this.productOrderRepository = productOrderRepository;
+        this.cartService = cartService;
     }
 
     @GetMapping("/my/product")
@@ -140,66 +143,24 @@ public class MainController {
         return "user/info_product";
     }
 
-//    @PostMapping("/my/product/search")
-//    public String productSearch(@RequestParam("search") String search, Model model){
-//
-//        model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCase(search));
-//        model.addAttribute("products", productService.getAllProduct());
-//        model.addAttribute("value_search", search);
-//        return "user/index";
-//    }
-//
-//    @PostMapping("/my/product/sort")
-//    public String productSort(@RequestParam("ot") String ot, @RequestParam("do") String dO, @RequestParam(value = "price", required = false, defaultValue = "") String price, @RequestParam(value = "contract", required = false, defaultValue = "") String contract, Model model){
-//        model.addAttribute("products", productService.getAllProduct());
-//
-//        if (!ot.isEmpty() & !dO.isEmpty()){
-//            if (!price.isEmpty()){
-//                if (price.equals("sorted_by_ascending_price")){
-//                    if (!contract.isEmpty()){
-//                        if (contract.equals("furniture")){
-//                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO), 1));
-//                        } else if (contract.equals("appliances")){
-//                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO), 3));
-//                        } else if (contract.equals("clothes")){
-//                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO), 2));
-//                        }
-//                    } else {
-//                        model.addAttribute("sort_product", productRepository.findAllOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO)));
-//                    }
-//                } else if (price.equals("sorted_by_descending_price")){
-//                    if (!contract.isEmpty()){
-//                        if(contract.equals("furniture")){
-//                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceDesc(Float.parseFloat(ot), Float.parseFloat(dO), 1));
-//                        }else if (contract.equals("appliances")) {
-//                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceDesc(Float.parseFloat(ot), Float.parseFloat(dO), 3));
-//                        } else if (contract.equals("clothes")) {
-//                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceDesc(Float.parseFloat(ot), Float.parseFloat(dO), 2));
-//                        }
-//                    } else {
-//                        model.addAttribute("sort_product", productRepository.findAllOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO)));
-//                    }
-//                }
-//            } else {
-//                model.addAttribute("sort_product", productRepository.findAllPriceGreaterThanEqualAndPriceLessThanEqual(Float.parseFloat(ot), Float.parseFloat(dO)));
-//            }
-//        }
-//        model.addAttribute("value_price_ot", ot);
-//        model.addAttribute("value_price_do", dO);
-//        return "user/index";
-//    }
-
-    @GetMapping("/my/cart/add/{id}")
-    public String addProductInCart(@PathVariable("id") int id){
+    @PostMapping("/my/cart/add/{id}")
+    public String addProductInCart(@PathVariable("id") int id, @RequestParam("quantity") int quantity){
         Product product = productService.getProductById(id);
 
+        System.out.println(quantity);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
         int person_id = personDetails.getPerson().getId();
 
-        Cart cart = new Cart(person_id, product.getId());
-        cartRepository.save(cart);
+        List<Cart> cartList = cartRepository.findByPersonIdAndProductId(person_id, product.getId());
+
+        if (cartList.isEmpty()){
+            Cart cart = new Cart(person_id, product.getId(), quantity);
+            cartRepository.save(cart);
+        } else {
+            cartService.upgradeCartById(cartList.get(0), cartList.get(0).getId(), quantity);
+        }
 
         return "redirect:/my/cart";
     }
