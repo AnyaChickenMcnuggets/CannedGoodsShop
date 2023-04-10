@@ -44,7 +44,7 @@ public class MainController {
     }
 
     @GetMapping("/my/product")
-    public String index(@RequestParam(name = "search", defaultValue = "") String search, Model model){
+    public String index(@RequestParam(name = "search", required = false, defaultValue = "") String search, @RequestParam(name = "ot", required = false, defaultValue = "") String ot, @RequestParam(name = "do", required = false, defaultValue = "") String dO, @RequestParam(value = "price", required = false, defaultValue = "") String price, @RequestParam(value = "contract", required = false, defaultValue = "") String contract, Model model){
         // объект аутентификации -> обращаемся к контексту и на нем вызываем метод аутентификации. Из сессии текущего пользователя получаем объект, который был положен в данную сессию после аутентификации пользователя
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
@@ -52,8 +52,69 @@ public class MainController {
         if (role.equals("ROLE_ADMIN")){
             return "redirect:/admin";
         }
-        model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCase(search));
+
+        model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseOrderByPrice(search));
+        model.addAttribute("value_price", price);
+        model.addAttribute("value_contract", contract);
+        model.addAttribute("value_price_ot", ot);
+        model.addAttribute("value_price_do", dO);
+        model.addAttribute("value_search", search);
+        return "user/index";
+    }
+
+    @PostMapping("/my/product")
+    public String productSpecific(@RequestParam(name = "search", required = false, defaultValue = "") String search, @RequestParam(name = "ot", required = false, defaultValue = "") String ot, @RequestParam(name = "do", required = false, defaultValue = "") String dO, @RequestParam(name = "price", defaultValue = "sorted_by_ascending_price") String price, @RequestParam(value = "contract", required = false, defaultValue = "null_category") String contract, Model model){
+        // объект аутентификации -> обращаемся к контексту и на нем вызываем метод аутентификации. Из сессии текущего пользователя получаем объект, который был положен в данную сессию после аутентификации пользователя
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        String role = personDetails.getPerson().getRole();
+        if (role.equals("ROLE_ADMIN")){
+            return "redirect:/admin";
+        }
+        model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseOrderByPrice(search));
+        if (ot.equals("")) ot = "0";
+        if (Float.parseFloat(ot) < 0) ot = "0";
+        if (dO.equals("")) dO = "100000";
+        if (Float.parseFloat(dO) < 0 || Float.parseFloat(dO) > 100000) dO = "100000";
+
+        if (price.equals("sorted_by_ascending_price")) {
+            if (contract.equals("null_category")) {
+                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqual(search, Float.parseFloat(ot), Float.parseFloat(dO)));
+            }
+            if (contract.equals("furniture")) {
+                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search, Float.parseFloat(ot), Float.parseFloat(dO), 1));
+            }
+            if (contract.equals("clothes")) {
+                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search, Float.parseFloat(ot), Float.parseFloat(dO), 2));
+            }
+            if (contract.equals("appliances")) {
+                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search, Float.parseFloat(ot), Float.parseFloat(dO), 3));
+            }
+        }
+        if (price.equals("sorted_by_descending_price")) {
+            if (contract.equals("null_category")) {
+                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualDesc(search, Float.parseFloat(ot), Float.parseFloat(dO)));
+            }
+            if (contract.equals("furniture")) {
+                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search, Float.parseFloat(ot), Float.parseFloat(dO), 1));
+            }
+            if (contract.equals("clothes")) {
+                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search, Float.parseFloat(ot), Float.parseFloat(dO), 2));
+            }
+            if (contract.equals("appliances")) {
+                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search, Float.parseFloat(ot), Float.parseFloat(dO), 3));
+            }
+
+        }
+
+        if (ot.equals("0")) ot = "";
+        if (dO.equals("100000")) dO = "";
+
         model.addAttribute("products", productService.getAllProduct());
+        model.addAttribute("value_price", price);
+        model.addAttribute("value_contract", contract);
+        model.addAttribute("value_price_ot", ot);
+        model.addAttribute("value_price_do", dO);
         model.addAttribute("value_search", search);
         return "user/index";
     }
@@ -79,54 +140,54 @@ public class MainController {
         return "user/info_product";
     }
 
-    @PostMapping("/my/product/search")
-    public String productSearch(@RequestParam("search") String search, Model model){
-
-        model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCase(search));
-        model.addAttribute("products", productService.getAllProduct());
-        model.addAttribute("value_search", search);
-        return "user/index";
-    }
-
-    @PostMapping("/my/product/sort")
-    public String productSort(@RequestParam("ot") String ot, @RequestParam("do") String dO, @RequestParam(value = "price", required = false, defaultValue = "") String price, @RequestParam(value = "contract", required = false, defaultValue = "") String contract, Model model){
-        model.addAttribute("products", productService.getAllProduct());
-
-        if (!ot.isEmpty() & !dO.isEmpty()){
-            if (!price.isEmpty()){
-                if (price.equals("sorted_by_ascending_price")){
-                    if (!contract.isEmpty()){
-                        if (contract.equals("furniture")){
-                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO), 1));
-                        } else if (contract.equals("appliances")){
-                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO), 3));
-                        } else if (contract.equals("clothes")){
-                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO), 2));
-                        }
-                    } else {
-                        model.addAttribute("sort_product", productRepository.findAllOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO)));
-                    }
-                } else if (price.equals("sorted_by_descending_price")){
-                    if (!contract.isEmpty()){
-                        if(contract.equals("furniture")){
-                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceDesc(Float.parseFloat(ot), Float.parseFloat(dO), 1));
-                        }else if (contract.equals("appliances")) {
-                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceDesc(Float.parseFloat(ot), Float.parseFloat(dO), 3));
-                        } else if (contract.equals("clothes")) {
-                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceDesc(Float.parseFloat(ot), Float.parseFloat(dO), 2));
-                        }
-                    } else {
-                        model.addAttribute("sort_product", productRepository.findAllOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO)));
-                    }
-                }
-            } else {
-                model.addAttribute("sort_product", productRepository.findAllPriceGreaterThanEqualAndPriceLessThanEqual(Float.parseFloat(ot), Float.parseFloat(dO)));
-            }
-        }
-        model.addAttribute("value_price_ot", ot);
-        model.addAttribute("value_price_do", dO);
-        return "user/index";
-    }
+//    @PostMapping("/my/product/search")
+//    public String productSearch(@RequestParam("search") String search, Model model){
+//
+//        model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCase(search));
+//        model.addAttribute("products", productService.getAllProduct());
+//        model.addAttribute("value_search", search);
+//        return "user/index";
+//    }
+//
+//    @PostMapping("/my/product/sort")
+//    public String productSort(@RequestParam("ot") String ot, @RequestParam("do") String dO, @RequestParam(value = "price", required = false, defaultValue = "") String price, @RequestParam(value = "contract", required = false, defaultValue = "") String contract, Model model){
+//        model.addAttribute("products", productService.getAllProduct());
+//
+//        if (!ot.isEmpty() & !dO.isEmpty()){
+//            if (!price.isEmpty()){
+//                if (price.equals("sorted_by_ascending_price")){
+//                    if (!contract.isEmpty()){
+//                        if (contract.equals("furniture")){
+//                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO), 1));
+//                        } else if (contract.equals("appliances")){
+//                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO), 3));
+//                        } else if (contract.equals("clothes")){
+//                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO), 2));
+//                        }
+//                    } else {
+//                        model.addAttribute("sort_product", productRepository.findAllOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO)));
+//                    }
+//                } else if (price.equals("sorted_by_descending_price")){
+//                    if (!contract.isEmpty()){
+//                        if(contract.equals("furniture")){
+//                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceDesc(Float.parseFloat(ot), Float.parseFloat(dO), 1));
+//                        }else if (contract.equals("appliances")) {
+//                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceDesc(Float.parseFloat(ot), Float.parseFloat(dO), 3));
+//                        } else if (contract.equals("clothes")) {
+//                            model.addAttribute("sort_product", productRepository.findByCategoryOrderByPriceDesc(Float.parseFloat(ot), Float.parseFloat(dO), 2));
+//                        }
+//                    } else {
+//                        model.addAttribute("sort_product", productRepository.findAllOrderByPriceAsc(Float.parseFloat(ot), Float.parseFloat(dO)));
+//                    }
+//                }
+//            } else {
+//                model.addAttribute("sort_product", productRepository.findAllPriceGreaterThanEqualAndPriceLessThanEqual(Float.parseFloat(ot), Float.parseFloat(dO)));
+//            }
+//        }
+//        model.addAttribute("value_price_ot", ot);
+//        model.addAttribute("value_price_do", dO);
+//        return "user/index";
+//    }
 
     @GetMapping("/my/cart/add/{id}")
     public String addProductInCart(@PathVariable("id") int id){
