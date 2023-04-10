@@ -74,7 +74,9 @@
                 </div>
                 <div>
                     <p>Категория товаров: </p>
-                    <div class="btn-group-vertical my-2 col-12" th:if="${value_contract == ''}">
+                    <div class="btn-group-vertical my-2 col-12" th:if="${value_contract == '' || value_contract == 'null_category'}">
+                            <input checked class="btn-check" type="radio" id="null_categoryC" name="contract" value="null_category">
+                            <label class="btn btn-outline-warning" for="null_categoryC">Без категории</label>
                             <input class="btn-check" type="radio" id="furniture0" name="contract" value="furniture">
                             <label class="btn btn-outline-warning" for="furniture0">Мебель</label>
                             <input class="btn-check" type="radio" id="appliances0" name="contract" value="appliances">
@@ -83,6 +85,8 @@
                             <label class="btn btn-outline-warning" for="clothes0">Одежда</label>
                     </div>
                     <div class="btn-group-vertical my-2 col-12" th:if="${value_contract == 'furniture'}">
+                        <input class="btn-check" type="radio" id="null_category1" name="contract" value="null_category">
+                        <label class="btn btn-outline-warning" for="null_category1">Без категории</label>
                         <input checked class="btn-check" type="radio" id="furnitureC" name="contract" value="furniture">
                         <label class="btn btn-outline-warning" for="furnitureC">Мебель</label>
                         <input class="btn-check" type="radio" id="appliances1" name="contract" value="appliances">
@@ -91,6 +95,8 @@
                         <label class="btn btn-outline-warning" for="clothes1">Одежда</label>
                     </div>
                     <div class="btn-group-vertical my-2 col-12" th:if="${value_contract == 'appliances'}">
+                        <input class="btn-check" type="radio" id="null_category2" name="contract" value="null_category">
+                        <label class="btn btn-outline-warning" for="null_category2">Без категории</label>
                         <input class="btn-check" type="radio" id="furniture2" name="contract" value="furniture">
                         <label class="btn btn-outline-warning" for="furniture2">Мебель</label>
                         <input checked class="btn-check" type="radio" id="appliancesC" name="contract" value="appliances">
@@ -99,6 +105,8 @@
                         <label class="btn btn-outline-warning" for="clothes2">Одежда</label>
                     </div>
                     <div class="btn-group-vertical my-2 col-12" th:if="${value_contract == 'clothes'}">
+                        <input class="btn-check" type="radio" id="null_category3" name="contract" value="null_category">
+                        <label class="btn btn-outline-warning" for="null_category3">Без категории</label>
                         <input class="btn-check" type="radio" id="furniture3" name="contract" value="furniture">
                         <label class="btn btn-outline-warning" for="furniture3">Мебель</label>
                         <input class="btn-check" type="radio" id="appliances3" name="contract" value="appliances">
