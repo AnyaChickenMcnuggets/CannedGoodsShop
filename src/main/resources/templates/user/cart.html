@@ -47,9 +47,14 @@
         </div>
     </div>
 </nav>
+<div th:if="${!cart_product.isEmpty()}">
+    <h3 th:text="'Итоговая цена = ' + ${final_price}"></h3>
+    <a href="/my/order/create">Оформить заказ</a>
+</div>
+<div th:if="${cart_product.isEmpty()}">
+    <h1>Корзина пуста</h1>
+</div>
 
-<h3 th:text="'Итоговая цена = ' + ${final_price}"></h3>
-<a href="/my/order/create">Оформить заказ</a>
 
 <div th:each="product : ${cart_product}">
     <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
