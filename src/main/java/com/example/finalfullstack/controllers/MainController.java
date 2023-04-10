@@ -72,6 +72,7 @@ public class MainController {
         personService.register(person);
         return "redirect:/my";
     }
+
     @GetMapping("/my/product/info/{id}")
     public String infoProduct(@PathVariable("id") int id, Model model){
         model.addAttribute("product", productService.getProductById(id));
@@ -86,7 +87,6 @@ public class MainController {
         model.addAttribute("value_search", search);
         return "user/index";
     }
-
 
     @PostMapping("/my/product/sort")
     public String productSort(@RequestParam("ot") String ot, @RequestParam("do") String dO, @RequestParam(value = "price", required = false, defaultValue = "") String price, @RequestParam(value = "contract", required = false, defaultValue = "") String contract, Model model){
@@ -129,7 +129,7 @@ public class MainController {
     }
 
     @GetMapping("/my/cart/add/{id}")
-    public String addProductInCart(@PathVariable("id") int id, Model model){
+    public String addProductInCart(@PathVariable("id") int id){
         Product product = productService.getProductById(id);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -230,7 +230,6 @@ public class MainController {
         model.addAttribute("productOrders", productOrderList);
         model.addAttribute("orders", orderList);
         return "user/order";
-
     }
 }
 

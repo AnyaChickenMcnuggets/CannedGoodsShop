@@ -21,16 +21,15 @@ import java.util.UUID;
 
 @Controller
 public class AdminController {
+
     private final PersonService personService;
     private final PersonValidator personValidator;
-
     private final ProductService productService;
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final ProductOrderRepository productOrderRepository;
     private final PersonRepository personRepository;
     private final OrderService orderService;
-
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -131,7 +130,6 @@ public class AdminController {
     @GetMapping("/admin/order")
     public String order(Model model){
         List<Order> orderList = orderRepository.findOrderByDateTimeDesc();
-
         List<ProductOrder> productOrderList = productOrderRepository.findAll();
         List<Product> productList = productRepository.findAll();
         List<Person> personList = personRepository.findAll();
@@ -183,7 +181,6 @@ public class AdminController {
             System.out.println(orderRepository.findByNumberEndingWith(search));
         }
 
-
         List<Order> orderList = orderRepository.findOrderByDateTimeDesc();
         List<ProductOrder> productOrderList = productOrderRepository.findAll();
         List<Product> productList = productRepository.findAll();
@@ -206,7 +203,6 @@ public class AdminController {
             model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search));
             System.out.println(orderRepository.findByNumberEndingWith(search));
         }
-
 
         List<Order> orderList = orderRepository.findOrderByDateTimeDesc();
         List<ProductOrder> productOrderList = productOrderRepository.findAll();
@@ -248,6 +244,7 @@ public class AdminController {
         personService.upgradePersonById(person, id);
         return "redirect:/admin/person";
     }
+
     @PostMapping("/admin/person/downcast/{id}")
     public String downgradePerson(@PathVariable("id") int id){
         Person person = personService.getPersonById(id);

@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @Service
 public class PersonDetailsService implements UserDetailsService {
+
     private final PersonRepository personRepository;
 
     public PersonDetailsService(PersonRepository personRepository) {

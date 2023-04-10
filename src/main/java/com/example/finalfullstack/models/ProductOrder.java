@@ -19,14 +19,14 @@ public class ProductOrder {
     @Column(name = "product_id")
     private int productId;
 
+    public ProductOrder() {
+    }
+
     public ProductOrder(int quantity, float price, int orderId, int productId) {
         this.quantity = quantity;
         this.price = price;
         this.orderId = orderId;
         this.productId = productId;
-    }
-
-    public ProductOrder() {
     }
 
     public int getId() {

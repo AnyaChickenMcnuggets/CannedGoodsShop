@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ProductController {
+
     private final ProductService productService;
     private final ProductRepository productRepository;
 
@@ -38,7 +39,6 @@ public class ProductController {
         model.addAttribute("value_search", search);
         return "product/product";
     }
-
 
     @PostMapping("/product/sort")
     public String productSort(@RequestParam("ot") String ot, @RequestParam("do") String dO, @RequestParam(value = "price", required = false, defaultValue = "") String price, @RequestParam(value = "contract", required = false, defaultValue = "") String contract, Model model){

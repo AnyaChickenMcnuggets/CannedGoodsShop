@@ -14,14 +14,14 @@ public class Image {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Product product;
 
+    public Image() {
+
+    }
+
     public Image(int id, String fileName, Product product) {
         this.id = id;
         this.fileName = fileName;
         this.product = product;
-    }
-
-    public Image() {
-
     }
 
     public int getId() {

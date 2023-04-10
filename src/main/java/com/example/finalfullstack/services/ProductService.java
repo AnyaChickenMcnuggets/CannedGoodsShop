@@ -12,6 +12,7 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 public class ProductService {
+
     private final ProductRepository productRepository;
 
     public ProductService(ProductRepository productRepository) {
@@ -45,7 +46,7 @@ public class ProductService {
     }
     // TODO добавить методы репозитория!
 
-    public List<Product> getProductByTitleContaining(String title){
-        return productRepository.findByTitleContainingIgnoreCase(title);
-    }
+//    public List<Product> getProductByTitleContaining(String title){
+//        return productRepository.findByTitleContainingIgnoreCase(title);
+//    }
 }

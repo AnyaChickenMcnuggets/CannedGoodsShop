@@ -15,12 +15,12 @@ public class Cart {
     @Column(name = "product_id")
     private int productId;
 
+    public Cart() {
+    }
+
     public Cart(int personId, int productId) {
         this.personId = personId;
         this.productId = productId;
-    }
-
-    public Cart() {
     }
 
     public int getId() {

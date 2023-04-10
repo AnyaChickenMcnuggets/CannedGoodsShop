@@ -4,7 +4,6 @@ import com.example.finalfullstack.enums.Status;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -34,14 +33,14 @@ public class Order {
         dateTime = LocalDateTime.now();
     }
 
+    public Order() {
+    }
+
     public Order(String number, Person person, float finalPrice, Status status) {
         this.number = number;
         this.person = person;
         this.finalPrice = finalPrice;
         this.status = status;
-    }
-
-    public Order() {
     }
 
     public int getId() {

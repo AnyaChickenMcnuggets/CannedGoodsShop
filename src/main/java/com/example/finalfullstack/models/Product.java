@@ -61,6 +61,9 @@ public class Product {
     @JoinTable(name = "product_order", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "orders_id"))
     private List<Order> orderList;
 
+    public Product() {
+    }
+
     public Product(String title, String description, float price, String warehouse, String seller, Category category, LocalDateTime dateTime, List<Image> imageList) {
         this.title = title;
         this.description = description;
@@ -70,9 +73,6 @@ public class Product {
         this.category = category;
         this.dateTime = dateTime;
         this.imageList = imageList;
-    }
-
-    public Product() {
     }
 
     public int getId() {

@@ -16,6 +16,11 @@ public class SecurityConfig{
 
     private final PersonDetailsService personDetailsService;
 
+    @Autowired
+    public SecurityConfig(PersonDetailsService personDetailsService) {
+        this.personDetailsService = personDetailsService;
+    }
+
     @Bean
     public PasswordEncoder getPasswordEncoder(){
         return new BCryptPasswordEncoder();
@@ -26,8 +31,7 @@ public class SecurityConfig{
         // конфигурация работы Spring Security
         http.authorizeHttpRequests() //указываем что все страницы должны быть защищены аутентификацией
                 .requestMatchers("/authentication", "/error", "/registration", "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/product", "/product/info/{id}", "/product/search", "/product/sort").permitAll() // указываем список общедоступных страниц без авторизации
-                .requestMatchers("/admin").hasRole("ADMIN").anyRequest().hasAnyRole("USER", "ADMIN")
-//                .anyRequest().authenticated() // указываем что для всех остальных страниц необходима аутентификация
+                .requestMatchers("/admin/**").hasRole("ADMIN").anyRequest().hasAnyRole("USER", "ADMIN")
                 .and()
                 .formLogin().loginPage("/authentication") // где формировать страницу аутентификации
                 .loginProcessingUrl("/process_login") // куда отправляются данные с формы аутентификации (это базовый юрл, реализованный)
@@ -38,19 +42,7 @@ public class SecurityConfig{
         return http.build();
     }
 
-    @Autowired
-    public SecurityConfig(PersonDetailsService personDetailsService) {
-        this.personDetailsService = personDetailsService;
-    }
-
-//    private final AuthenticationProvider authenticationProvider;
-
-//    public SecurityConfig(AuthenticationProvider authenticationProvider) {
-//        this.authenticationProvider = authenticationProvider;
-//    }
-
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-//        authenticationManagerBuilder.authenticationProvider(authenticationProvider);
         authenticationManagerBuilder.userDetailsService(personDetailsService).passwordEncoder(getPasswordEncoder());
     }
 }

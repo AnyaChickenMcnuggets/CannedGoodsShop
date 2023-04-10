@@ -1,7 +1,5 @@
 package com.example.finalfullstack.services;
 
-import com.example.finalfullstack.enums.Status;
-import com.example.finalfullstack.models.Order;
 import com.example.finalfullstack.models.Person;
 import com.example.finalfullstack.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +12,15 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 public class PersonService {
+
     private final PersonRepository personRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public PersonService(PersonRepository personRepository, PasswordEncoder passwordEncoder) {
+        this.personRepository = personRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public Person getPersonById(int id){
         Optional<Person> optionalPerson = personRepository.findById(id);
@@ -34,12 +39,6 @@ public class PersonService {
         person.setId(id);
         person.setRole("ROLE_USER");
         personRepository.save(person);
-    }
-
-    @Autowired
-    public PersonService(PersonRepository personRepository, PasswordEncoder passwordEncoder) {
-        this.personRepository = personRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public Person findByLogin(Person person){
