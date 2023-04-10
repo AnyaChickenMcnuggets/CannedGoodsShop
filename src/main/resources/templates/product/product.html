@@ -24,13 +24,6 @@
             box-shadow: -1px 3px 18px 0px rgba(0, 0, 0, 0.75);
 
         }
-
-        .input-group {
-            border-radius: 5px;
-            -webkit-box-shadow: -1px 3px 18px 0px rgba(0, 0, 0, 0.35);
-            -moz-box-shadow: -1px 3px 18px 0px rgba(0, 0, 0, 0.35);
-            box-shadow: -1px 3px 18px 0px rgba(0, 0, 0, 0.35);
-        }
     </style>
 </head>
 <body>
@@ -48,10 +41,10 @@
                 </li>
 
             </ul>
-            <form class="d-flex" role="search" th:method="POST" th:action="@{/product/search}">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search"
+            <form class="d-flex" role="search" th:method="POST" th:action="@{/product}">
+                <input class="form-control me-2" type="search" placeholder="Поиск по товарам" aria-label="Search" id="search"
                        name="search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <button class="btn btn-outline-success" type="submit">Найти</button>
             </form>
             <a class="btn btn-success m-2" href="/authentication">Войти</a>
         </div>
@@ -61,9 +54,14 @@
     <div class="row">
 
         <div class="col m-3">
-            <form id="form-filter" class="row g-3 p-2 mt-5" th:method="POST" th:action="@{/product/sort}">
+            <form id="form-filter" class="row g-3 p-2 mt-5" th:method="POST" th:action="@{/product}">
                 <h4>Фильтр</h4>
                 <div class="col-12">
+                    <div th:if="${!value_search.isEmpty()}">
+                        <input type="hidden" name="search" th:value="*{value_search}">
+                    </div>
+                    <input type="hidden" name="price" th:value="*{value_price}">
+
                     <label for="otDo" class="form-label">Цена, Р</label>
                     <div class="input-group" id="otDo">
                         <span class="input-group-text">От</span>
@@ -75,18 +73,45 @@
                     </div>
                 </div>
                 <div>
-                    <div class="btn-group-vertical my-2 col-12">
-                        <p>Категория товаров</p>
-                        <input class="btn-check" type="radio" id="furniture" name="contract" value="furniture">
-                        <label class="btn btn-outline-warning" for="furniture">Мебель</label>
-                        <input class="btn-check" type="radio" id="appliances" name="contract" value="appliances">
-                        <label class="btn btn-outline-warning" for="appliances">Бытовая техника</label>
-                        <input class="btn-check" type="radio" id="clothes" name="contract" value="clothes">
-                        <label class="btn btn-outline-warning" for="clothes">Одежда</label>
+                    <p>Категория товаров: </p>
+                    <div class="btn-group-vertical my-2 col-12" th:if="${value_contract == ''}">
+                            <input class="btn-check" type="radio" id="furniture0" name="contract" value="furniture">
+                            <label class="btn btn-outline-warning" for="furniture0">Мебель</label>
+                            <input class="btn-check" type="radio" id="appliances0" name="contract" value="appliances">
+                            <label class="btn btn-outline-warning" for="appliances0">Бытовая техника</label>
+                            <input class="btn-check" type="radio" id="clothes0" name="contract" value="clothes">
+                            <label class="btn btn-outline-warning" for="clothes0">Одежда</label>
+                    </div>
+                    <div class="btn-group-vertical my-2 col-12" th:if="${value_contract == 'furniture'}">
+                        <input checked class="btn-check" type="radio" id="furnitureC" name="contract" value="furniture">
+                        <label class="btn btn-outline-warning" for="furnitureC">Мебель</label>
+                        <input class="btn-check" type="radio" id="appliances1" name="contract" value="appliances">
+                        <label class="btn btn-outline-warning" for="appliances1">Бытовая техника</label>
+                        <input class="btn-check" type="radio" id="clothes1" name="contract" value="clothes">
+                        <label class="btn btn-outline-warning" for="clothes1">Одежда</label>
+                    </div>
+                    <div class="btn-group-vertical my-2 col-12" th:if="${value_contract == 'appliances'}">
+                        <input class="btn-check" type="radio" id="furniture2" name="contract" value="furniture">
+                        <label class="btn btn-outline-warning" for="furniture2">Мебель</label>
+                        <input checked class="btn-check" type="radio" id="appliancesC" name="contract" value="appliances">
+                        <label class="btn btn-outline-warning" for="appliancesC">Бытовая техника</label>
+                        <input class="btn-check" type="radio" id="clothes2" name="contract" value="clothes">
+                        <label class="btn btn-outline-warning" for="clothes2">Одежда</label>
+                    </div>
+                    <div class="btn-group-vertical my-2 col-12" th:if="${value_contract == 'clothes'}">
+                        <input class="btn-check" type="radio" id="furniture3" name="contract" value="furniture">
+                        <label class="btn btn-outline-warning" for="furniture3">Мебель</label>
+                        <input class="btn-check" type="radio" id="appliances3" name="contract" value="appliances">
+                        <label class="btn btn-outline-warning" for="appliances3">Бытовая техника</label>
+                        <input checked class="btn-check" type="radio" id="clothesC" name="contract" value="clothes">
+                        <label class="btn btn-outline-warning" for="clothesC">Одежда</label>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="d-flex justify-content-end">
+                        <input class="col-12 btn btn-warning " type="submit" value="Применить">
                     </div>
 
-                    <br>
-                    <input class="btn btn-warning" type="submit" value="Применить">
                 </div>
 
             </form>
@@ -102,10 +127,16 @@
                 </div>
 
                 <div class="col-7 d-flex justify-content-end my-3">
-                    <form id="form-sort" style="border-radius: 2px;" th:method="POST" th:action="@{/product/sort}">
-                        <select class="form-select" aria-label="Default select example" onchange="this.form.submit()">
-                            <option name="price" value="sorted_by_ascending_price">по возрастанию цены</option>
-                            <option name="price" value="sorted_by_descending_price">по убыванию цены</option>
+                    <form id="form-sort" style="border-radius: 2px;" th:method="POST" th:action="@{/product}">
+                        <input type="hidden" name="search" th:value="*{value_search}">
+                        <input type="hidden" name="contract" th:value="*{value_contract}">
+                        <input type="hidden" name="do" th:value="*{value_price_do}">
+                        <input type="hidden" name="ot" th:value="*{value_price_ot}">
+                        <select class="form-select" name="price"  aria-label="Default select example" onchange="this.form.submit()" th:value="*{value_price}">
+                            <option th:if="${value_price == 'sorted_by_ascending_price'}" selected value="sorted_by_ascending_price">по возрастанию цены</option>
+                            <option th:if="${!(value_price == 'sorted_by_ascending_price')}"  value="sorted_by_ascending_price">по возрастанию цены</option>
+                            <option th:if="${value_price == 'sorted_by_descending_price'}" selected value="sorted_by_descending_price">по убыванию цены</option>
+                            <option th:if="${!(value_price == 'sorted_by_descending_price')}"  value="sorted_by_descending_price">по убыванию цены</option>
                         </select>
                     </form>
                 </div>
