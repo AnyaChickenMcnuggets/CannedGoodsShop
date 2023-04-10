@@ -222,7 +222,7 @@ public class MainController {
         float finalPrice = 0;
         for (Product product :
                 productList) {
-            finalPrice += product.getPrice();
+            finalPrice += product.getPrice() * cartRepository.findByPersonIdAndProductId(person_id, product.getId()).get(0).getQuantity();
         }
 
         String uuid = UUID.randomUUID().toString() + (int) finalPrice + person_id;
@@ -231,7 +231,7 @@ public class MainController {
 
         for (Product product :
                 productList) {
-            ProductOrder productOrder = new ProductOrder(1, product.getPrice(), newOrder.getId(), product.getId());
+            ProductOrder productOrder = new ProductOrder(cartRepository.findByPersonIdAndProductId(person_id, product.getId()).get(0).getQuantity(), product.getPrice(), newOrder.getId(), product.getId());
             productOrderRepository.save(productOrder);
             cartRepository.deleteCartByProductIdAndByPersonId(product.getId(), person_id);
         }
