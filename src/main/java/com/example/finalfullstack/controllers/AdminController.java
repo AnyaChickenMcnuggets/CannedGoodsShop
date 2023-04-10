@@ -53,7 +53,7 @@ public class AdminController {
 
         if (bindingResult.hasErrors()){
             model.addAttribute("category", categoryRepository.findAll());
-            return "product/add_product";
+            return "admin/add_product";
         }
         if (file_one!=null){
             uploadFileImage(product, file_one);
@@ -101,7 +101,7 @@ public class AdminController {
     public String addProduct(Model model){
         model.addAttribute("product", new Product());
         model.addAttribute("category", categoryRepository.findAll());
-        return "product/add_product";
+        return "admin/add_product";
     }
 
     @GetMapping("/admin/product/delete/{id}")
@@ -114,7 +114,7 @@ public class AdminController {
     public String editProduct(Model model, @PathVariable("id") int id){
         model.addAttribute("product", productService.getProductById(id));
         model.addAttribute("category", categoryRepository.findAll());
-        return "product/edit_product";
+        return "admin/edit_product";
     }
 
     @PostMapping("/admin/product/edit/{id}")
