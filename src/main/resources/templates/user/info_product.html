@@ -25,12 +25,12 @@
       </ul>
       <form class="d-flex" role="search" th:method="POST" th:action="@{/my/product}">
         <input class="form-control me-2" type="search" placeholder="Поиск по товарам" aria-label="Search" id="search" name="search" th:value="*{value_search}">
-        <button class="btn btn-outline-success" type="submit">Найти</button>
+        <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </form>
-      <a class="btn btn-success m-2" href="/my/order">Заказы</a>
-      <a class="btn btn-success m-2" href="/my/cart">Корзина</a>
+      <a class="btn btn-success mx-1" href="/my/order"><i class="fa-solid fa-cubes"></i></a>
+      <a class="btn btn-success mx-1" href="/my/cart"><i class="fa-solid fa-cart-shopping"></i></a>
       <form method="post" th:action="@{/logout}">
-        <button class="btn btn-outline-danger m-2" type="submit">Выйти из ЛК</button>
+        <button class="btn btn-outline-danger mx-1" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
       </form>
     </div>
   </div>

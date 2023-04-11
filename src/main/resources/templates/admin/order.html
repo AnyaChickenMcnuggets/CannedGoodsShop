@@ -31,10 +31,10 @@
       </ul>
       <form class="d-flex" role="search" th:method="POST" th:action="@{/admin/order}">
         <input class="form-control me-2" type="search" placeholder="Поиск заказа" aria-label="Search" id="search" name="search" th:value="*{value_search}">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </form>
       <form method="post" th:action="@{/logout}">
-        <button class="btn btn-outline-danger m-2" type="submit">Выйти  <i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+        <button class="btn btn-outline-danger mx-2" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
       </form>
     </div>
   </div>
@@ -91,7 +91,7 @@
       <div class="col-1">
         <form method="post" th:action="@{/admin/order/status_remove/{id}(id=${order.getId()})}">
           <input type="hidden" placeholder="Поиск заказа" aria-label="Search" name="search" th:value="*{value_search}">
-          <button class="btn btn-danger mx-5" type="submit">x</button>
+          <button class="btn btn-danger mx-5" type="submit"><i class="fa-solid fa-thumbs-down"></i></button>
         </form>
       </div>
     </div>
@@ -150,7 +150,7 @@
       <div class="col-1">
         <form method="post" th:action="@{/admin/order/status_remove/{id}(id=${order.getId()})}">
           <input type="hidden" placeholder="Поиск заказа" aria-label="Search" name="search" th:value="*{value_search}">
-          <button class="btn btn-danger mx-5" type="submit">x</button>
+          <button class="btn btn-danger mx-5" type="submit"><i class="fa-solid fa-thumbs-down"></i></button>
         </form>
       </div>
     </div>
