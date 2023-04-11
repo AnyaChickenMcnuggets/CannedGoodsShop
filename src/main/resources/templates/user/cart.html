@@ -34,23 +34,67 @@
         </div>
     </div>
 </nav>
-<div th:if="${!cart_product.isEmpty()}">
-    <h3 th:text="'Итоговая цена = ' + ${final_price}"></h3>
-    <a href="/my/order/create">Оформить заказ</a>
-</div>
-<div th:if="${cart_product.isEmpty()}">
-    <h1>Корзина пуста</h1>
+<div class="container col-12 mt-5">
+    <div class="col-12 text-center" th:if="${cart_product.isEmpty()}">
+        <h1>Корзина пуста</h1>
+    </div>
+    <div th:if="${!cart_product.isEmpty()}">
+        <div class="row">
+            <div class="col-8 p-3 m-3" style="border-radius: 10px;border: #0d6efd 2px solid">
+                <div th:each="cart_thing : ${cart}">
+                    <div class="card mb-3 text-bg-light border-info" th:each="product : ${cart_product}" th:if="${cart_thing.getProductId()==product.getId()}">
+                        <div class="row g-0 align-items-end">
+                            <div class="col-md-4">
+                                <img th:src="'/img/' + ${product.imageList[0].getFileName()}" class="img-fluid rounded-start" alt="">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5><a class="card-title" th:href="@{/my/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}" ></a></h5>
+
+                                </div>
+                                <div class="container">
+                                    <div class="row m-5 align-items-end">
+                                        <div class="col-6">
+                                            <p th:text="'Стоимость: ' + ${product.getPrice() * cart_thing.getQuantity()}"></p>
+                                        </div>
+                                        <div class="text-end col-6">
+                                            <div class="input-group col-12" id="cart_control">
+                                                <a th:href="@{/my/cart/remove_one/{id}(id=${product.getId()})}" class="btn btn-info col-2 text-center" type="button" id="button-minus" >-</a>
+                                                <input class="form-control text-center" id="quantity" name="quantity" type="number" readonly th:value="${cart_thing.getQuantity()}">
+                                                <a th:href="@{/my/cart/add_one/{id}(id=${product.getId()})}" class="btn btn-info col-2 text-center" type="button" id="button-plus">+</a>
+                                                <a class="btn btn-danger col-3 text-center" th:href="@{/my/cart/delete/{id}(id=${product.getId()})}">x</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="text-end">
+                    <a class="btn btn-danger">Очистить корзину</a>
+                </div>
+
+            </div>
+            <div class="col-3 m-3 text-center" >
+                <div class="p-5" style="border-radius: 10px;border: #0d6efd 2px solid">
+
+                    <h6 th:text="'Итого: ' + ${final_price}"></h6>
+
+                    <a class="btn btn-outline-success" href="/my/order/create">Оформить заказ</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
-<div th:each="product : ${cart_product}">
-    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
-    <br>
-    <a th:href="@{/my/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
-    <p th:text="'Цена: ' + ${product.getPrice()}"></p>
-    <a th:href="@{/my/cart/delete/{id}(id=${product.getId()})}">Удалить товар из корзины</a>
-    <hr>
-</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>

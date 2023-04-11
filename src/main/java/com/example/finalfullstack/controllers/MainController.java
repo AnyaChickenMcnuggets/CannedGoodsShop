@@ -181,9 +181,10 @@ public class MainController {
         float finalPrice = 0;
         for (Product product :
                 productList) {
-            finalPrice += product.getPrice();
+            finalPrice += product.getPrice() * cartRepository.findByPersonIdAndProductId(person_id, product.getId()).get(0).getQuantity();
         }
 
+        model.addAttribute("cart", cartList);
         model.addAttribute("final_price", finalPrice);
         model.addAttribute("cart_product", productList);
         return "user/cart";
