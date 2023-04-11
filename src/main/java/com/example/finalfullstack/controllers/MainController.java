@@ -147,7 +147,6 @@ public class MainController {
     public String addProductInCart(@PathVariable("id") int id, @RequestParam("quantity") int quantity){
         Product product = productService.getProductById(id);
 
-        System.out.println(quantity);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
@@ -191,18 +190,58 @@ public class MainController {
     }
 
     @GetMapping("/my/cart/delete/{id}")
-    public String deleteProductFromCart(Model model, @PathVariable("id") int id){
+    public String deleteProductFromCart(@PathVariable("id") int id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+        int person_id = personDetails.getPerson().getId();
+
+        cartRepository.deleteCartByProductIdAndByPersonId(id, person_id);
+
+        return "redirect:/my/cart";
+    }
+
+    @GetMapping("/my/cart/add_one/{id}")
+    public String addOneProductFromCart(@PathVariable("id") int id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+        int person_id = personDetails.getPerson().getId();
+
+        Cart cart = cartRepository.findByPersonIdAndProductId(person_id, id).get(0);
+        cartService.upgradeCartById(cart, cart.getId(), 1);
+
+        return "redirect:/my/cart";
+    }
+
+    @GetMapping("/my/cart/remove_one/{id}")
+    public String removeOneProductFromCart(@PathVariable("id") int id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+        int person_id = personDetails.getPerson().getId();
+
+        Cart cart = cartRepository.findByPersonIdAndProductId(person_id, id).get(0);
+        if (cart.getQuantity()==1){
+            cartRepository.deleteCartByProductIdAndByPersonId( id, person_id);
+        } else {
+            cartService.upgradeCartById(cart, cart.getId(), -1);
+        }
+
+        return "redirect:/my/cart";
+    }
+
+    @GetMapping("/my/cart/cancel")
+    public String cancelCart(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
         int person_id = personDetails.getPerson().getId();
 
         List<Cart> cartList = cartRepository.findByPersonId(person_id);
-        List<Product> productList = new ArrayList<>();
         for (Cart cart:cartList) {
-            productList.add(productService.getProductById(cart.getProductId()));
+            cartRepository.deleteCartByProductIdAndByPersonId(cart.getProductId(), person_id);
         }
-        cartRepository.deleteCartByProductIdAndByPersonId(id, person_id);
 
         return "redirect:/my/cart";
     }
