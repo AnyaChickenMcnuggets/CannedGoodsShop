@@ -31,7 +31,7 @@
       </ul>
       <form class="d-flex" role="search" th:method="POST" th:action="@{/admin/order}">
         <input class="form-control me-2" type="search" placeholder="Поиск заказа" aria-label="Search" id="search" name="search" th:value="*{value_search}">
-        <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button class="btn btn-outline-warning" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </form>
       <form method="post" th:action="@{/logout}">
         <button class="btn btn-outline-danger mx-2" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>

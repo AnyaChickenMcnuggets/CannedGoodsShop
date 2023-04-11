@@ -47,10 +47,10 @@
             <form class="d-flex" role="search" th:method="POST" th:action="@{/my/product}">
                 <input class="form-control me-2" type="search" placeholder="Поиск по товарам" aria-label="Search" id="search"
                        name="search">
-                <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button class="btn btn-outline-warning" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
-            <a class="btn btn-success mx-1" href="/my/order"><i class="fa-solid fa-cubes"></i></a>
-            <a class="btn btn-success mx-1" href="/my/cart"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a class="btn btn-outline-success mx-1" href="/my/order"><i class="fa-solid fa-cubes"></i></a>
+            <a class="btn btn-outline-success mx-1" href="/my/cart"><i class="fa-solid fa-cart-shopping"></i></a>
             <form method="post" th:action="@{/logout}">
                 <button class="btn btn-outline-danger mx-1" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
             </form>
