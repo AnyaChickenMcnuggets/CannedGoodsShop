@@ -1,4 +1,4 @@
-# FinalFullStack
+# ShopMVC
 
 Проект интернет магазина используя Spring (MVC, Boot, Security, JPA, Validation), с использованием шаблонизатора Thymeleaf, и Bootstrap для фронта
 
