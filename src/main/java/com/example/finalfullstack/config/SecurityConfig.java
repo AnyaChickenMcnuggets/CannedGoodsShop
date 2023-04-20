@@ -45,13 +45,14 @@ public class SecurityConfig{
                 .requestMatchers("/admin/**").hasRole("ADMIN").anyRequest().hasAnyRole("USER", "ADMIN")
                 .and()
                 .formLogin().loginPage("/authentication") // где формировать страницу аутентификации
-//                .loginProcessingUrl("/process_login") // куда отправляются данные с формы аутентификации (это базовый юрл, реализованный)
+                .loginProcessingUrl("/process_login") // куда отправляются данные с формы аутентификации (это базовый юрл, реализованный)
                 .defaultSuccessUrl("/my/product", true) // куда отправляет при удачном входе
-                .failureForwardUrl("/authentication?error") // при неудачном сюда
+                .failureUrl("/authentication?error") // при неудачном сюда
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/product");
         return http.build();
     }
+
 
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.userDetailsService(personDetailsService).passwordEncoder(getPasswordEncoder());
