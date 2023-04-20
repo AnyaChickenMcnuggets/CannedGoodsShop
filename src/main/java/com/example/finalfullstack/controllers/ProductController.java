@@ -1,20 +1,26 @@
 package com.example.finalfullstack.controllers;
 
+import com.example.finalfullstack.models.Category;
+import com.example.finalfullstack.repositories.CategoryRepository;
 import com.example.finalfullstack.repositories.ProductRepository;
 import com.example.finalfullstack.services.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class ProductController {
 
     private final ProductService productService;
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
-    public ProductController(ProductService productService, ProductRepository productRepository) {
+    public ProductController(ProductService productService, ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.productService = productService;
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("/product")
@@ -36,35 +42,31 @@ public class ProductController {
         if (Float.parseFloat(ot) < 0) ot = "0";
         if (dO.equals("")) dO = "100000";
         if (Float.parseFloat(dO) < 0 || Float.parseFloat(dO) > 100000) dO = "100000";
-
+        List<Category> categoryList = categoryRepository.findAll();
         if (price.equals("sorted_by_ascending_price")) {
+            //проверяем на отсутствие категории
             if (contract.equals("null_category")) {
                 model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqual(search, Float.parseFloat(ot), Float.parseFloat(dO)));
             }
-            if (contract.equals("furniture")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search, Float.parseFloat(ot), Float.parseFloat(dO), 1));
-            }
-            if (contract.equals("clothes")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search, Float.parseFloat(ot), Float.parseFloat(dO), 2));
-            }
-            if (contract.equals("appliances")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search, Float.parseFloat(ot), Float.parseFloat(dO), 3));
+            //пробегаемся по категориям
+            for (Category category : categoryList){
+                if (contract.equals(category.getName())){
+                    model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search, Float.parseFloat(ot), Float.parseFloat(dO), category.getId()));
+                    break;
+                }
             }
         }
         if (price.equals("sorted_by_descending_price")) {
+            //проверяем на отсутствие категории
             if (contract.equals("null_category")) {
                 model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualDesc(search, Float.parseFloat(ot), Float.parseFloat(dO)));
             }
-            if (contract.equals("furniture")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search, Float.parseFloat(ot), Float.parseFloat(dO), 1));
+            //пробегаемся по категориям
+            for (Category category : categoryList){
+                if (contract.equals(category.getName())){
+                    model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search, Float.parseFloat(ot), Float.parseFloat(dO), category.getId()));
+                }
             }
-            if (contract.equals("clothes")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search, Float.parseFloat(ot), Float.parseFloat(dO), 2));
-            }
-            if (contract.equals("appliances")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search, Float.parseFloat(ot), Float.parseFloat(dO), 3));
-            }
-
         }
 
         if (ot.equals("0")) ot = "";

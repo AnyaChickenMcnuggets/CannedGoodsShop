@@ -2,10 +2,7 @@ package com.example.finalfullstack.controllers;
 
 import com.example.finalfullstack.enums.Status;
 import com.example.finalfullstack.models.*;
-import com.example.finalfullstack.repositories.CartRepository;
-import com.example.finalfullstack.repositories.OrderRepository;
-import com.example.finalfullstack.repositories.ProductOrderRepository;
-import com.example.finalfullstack.repositories.ProductRepository;
+import com.example.finalfullstack.repositories.*;
 import com.example.finalfullstack.security.PersonDetails;
 import com.example.finalfullstack.services.CartService;
 import com.example.finalfullstack.services.PersonService;
@@ -34,8 +31,10 @@ public class MainController {
     private final OrderRepository orderRepository;
     private final ProductOrderRepository productOrderRepository;
     private final CartService cartService;
+    private final CategoryRepository categoryRepository;
 
-    public MainController(PersonValidator personValidator, PersonService personService, ProductService productService, ProductRepository productRepository, CartRepository cartRepository, OrderRepository orderRepository, ProductOrderRepository productOrderRepository, CartService cartService) {
+
+    public MainController(PersonValidator personValidator, PersonService personService, ProductService productService, ProductRepository productRepository, CartRepository cartRepository, OrderRepository orderRepository, ProductOrderRepository productOrderRepository, CartService cartService, CategoryRepository categoryRepository) {
         this.personValidator = personValidator;
         this.personService = personService;
         this.productService = productService;
@@ -44,6 +43,7 @@ public class MainController {
         this.orderRepository = orderRepository;
         this.productOrderRepository = productOrderRepository;
         this.cartService = cartService;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("/my/product")
@@ -78,35 +78,32 @@ public class MainController {
         if (Float.parseFloat(ot) < 0) ot = "0";
         if (dO.equals("")) dO = "100000";
         if (Float.parseFloat(dO) < 0 || Float.parseFloat(dO) > 100000) dO = "100000";
+        List<Category> categoryList = categoryRepository.findAll();
 
         if (price.equals("sorted_by_ascending_price")) {
+            //проверяем на отсутствие категории
             if (contract.equals("null_category")) {
                 model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqual(search, Float.parseFloat(ot), Float.parseFloat(dO)));
             }
-            if (contract.equals("furniture")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search, Float.parseFloat(ot), Float.parseFloat(dO), 1));
-            }
-            if (contract.equals("clothes")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search, Float.parseFloat(ot), Float.parseFloat(dO), 2));
-            }
-            if (contract.equals("appliances")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search, Float.parseFloat(ot), Float.parseFloat(dO), 3));
+            //пробегаемся по категориям
+            for (Category category : categoryList){
+                if (contract.equals(category.getName())){
+                    model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search, Float.parseFloat(ot), Float.parseFloat(dO), category.getId()));
+                    break;
+                }
             }
         }
         if (price.equals("sorted_by_descending_price")) {
+            //проверяем на отсутствие категории
             if (contract.equals("null_category")) {
                 model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualDesc(search, Float.parseFloat(ot), Float.parseFloat(dO)));
             }
-            if (contract.equals("furniture")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search, Float.parseFloat(ot), Float.parseFloat(dO), 1));
+            //пробегаемся по категориям
+            for (Category category : categoryList){
+                if (contract.equals(category.getName())){
+                    model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search, Float.parseFloat(ot), Float.parseFloat(dO), category.getId()));
+                }
             }
-            if (contract.equals("clothes")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search, Float.parseFloat(ot), Float.parseFloat(dO), 2));
-            }
-            if (contract.equals("appliances")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search, Float.parseFloat(ot), Float.parseFloat(dO), 3));
-            }
-
         }
 
         if (ot.equals("0")) ot = "";
