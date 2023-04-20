@@ -55,21 +55,13 @@ public class AdminController {
             model.addAttribute("category", categoryRepository.findAll());
             return "admin/add_product";
         }
-        if (file_one!=null){
-            uploadFileImage(product, file_one);
-        }
-        if (file_two!=null){
-            uploadFileImage(product, file_two);
-        }
-        if (file_three!=null){
-            uploadFileImage(product, file_three);
-        }
-        if (file_four!=null){
-            uploadFileImage(product, file_four);
-        }
-        if (file_five!=null){
-            uploadFileImage(product, file_five);
-        }
+
+        uploadFileImage(product, file_one);
+
+        uploadFileImage(product, file_two);
+        uploadFileImage(product, file_three);
+        uploadFileImage(product, file_four);
+        uploadFileImage(product, file_five);
 
         productService.saveProduct(product, category_db);
 
@@ -82,13 +74,15 @@ public class AdminController {
         if (!uploadDir.exists()){
             uploadDir.mkdir();
         }
-        String uuidFile = UUID.randomUUID().toString();
-        String resultFileName = uuidFile + "." + file_one.getOriginalFilename();
-        file_one.transferTo(new File(uploadPath + "/" + resultFileName));
-        Image image = new Image();
-        image.setProduct(product);
-        image.setFileName(resultFileName);
-        product.addImageToProduct(image);
+        if (!file_one.getOriginalFilename().equals("")){
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "." + file_one.getOriginalFilename();
+            file_one.transferTo(new File(uploadPath + "/" + resultFileName));
+            Image image = new Image();
+            image.setProduct(product);
+            image.setFileName(resultFileName);
+            product.addImageToProduct(image);
+        }
     }
 
     @GetMapping("/admin")
