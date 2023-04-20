@@ -21,11 +21,24 @@
     <style>
         #form-filter {
             font-size: 16pt;
+            border: solid 2px green;
             border-radius: 5px;
-            -webkit-box-shadow: -1px 3px 18px 0px rgba(0, 0, 0, 0.75);
-            -moz-box-shadow: -1px 3px 18px 0px rgba(0, 0, 0, 0.75);
-            box-shadow: -1px 3px 18px 0px rgba(0, 0, 0, 0.75);
-
+        }
+        #imgCon{
+            height: 200px;
+        }
+        #cardImg {
+            object-fit: cover;
+            max-height: 200px;
+            max-width: min-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #trunk{
+            -webkit-line-clamp: 3;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
     </style>
 
@@ -57,9 +70,8 @@
         </div>
     </div>
 </nav>
-<div class="container-fluid">
-    <div class="row">
-
+<div class="container">
+    <div class="row col-12">
         <div class="col m-3">
             <form id="form-filter" class="row g-3 p-2 mt-5" th:method="POST" th:action="@{/my/product}">
                 <h4>Фильтр</h4>
@@ -113,8 +125,7 @@
 
             </form>
         </div>
-
-        <section class="text-center m-5 col-9">
+        <section class="text-center m-5 col-8">
             <div class="row">
                 <div class="col-5 d-flex justify-content-start my-3">
                     <div th:if="${!value_search.isEmpty()}">
@@ -124,7 +135,7 @@
                 </div>
 
                 <div class="col-7 d-flex justify-content-end my-3">
-                    <form id="form-sort" style="border-radius: 2px;" th:method="POST" th:action="@{/my/product}">
+                    <form id="form-sort" style="border-radius: 2px;" th:method="POST" th:action="@{/product}">
                         <input type="hidden" name="search" th:value="*{value_search}">
                         <input type="hidden" name="contract" th:value="*{value_contract}">
                         <input type="hidden" name="do" th:value="*{value_price_do}">
@@ -138,25 +149,17 @@
                     </form>
                 </div>
             </div>
-            <div class="row wow">
-                <div class="col-lg-3 col-md-6 mb-4 d-flex align-items-stretch align-self-stretch"
-                     th:each="product : ${sort_product}">
-                    <div class="card border-secondary col-12">
-                        <div class="view overlay">
-                            <img class="card-img-top" th:src="'/img/' + ${product.imageList[0].getFileName()}" alt="">
-                            <a th:href="@{/my/product/info/{id}(id=${product.getId()})}">
-                                <div class="mask rgba-white-slight">
-                                </div>
-                            </a>
+
+            <div class="row justify-content-evenly">
+                <div class="col-lg-3 col-md-6 mb-4 d-flex" th:each="product : ${sort_product}">
+                    <div class="card border-secondary col-12 align-items-center">
+                        <div class="row align-items-center col-12" id="imgCon">
+                            <img id="cardImg" class="card-img " th:src="'/img/' + ${product.imageList[0].getFileName()}" alt="" >
                         </div>
-                        <div class="card-body text-center">
-                            <h5>
-                                <strong>
-                                    <a class="dark-grey-text" th:href="@{/my/product/info/{id}(id=${product.getId()})}"
-                                       th:text="${product.getTitle()}"> </a>
-                                </strong>
-                            </h5>
-                            <h4 class="font-weight-bold blue-text" th:text="'Цена: ' + ${product.getPrice()}"></h4>
+
+                        <div class="card-body">
+                            <a class="card-text dark-grey-text" id="trunk" th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"> </a>
+                            <p class="blue-text" th:text="'Цена: ' + ${product.getPrice()}"></p>
                         </div>
                     </div>
                 </div>
