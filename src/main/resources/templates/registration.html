@@ -57,13 +57,10 @@
 <body>
 
 <div class="bform py-5 m-5 d-flex justify-content-center">
-  <!-- Row -->
   <div class="row">
-
     <div class="container">
       <div class="col-lg-12 align-justify-center pr-4 pl-0 contact-form">
         <div class="">
-
           <h2 class="mb-3 font-weight-light text-center">Регистрация</h2>
           <form class="mt-3" method="post" th:action="@{/registration}" th:object="${person}">
             <div class="row">
@@ -79,7 +76,6 @@
               </div>
               <div class="col-lg-12">
                 <button type="submit" class="btn btn-md btn-block btn-danger-gradiant text-white border-0"><span>Создать пользователя</span></button>
-                <!-- -->
               </div>
               <div class="col-lg-12 text-center mt-4">
                 Уже есть аккаунт? <a href="/authentication" class="text-danger">Войти</a>
