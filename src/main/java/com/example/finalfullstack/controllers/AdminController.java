@@ -129,7 +129,13 @@ public class AdminController {
     }
 
     @GetMapping("/admin/order")
-    public String order(Model model){
+    public String order(@RequestParam(value = "search", defaultValue = "") String search, Model model){
+        if (search.length() >=4){
+            model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search.substring(search.length() - 4)));
+        } else {
+            model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search));
+        }
+
         List<Order> orderList = orderRepository.findOrderByDateTimeDesc();
         List<ProductOrder> productOrderList = productOrderRepository.findAll();
         List<Product> productList = productRepository.findAll();
@@ -199,10 +205,8 @@ public class AdminController {
     public String orderSearch(@RequestParam(value = "search", defaultValue = "") String search, Model model){
         if (search.length() >=4){
             model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search.substring(search.length() - 4)));
-            System.out.println(orderRepository.findByNumberEndingWith(search.substring(search.length() - 4)));
         } else {
             model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search));
-            System.out.println(orderRepository.findByNumberEndingWith(search));
         }
 
         List<Order> orderList = orderRepository.findOrderByDateTimeDesc();
