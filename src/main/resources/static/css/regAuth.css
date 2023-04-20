@@ -1,0 +1,44 @@
+@import url(//fonts.googleapis.com/css?family=Montserrat:300,400,500);
+.bform {
+    font-family: "Montserrat", sans-serif;
+    color: #8d97ad;
+    font-weight: 300;
+    overflow: hidden;
+    position: relative;
+}
+
+.bform h1,
+.bform h2,
+.bform h3,
+.bform h4,
+.bform h5,
+.bform h6 {
+    color: #3e4555;
+}
+
+.bform a {
+    text-decoration: none;
+}
+
+.bform .btn-danger-gradiant {
+    background: #4d74ff;
+    background: -webkit-linear-gradient(legacy-direction(to right), #4d6bff 0%, #1267c2 100%);
+    background: -webkit-gradient(linear, left top, right top, from(#4d6bff), to(#1267c2));
+    background: -webkit-linear-gradient(left, #4d6bff 0%, #1267c2 100%);
+    background: -o-linear-gradient(left, #4d6bff 0%, #1267c2 100%);
+    background: linear-gradient(to right, #4d6bff 0%, #1267c2 100%);
+}
+
+.bform .btn-danger-gradiant:hover {
+    background: #1267c2;
+    background: -webkit-linear-gradient(legacy-direction(to right), #1267c2 0%, #0098cb 100%);
+    background: -webkit-gradient(linear, left top, right top, from(#1267c2), to(#0098cb));
+    background: -webkit-linear-gradient(left, #1267c2 0%, #0098cb 100%);
+    background: -o-linear-gradient(left, #1267c2 0%, #0098cb 100%);
+    background: linear-gradient(to right, #1267c2 0%, #0098cb 100%);
+}
+
+.bform .btn-md {
+    padding: 15px 45px;
+    font-size: 16px;
+}

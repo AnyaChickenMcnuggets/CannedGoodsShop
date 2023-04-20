@@ -1,0 +1,21 @@
+#form-filter {
+    font-size: 16pt;
+    border: solid 2px green;
+    border-radius: 5px;
+}
+#imgCon{
+    height: 200px;
+}
+#cardImg {
+    object-fit: cover;
+    max-height: 200px;
+    max-width: min-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+#trunk{
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

@@ -49,12 +49,12 @@ public class AdminController {
 
     @PostMapping("/admin/product/add")
     public String addProduct(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult, @RequestParam("file_one")MultipartFile file_one, @RequestParam("file_two")MultipartFile file_two, @RequestParam("file_three")MultipartFile file_three, @RequestParam("file_four")MultipartFile file_four, @RequestParam("file_five")MultipartFile file_five, @RequestParam("category")int category, Model model) throws IOException {
-        Category category_db = (Category) categoryRepository.findById(category).orElseThrow();
 
         if (bindingResult.hasErrors()){
             model.addAttribute("category", categoryRepository.findAll());
             return "admin/add_product";
         }
+        Category category_db = (Category) categoryRepository.findById(category).orElseThrow();
 
         uploadFileImage(product, file_one);
 
