@@ -48,11 +48,6 @@ public class Product {
         imageList.add(image);
     }
 
-    @PrePersist
-    private void init(){
-        dateTime = LocalDateTime.now();
-    }
-
     @ManyToMany()
     @JoinTable(name = "product_cart", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "person_id"))
     private List<Person> personList;
@@ -60,6 +55,11 @@ public class Product {
     @ManyToMany()
     @JoinTable(name = "product_order", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "orders_id"))
     private List<Order> orderList;
+
+    @PrePersist
+    private void init(){
+        dateTime = LocalDateTime.now();
+    }
 
     public Product() {
     }

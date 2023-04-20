@@ -74,7 +74,6 @@ public class MainController {
         if (role.equals("ROLE_ADMIN")){
             return "redirect:/admin";
         }
-        model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseOrderByPrice(search));
         if (ot.equals("")) ot = "0";
         if (Float.parseFloat(ot) < 0) ot = "0";
         if (dO.equals("")) dO = "100000";

@@ -26,15 +26,26 @@ public class SecurityConfig{
         return new BCryptPasswordEncoder();
     }
 
+
+//    @Bean
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.
+//                jdbcAuthentication()
+//                .usersByUsernameQuery(usersQuery)
+//                .authoritiesByUsernameQuery(rolesQuery)
+//                .dataSource(dataSource)
+//                .passwordEncoder(bCryptPasswordEncoder);
+//    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         // конфигурация работы Spring Security
         http.authorizeHttpRequests() //указываем что все страницы должны быть защищены аутентификацией
-                .requestMatchers("/authentication", "/error", "/registration", "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/product/**").permitAll() // указываем список общедоступных страниц без авторизации
+                .requestMatchers("/authentication", "/error", "/process_login", "/registration", "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/product/**").permitAll() // указываем список общедоступных страниц без авторизации
                 .requestMatchers("/admin/**").hasRole("ADMIN").anyRequest().hasAnyRole("USER", "ADMIN")
                 .and()
                 .formLogin().loginPage("/authentication") // где формировать страницу аутентификации
-                .loginProcessingUrl("/process_login") // куда отправляются данные с формы аутентификации (это базовый юрл, реализованный)
+//                .loginProcessingUrl("/process_login") // куда отправляются данные с формы аутентификации (это базовый юрл, реализованный)
                 .defaultSuccessUrl("/my/product", true) // куда отправляет при удачном входе
                 .failureForwardUrl("/authentication?error") // при неудачном сюда
                 .and()
