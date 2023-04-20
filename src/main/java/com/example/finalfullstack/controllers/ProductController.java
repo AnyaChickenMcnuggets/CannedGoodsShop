@@ -25,7 +25,7 @@ public class ProductController {
 
     @GetMapping("/product")
     public String getAllProducts(@RequestParam(name = "search", required = false, defaultValue = "") String search, @RequestParam(name = "ot", required = false, defaultValue = "") String ot, @RequestParam(name = "do", required = false, defaultValue = "") String dO, @RequestParam(value = "price", required = false, defaultValue = "") String price, @RequestParam(value = "contract", required = false, defaultValue = "") String contract, Model model) {
-        model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseOrderByPrice(search));
+        model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseOrderByPrice(search.toLowerCase()));
         model.addAttribute("products", productService.getAllProduct());
         model.addAttribute("value_price", price);
         model.addAttribute("value_contract", contract);
@@ -46,12 +46,12 @@ public class ProductController {
         if (price.equals("sorted_by_ascending_price")) {
             //проверяем на отсутствие категории
             if (contract.equals("null_category")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqual(search, Float.parseFloat(ot), Float.parseFloat(dO)));
+                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqual(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO)));
             }
             //пробегаемся по категориям
             for (Category category : categoryList){
                 if (contract.equals(category.getName())){
-                    model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search, Float.parseFloat(ot), Float.parseFloat(dO), category.getId()));
+                    model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO), category.getId()));
                     break;
                 }
             }
@@ -59,12 +59,12 @@ public class ProductController {
         if (price.equals("sorted_by_descending_price")) {
             //проверяем на отсутствие категории
             if (contract.equals("null_category")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualDesc(search, Float.parseFloat(ot), Float.parseFloat(dO)));
+                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO)));
             }
             //пробегаемся по категориям
             for (Category category : categoryList){
                 if (contract.equals(category.getName())){
-                    model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search, Float.parseFloat(ot), Float.parseFloat(dO), category.getId()));
+                    model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO), category.getId()));
                 }
             }
         }

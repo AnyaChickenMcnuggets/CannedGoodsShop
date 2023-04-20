@@ -56,7 +56,7 @@ public class MainController {
             return "redirect:/admin";
         }
 
-        model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseOrderByPrice(search));
+        model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseOrderByPrice(search.toLowerCase()));
         model.addAttribute("value_price", price);
         model.addAttribute("value_contract", contract);
         model.addAttribute("value_price_ot", ot);
@@ -83,12 +83,12 @@ public class MainController {
         if (price.equals("sorted_by_ascending_price")) {
             //проверяем на отсутствие категории
             if (contract.equals("null_category")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqual(search, Float.parseFloat(ot), Float.parseFloat(dO)));
+                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqual(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO)));
             }
             //пробегаемся по категориям
             for (Category category : categoryList){
                 if (contract.equals(category.getName())){
-                    model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search, Float.parseFloat(ot), Float.parseFloat(dO), category.getId()));
+                    model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO), category.getId()));
                     break;
                 }
             }
@@ -96,12 +96,12 @@ public class MainController {
         if (price.equals("sorted_by_descending_price")) {
             //проверяем на отсутствие категории
             if (contract.equals("null_category")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualDesc(search, Float.parseFloat(ot), Float.parseFloat(dO)));
+                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO)));
             }
             //пробегаемся по категориям
             for (Category category : categoryList){
                 if (contract.equals(category.getName())){
-                    model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search, Float.parseFloat(ot), Float.parseFloat(dO), category.getId()));
+                    model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO), category.getId()));
                 }
             }
         }
