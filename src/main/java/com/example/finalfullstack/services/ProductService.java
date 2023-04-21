@@ -28,6 +28,23 @@ public class ProductService {
         return optionalProduct.orElse(null);
     }
 
+    public List<Product> getByTitle(String search){
+        return productRepository.findByTitleContainingIgnoreCaseOrderByPrice(search.toLowerCase());
+    }
+
+    public List<Product> getByPriceAsc(String search, String ot, String dO){
+        return productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqual(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO));
+    }
+
+    public List<Product> getByPriceDesc(String search, String ot, String dO){
+        return productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO));
+    }
+    public List<Product> getByCategoryAndPriceAsc(String search, String ot, String dO, int c){
+        return productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO), c);
+    }
+    public List<Product> getByCategoryAndPriceDesc(String search, String ot, String dO, int c){
+        return productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO), c);
+    }
     @Transactional
     public void saveProduct(Product product, Category category){
         product.setCategory(category);
@@ -44,9 +61,6 @@ public class ProductService {
     public void deleteProductById(int id){
         productRepository.deleteById(id);
     }
-    // TODO добавить методы репозитория!
 
-//    public List<Product> getProductByTitleContaining(String title){
-//        return productRepository.findByTitleContainingIgnoreCase(title);
-//    }
+
 }

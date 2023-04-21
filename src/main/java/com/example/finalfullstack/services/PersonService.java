@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +23,10 @@ public class PersonService {
         this.passwordEncoder = passwordEncoder;
     }
 
+
+    public List<Person> getAll(){
+        return personRepository.findAll();
+    }
     public Person getPersonById(int id){
         Optional<Person> optionalPerson = personRepository.findById(id);
         return optionalPerson.orElse(null);

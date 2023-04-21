@@ -2,11 +2,12 @@ package com.example.finalfullstack.services;
 
 import com.example.finalfullstack.enums.Status;
 import com.example.finalfullstack.models.Order;
-import com.example.finalfullstack.models.Product;
+import com.example.finalfullstack.models.Person;
 import com.example.finalfullstack.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +23,26 @@ public class OrderService {
     public Order getOrderById(int id){
         Optional<Order> optionalOrder = orderRepository.findById(id);
         return optionalOrder.orElse(null);
+    }
+    @Transactional
+    public void saveOrder(Order order){
+        orderRepository.save(order);
+    }
+
+    public List<Order> getAllByTimeDesc(){
+        return orderRepository.findOrderByDateTimeDesc();
+    }
+    public List<Order> getOrderByPerson(Person person){
+        return orderRepository.findByPersonOrderByDateTimeDesc(person);
+    }
+
+    public List<Order> getByNumberEndingWith(String search){
+        if (search.length() >=4){
+            return orderRepository.findByNumberEndingWith(search.substring(search.length() - 4));
+        } else {
+            return orderRepository.findByNumberEndingWith(search);
+        }
+
     }
 
     @Transactional

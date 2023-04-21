@@ -2,9 +2,7 @@ package com.example.finalfullstack.controllers;
 
 import com.example.finalfullstack.models.*;
 import com.example.finalfullstack.repositories.*;
-import com.example.finalfullstack.services.OrderService;
-import com.example.finalfullstack.services.PersonService;
-import com.example.finalfullstack.services.ProductService;
+import com.example.finalfullstack.services.*;
 import com.example.finalfullstack.util.PersonValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,38 +21,31 @@ import java.util.UUID;
 public class AdminController {
 
     private final PersonService personService;
-    private final PersonValidator personValidator;
     private final ProductService productService;
-    private final OrderRepository orderRepository;
-    private final ProductRepository productRepository;
-    private final ProductOrderRepository productOrderRepository;
-    private final PersonRepository personRepository;
     private final OrderService orderService;
+    private final ProductOrderService productOrderService;
+    private final CategoryService categoryService;
+
 
     @Value("${upload.path}")
     private String uploadPath;
-    private final CategoryRepository categoryRepository;
 
-    public AdminController(PersonService personService, PersonValidator personValidator, ProductService productService, OrderRepository orderRepository, ProductRepository productRepository, ProductOrderRepository productOrderRepository, PersonRepository personRepository, OrderService orderService, CategoryRepository categoryRepository) {
+    public AdminController(PersonService personService, ProductService productService, ProductOrderService productOrderService, CategoryService categoryService, OrderService orderService) {
         this.personService = personService;
-        this.personValidator = personValidator;
         this.productService = productService;
-        this.orderRepository = orderRepository;
-        this.productRepository = productRepository;
-        this.productOrderRepository = productOrderRepository;
-        this.personRepository = personRepository;
+        this.productOrderService = productOrderService;
+        this.categoryService = categoryService;
         this.orderService = orderService;
-        this.categoryRepository = categoryRepository;
     }
 
     @PostMapping("/admin/product/add")
     public String addProduct(@ModelAttribute("product") @Valid Product product, BindingResult bindingResult, @RequestParam("file_one")MultipartFile file_one, @RequestParam("file_two")MultipartFile file_two, @RequestParam("file_three")MultipartFile file_three, @RequestParam("file_four")MultipartFile file_four, @RequestParam("file_five")MultipartFile file_five, @RequestParam("category")int category, Model model) throws IOException {
 
         if (bindingResult.hasErrors()){
-            model.addAttribute("category", categoryRepository.findAll());
+            model.addAttribute("category", categoryService.getAll());
             return "admin/add_product";
         }
-        Category category_db = (Category) categoryRepository.findById(category).orElseThrow();
+        Category category_db = categoryService.getById(category);
 
         uploadFileImage(product, file_one);
 
@@ -94,7 +85,7 @@ public class AdminController {
     @GetMapping("/admin/product/add")
     public String addProduct(Model model){
         model.addAttribute("product", new Product());
-        model.addAttribute("category", categoryRepository.findAll());
+        model.addAttribute("category", categoryService.getAll());
         return "admin/add_product";
     }
 
@@ -108,14 +99,14 @@ public class AdminController {
     public String editProduct(Model model, @PathVariable("id") int id){
 
         model.addAttribute("product", productService.getProductById(id));
-        model.addAttribute("category", categoryRepository.findAll());
+        model.addAttribute("category", categoryService.getAll());
         return "admin/edit_product";
     }
 
     @PostMapping("/admin/product/edit/{id}")
     public String editProduct(@ModelAttribute("product")@Valid Product product, BindingResult bindingResult, @PathVariable("id") int id, Model model){
         if (bindingResult.hasErrors()){
-            model.addAttribute("category", categoryRepository.findAll());
+            model.addAttribute("category", categoryService.getAll());
             return "admin/edit_product";
         }
         productService.updateProductById(product, id);
@@ -124,16 +115,13 @@ public class AdminController {
 
     @GetMapping("/admin/order")
     public String order(@RequestParam(value = "search", defaultValue = "") String search, Model model){
-        if (search.length() >=4){
-            model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search.substring(search.length() - 4)));
-        } else {
-            model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search));
-        }
 
-        List<Order> orderList = orderRepository.findOrderByDateTimeDesc();
-        List<ProductOrder> productOrderList = productOrderRepository.findAll();
-        List<Product> productList = productRepository.findAll();
-        List<Person> personList = personRepository.findAll();
+        model.addAttribute("search_order", orderService.getByNumberEndingWith(search));
+
+        List<Order> orderList = orderService.getAllByTimeDesc();
+        List<ProductOrder> productOrderList = productOrderService.getAll();
+        List<Product> productList = productService.getAllProduct();
+        List<Person> personList = personService.getAll();
 
         model.addAttribute("users", personList);
         model.addAttribute("products", productList);
@@ -148,19 +136,12 @@ public class AdminController {
         System.out.println(search);
         Order order = orderService.getOrderById(id);
         orderService.updateProductById(order, id);
-        if (search.length() >=4){
-            model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search.substring(search.length() - 4)));
-            System.out.println(orderRepository.findByNumberEndingWith(search.substring(search.length() - 4)));
-        } else {
-            model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search));
-            System.out.println(orderRepository.findByNumberEndingWith(search));
-        }
+        model.addAttribute("search_order", orderService.getByNumberEndingWith(search));
 
-
-        List<Order> orderList = orderRepository.findOrderByDateTimeDesc();
-        List<ProductOrder> productOrderList = productOrderRepository.findAll();
-        List<Product> productList = productRepository.findAll();
-        List<Person> personList = personRepository.findAll();
+        List<Order> orderList = orderService.getAllByTimeDesc();
+        List<ProductOrder> productOrderList = productOrderService.getAll();
+        List<Product> productList = productService.getAllProduct();
+        List<Person> personList = personService.getAll();
 
         model.addAttribute("users", personList);
         model.addAttribute("products", productList);
@@ -174,18 +155,12 @@ public class AdminController {
     public String orderRemoveStatus(@PathVariable("id") int id, @RequestParam(value = "search", defaultValue = "") String search, Model model){
         Order order = orderService.getOrderById(id);
         orderService.stopProductById(order, id);
-        if (search.length() >=4){
-            model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search.substring(search.length() - 4)));
-            System.out.println(orderRepository.findByNumberEndingWith(search.substring(search.length() - 4)));
-        } else {
-            model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search));
-            System.out.println(orderRepository.findByNumberEndingWith(search));
-        }
+        model.addAttribute("search_order", orderService.getByNumberEndingWith(search));
 
-        List<Order> orderList = orderRepository.findOrderByDateTimeDesc();
-        List<ProductOrder> productOrderList = productOrderRepository.findAll();
-        List<Product> productList = productRepository.findAll();
-        List<Person> personList = personRepository.findAll();
+        List<Order> orderList = orderService.getAllByTimeDesc();
+        List<ProductOrder> productOrderList = productOrderService.getAll();
+        List<Product> productList = productService.getAllProduct();
+        List<Person> personList = personService.getAll();
 
         model.addAttribute("users", personList);
         model.addAttribute("products", productList);
@@ -197,16 +172,12 @@ public class AdminController {
 
     @PostMapping("/admin/order")
     public String orderSearch(@RequestParam(value = "search", defaultValue = "") String search, Model model){
-        if (search.length() >=4){
-            model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search.substring(search.length() - 4)));
-        } else {
-            model.addAttribute("search_order", orderRepository.findByNumberEndingWith(search));
-        }
+        model.addAttribute("search_order", orderService.getByNumberEndingWith(search));
 
-        List<Order> orderList = orderRepository.findOrderByDateTimeDesc();
-        List<ProductOrder> productOrderList = productOrderRepository.findAll();
-        List<Product> productList = productRepository.findAll();
-        List<Person> personList = personRepository.findAll();
+        List<Order> orderList = orderService.getAllByTimeDesc();
+        List<ProductOrder> productOrderList = productOrderService.getAll();
+        List<Product> productList = productService.getAllProduct();
+        List<Person> personList = personService.getAll();
 
         model.addAttribute("users", personList);
         model.addAttribute("products", productList);
@@ -218,23 +189,8 @@ public class AdminController {
 
     @GetMapping("/admin/person")
     public String users(Model model){
-        model.addAttribute("users", personRepository.findAll());
+        model.addAttribute("users", personService.getAll());
         return "admin/user";
-    }
-
-    @GetMapping("/admin/registration")
-    public String registration(@ModelAttribute("person") Person person){
-        return "admin/registration";
-    }
-
-    @PostMapping("/admin/registration")
-    public String resultRegistration(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult){
-        personValidator.validate(person, bindingResult);
-        if (bindingResult.hasErrors()){
-            return "admin/registration";
-        }
-        personService.register(person);
-        return "redirect:/admin/person";
     }
 
     @PostMapping("/admin/person/upcast/{id}")

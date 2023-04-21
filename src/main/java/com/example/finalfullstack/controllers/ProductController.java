@@ -3,6 +3,7 @@ package com.example.finalfullstack.controllers;
 import com.example.finalfullstack.models.Category;
 import com.example.finalfullstack.repositories.CategoryRepository;
 import com.example.finalfullstack.repositories.ProductRepository;
+import com.example.finalfullstack.services.CategoryService;
 import com.example.finalfullstack.services.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,18 +15,16 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
-    private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
-    public ProductController(ProductService productService, ProductRepository productRepository, CategoryRepository categoryRepository) {
+    public ProductController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
-        this.productRepository = productRepository;
-        this.categoryRepository = categoryRepository;
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/product")
     public String getAllProducts(@RequestParam(name = "search", required = false, defaultValue = "") String search, @RequestParam(name = "ot", required = false, defaultValue = "") String ot, @RequestParam(name = "do", required = false, defaultValue = "") String dO, @RequestParam(value = "price", required = false, defaultValue = "") String price, @RequestParam(value = "contract", required = false, defaultValue = "") String contract, Model model) {
-        model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseOrderByPrice(search.toLowerCase()));
+        model.addAttribute("sort_product", productService.getByTitle(search));
         model.addAttribute("products", productService.getAllProduct());
         model.addAttribute("value_price", price);
         model.addAttribute("value_contract", contract);
@@ -42,16 +41,16 @@ public class ProductController {
         if (Float.parseFloat(ot) < 0) ot = "0";
         if (dO.equals("")) dO = "100000";
         if (Float.parseFloat(dO) < 0 || Float.parseFloat(dO) > 100000) dO = "100000";
-        List<Category> categoryList = categoryRepository.findAll();
+        List<Category> categoryList = categoryService.getAll();
         if (price.equals("sorted_by_ascending_price")) {
             //проверяем на отсутствие категории
             if (contract.equals("null_category")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqual(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO)));
+                model.addAttribute("sort_product", productService.getByPriceAsc(search, ot, dO));
             }
             //пробегаемся по категориям
             for (Category category : categoryList){
                 if (contract.equals(category.getName())){
-                    model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO), category.getId()));
+                    model.addAttribute("sort_product", productService.getByCategoryAndPriceAsc(search, ot, dO, category.getId()));
                     break;
                 }
             }
@@ -59,12 +58,12 @@ public class ProductController {
         if (price.equals("sorted_by_descending_price")) {
             //проверяем на отсутствие категории
             if (contract.equals("null_category")) {
-                model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO)));
+                model.addAttribute("sort_product", productService.getByPriceDesc(search, ot, dO));
             }
             //пробегаемся по категориям
             for (Category category : categoryList){
                 if (contract.equals(category.getName())){
-                    model.addAttribute("sort_product", productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO), category.getId()));
+                    model.addAttribute("sort_product", productService.getByCategoryAndPriceDesc(search, ot, dO, category.getId()));
                 }
             }
         }
