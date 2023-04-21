@@ -63,11 +63,11 @@
               </tr>
             </thead>
             <tbody>
-            <tr th:each="product:${products}">
-              <div th:each="product_order:${productOrders}" th:if="${order.getId() == product_order.getOrderId() && product.getId() == product_order.getProductId()}">
-                <td ><a class="link-info" th:href="@{/admin/product/edit/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a></td>
+            <tr th:each="product_order:${productOrders}">
+              <div th:each="product:${products}" th:if="${order.getId() == product_order.getOrderId() && product.getId() == product_order.getProductId()}">
+                <td th:text="${product_order.getProductTitle()}"></td>
                 <td th:text="${product_order.getQuantity()}"></td>
-                <td th:text="${product.getPrice()}"></td>
+                <td th:text="${product_order.getPrice()}"></td>
               </div>
             </tr>
             </tbody>
@@ -122,11 +122,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="product:${products}">
-              <div th:each="product_order:${productOrders}" th:if="${order.getId() == product_order.getOrderId() && product.getId() == product_order.getProductId()}">
-                <td><a class="link-info" th:href="@{/admin/product/edit/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a></td>
+            <tr th:each="product_order:${productOrders}">
+              <div th:each="product:${products}" th:if="${order.getId() == product_order.getOrderId() && product.getId() == product_order.getProductId()}">
+                <td th:text="${product_order.getProductTitle()}"></td>
                 <td th:text="${product_order.getQuantity()}"></td>
-                <td th:text="${product.getPrice()}"></td>
+                <td th:text="${product_order.getPrice()}"></td>
               </div>
             </tr>
             </tbody>

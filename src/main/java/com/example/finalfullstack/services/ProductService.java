@@ -2,6 +2,7 @@ package com.example.finalfullstack.services;
 
 import com.example.finalfullstack.models.Category;
 import com.example.finalfullstack.models.Product;
+import com.example.finalfullstack.models.ProductOrder;
 import com.example.finalfullstack.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,9 +15,11 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductOrderService productOrderService;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, ProductOrderService productOrderService) {
         this.productRepository = productRepository;
+        this.productOrderService = productOrderService;
     }
 
     public List<Product> getAllProduct(){
@@ -25,7 +28,7 @@ public class ProductService {
 
     public Product getProductById(int id){
         Optional<Product> optionalProduct = productRepository.findById(id);
-        return optionalProduct.orElse(null);
+        return optionalProduct.orElse(productRepository.findById(1).orElseThrow());
     }
 
     public List<Product> getByTitle(String search){
@@ -59,6 +62,11 @@ public class ProductService {
 
     @Transactional
     public void deleteProductById(int id){
+        List<ProductOrder> productOrderList = productOrderService.getAllByProduct(id);
+        for (ProductOrder productOrder : productOrderList){
+            productOrder.setProductId(1);
+            productOrderService.saveProductOrder(productOrder);
+        }
         productRepository.deleteById(id);
     }
 

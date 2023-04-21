@@ -19,15 +19,22 @@ public class ProductOrder {
     @Column(name = "product_id")
     private int productId;
 
+    @Column(name = "product_title")
+    private String productTitle;
+
+
+
     public ProductOrder() {
     }
 
-    public ProductOrder(int quantity, float price, int orderId, int productId) {
+    public ProductOrder(int quantity, float price, int orderId, int productId, String productTitle) {
         this.quantity = quantity;
         this.price = price;
         this.orderId = orderId;
         this.productId = productId;
+        this.productTitle = productTitle;
     }
+
 
     public int getId() {
         return id;
@@ -67,5 +74,13 @@ public class ProductOrder {
 
     public void setProductId(int productId) {
         this.productId = productId;
+    }
+
+    public String getProductTitle() {
+        return productTitle;
+    }
+
+    public void setProductTitle(String productTitle) {
+        this.productTitle = productTitle;
     }
 }

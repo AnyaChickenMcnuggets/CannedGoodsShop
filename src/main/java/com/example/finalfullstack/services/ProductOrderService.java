@@ -17,6 +17,10 @@ public class ProductOrderService {
         this.productOrderRepository = productOrderRepository;
     }
 
+    public List<ProductOrder> getAllByProduct(int productId){
+        return productOrderRepository.findProductOrdersByProductIdEquals(productId);
+    }
+
     @Transactional
     public void saveProductOrder(ProductOrder productOrder){
         productOrderRepository.save(productOrder);

@@ -123,7 +123,7 @@
             </div>
 
             <div class="row justify-content-evenly">
-                <div class="col-lg-3 col-md-6 mb-4 d-flex" th:each="product : ${sort_product}">
+                <div class="col-lg-3 col-md-6 mb-4 d-flex" th:each="product : ${sort_product}" th:if="${product.getId()!=1}">
                     <div class="card border-secondary col-12 align-items-center">
                         <div class="row align-items-center col-12" id="imgCon">
                             <img id="cardImg" class="card-img " th:src="'/img/' + ${product.imageList[0].getFileName()}" alt="" >

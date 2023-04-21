@@ -36,7 +36,11 @@
   </div>
 </nav>
 
-<div class="container my-3">
+<div class="container my-3 text-center text-info" th:if="${product.getId()==1}">
+  <h1>Данный товар больше не продается</h1>
+</div>
+
+<div class="container my-3" th:if="${product.getId()!=1}">
   <div class="row ">
     <strong><h2 class="col-8 text-dark mb-4" th:text="${product.getTitle()}"></h2></strong>
     <div class="col-8 ">

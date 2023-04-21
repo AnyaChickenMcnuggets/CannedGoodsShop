@@ -241,7 +241,7 @@ public class MainController {
 
         for (Product product :
                 productList) {
-            ProductOrder productOrder = new ProductOrder(cartService.getByPersonAndProduct(person_id, product.getId()).get(0).getQuantity(), product.getPrice(), newOrder.getId(), product.getId());
+            ProductOrder productOrder = new ProductOrder(cartService.getByPersonAndProduct(person_id, product.getId()).get(0).getQuantity(), product.getPrice(), newOrder.getId(), product.getId(), product.getTitle());
             productOrderService.saveProductOrder(productOrder);
             cartService.deleteCartByPersonAndProduct(person_id, product.getId());
         }

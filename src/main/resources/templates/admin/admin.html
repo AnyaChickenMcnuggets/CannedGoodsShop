@@ -44,7 +44,7 @@
 <div class="container">
     <div class="card-deck m-5">
         <div class="row equal h-100">
-            <div class="col-3 mt-3 d-flex align-items-stretch"  th:each="product : ${products}">
+            <div class="col-3 mt-3 d-flex align-items-stretch"  th:each="product : ${products}" th:if="${product.getId()!=1}">
                 <div class="card text-center border-info">
                     <div class="card-body">
                         <h5 class="card-header" th:text="${product.getTitle()}"></h5>
