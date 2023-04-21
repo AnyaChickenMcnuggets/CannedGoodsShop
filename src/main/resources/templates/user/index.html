@@ -16,13 +16,14 @@
             integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
             crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/9bdd9eb751.js" crossorigin="anonymous"></script>
+    <script src="/js/formCheck.js"></script>
     <link href="/css/products.css" rel="stylesheet">
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand">Brand</a>
+        <a class="navbar-brand" href="/my/product">CannedGoods</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -30,23 +31,22 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/my/product">Главная</a>
                 </li>
             </ul>
             <form class="d-flex" role="search" th:method="POST" th:action="@{/my/product}">
                 <input class="form-control me-2" type="search" placeholder="Поиск по товарам" aria-label="Search" id="search"
                        name="search">
-                <button class="btn btn-outline-warning" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button class="btn" id="searchBtn"  type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
-            <a class="btn btn-outline-success mx-1" href="/my/order"><i class="fa-solid fa-cubes"></i></a>
-            <a class="btn btn-outline-success mx-1" href="/my/cart"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a class="btn mx-1" href="/my/order" id="orderBtn"><i class="fa-solid fa-cubes"></i></a>
+            <a class="btn mx-1" href="/my/cart" id="cartBtn"><i class="fa-solid fa-cart-shopping"></i></a>
             <form method="post" th:action="@{/logout}">
-                <button class="btn btn-outline-danger mx-1" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+                <button class="btn mx-1" type="submit" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
             </form>
         </div>
     </div>
 </nav>
-<div class="container">
+<div class="container ">
     <div class="row col-12">
         <div class="col m-3">
             <form id="form-filter" class="row g-3 p-2 mt-5" th:method="POST" th:action="@{/my/product}">
@@ -59,46 +59,44 @@
 
                     <label for="otDo" class="form-label">Цена, Р</label>
                     <div class="input-group" id="otDo">
-                        <span class="input-group-text">От</span>
-                        <input type="text" class="form-control" aria-label="ot" aria-describedby="addon-wrapping"
-                               id="ot" name="ot" th:value="*{value_price_ot}">
-                        <span class="input-group-text">До</span>
-                        <input type="text" class="form-control" aria-label="do" aria-describedby="addon-wrapping"
-                               name="do" id="do" th:value="*{value_price_do}">
+                        <span class="input-group-text form-label-custom">От</span>
+                        <input type="number" class="form-control form-label-custom" aria-label="ot" aria-describedby="addon-wrapping"
+                               id="ot" name="ot" th:value="*{value_price_ot}" onchange="checkNum()">
+                        <span class="input-group-text form-label-custom">До</span>
+                        <input type="number" class="form-control form-label-custom" aria-label="do" aria-describedby="addon-wrapping"
+                               name="do" id="do" th:value="*{value_price_do}" onchange="checkNum()">
                     </div>
                 </div>
                 <div>
                     <p>Категория товаров: </p>
-                    <div class="btn-group-vertical my-2 col-12" >
+                    <div class="btn-group-vertical my-2 col-12">
                         <input class="btn-check" type="radio" id="null_category" name="contract" value="null_category" th:checked="${value_contract == '' || value_contract == 'null_category'}">
-                        <label class="btn btn-outline-warning" for="null_category">Без категории</label>
+                        <label class="btn btn-custom" for="null_category">Без категории</label>
                         <input class="btn-check" type="radio" id="vegies" name="contract" value="Овощи консервированные" th:checked="${value_contract == 'Овощи консервированные'}">
-                        <label class="btn btn-outline-warning" for="vegies">Овощи консервированные</label>
+                        <label class="btn btn-custom" for="vegies">Овощи консервированные</label>
                         <input class="btn-check" type="radio" id="meat" name="contract" value="Мясные консервы" th:checked="${value_contract == 'Мясные консервы'}">
-                        <label class="btn btn-outline-warning" for="meat">Мясные консервы</label>
+                        <label class="btn btn-custom" for="meat">Мясные консервы</label>
                         <input class="btn-check" type="radio" id="fish" name="contract" value="Рыбные консервы" th:checked="${value_contract == 'Рыбные консервы'}">
-                        <label class="btn btn-outline-warning" for="fish">Рыбные консервы</label>
+                        <label class="btn btn-custom" for="fish">Рыбные консервы</label>
                         <input class="btn-check" type="radio" id="prepared" name="contract" value="Блюда готовые консервированные" th:checked="${value_contract == 'Блюда готовые консервированные'}">
-                        <label class="btn btn-outline-warning" for="prepared">Блюда готовые консервированные</label>
+                        <label class="btn btn-custom" for="prepared">Блюда готовые консервированные</label>
                         <input class="btn-check" type="radio" id="fruits" name="contract" value="Фруктовые консервы" th:checked="${value_contract == 'Фруктовые консервы'}">
-                        <label class="btn btn-outline-warning" for="fruits">Фруктовые консервы</label>
+                        <label class="btn btn-custom" for="fruits">Фруктовые консервы</label>
                         <input class="btn-check" type="radio" id="mush" name="contract" value="Грибы консервированные" th:checked="${value_contract == 'Грибы консервированные'}">
-                        <label class="btn btn-outline-warning" for="mush">Грибы консервированные</label>
+                        <label class="btn btn-custom" for="mush">Грибы консервированные</label>
                         <input class="btn-check" type="radio" id="wierd" name="contract" value="Паштеты и холодцы" th:checked="${value_contract == 'Паштеты и холодцы'}">
-                        <label class="btn btn-outline-warning" for="wierd">Паштеты и холодцы</label>
+                        <label class="btn btn-custom" for="wierd">Паштеты и холодцы</label>
                         <input class="btn-check" type="radio" id="irp" name="contract" value="Сухие пайки" th:checked="${value_contract == 'Сухие пайки'}">
-                        <label class="btn btn-outline-warning" for="irp">Сухие пайки</label>
+                        <label class="btn btn-custom" for="irp">Сухие пайки</label>
                         <input class="btn-check" type="radio" id="honey" name="contract" value="Мед и варенья" th:checked="${value_contract == 'Мед и варенья'}">
-                        <label class="btn btn-outline-warning" for="honey">Мед и варенья</label>
+                        <label class="btn btn-custom" for="honey">Мед и варенья</label>
                     </div>
                     <br>
                     <br>
                     <div class="d-flex justify-content-end">
-                        <input class="col-12 btn btn-warning " type="submit" value="Применить">
+                        <input class="col-12 btn btn-submit-custom " type="submit" value="Применить">
                     </div>
-
                 </div>
-
             </form>
         </div>
         <section class="text-center m-5 col-8">
@@ -111,12 +109,12 @@
                 </div>
 
                 <div class="col-7 d-flex justify-content-end my-3">
-                    <form id="form-sort" style="border-radius: 2px;" th:method="POST" th:action="@{/my/product}">
+                    <form id="form-sort" th:method="POST" th:action="@{/my/product}">
                         <input type="hidden" name="search" th:value="*{value_search}">
                         <input type="hidden" name="contract" th:value="*{value_contract}">
                         <input type="hidden" name="do" th:value="*{value_price_do}">
                         <input type="hidden" name="ot" th:value="*{value_price_ot}">
-                        <select class="form-select" name="price"  aria-label="Default select example" onchange="this.form.submit()" th:value="*{value_price}">
+                        <select class="form-select" id="form-sort-select" name="price"  aria-label="Default select example" onchange="this.form.submit()" th:value="*{value_price}">
                             <option th:if="${value_price == 'sorted_by_ascending_price'}" selected value="sorted_by_ascending_price">по возрастанию цены</option>
                             <option th:if="${!(value_price == 'sorted_by_ascending_price')}"  value="sorted_by_ascending_price">по возрастанию цены</option>
                             <option th:if="${value_price == 'sorted_by_descending_price'}" selected value="sorted_by_descending_price">по убыванию цены</option>
@@ -128,14 +126,13 @@
 
             <div class="row justify-content-evenly">
                 <div class="col-lg-3 col-md-6 mb-4 d-flex" th:each="product : ${sort_product}" th:if="${product.getId()!=1}">
-                    <div class="card border-secondary col-12 align-items-center">
+                    <div class="card col-12 align-items-center" id="cardProduct">
                         <div class="row align-items-center col-12" id="imgCon">
                             <img id="cardImg" class="card-img " th:src="'/img/' + ${product.imageList[0].getFileName()}" alt="" >
                         </div>
-
-                        <div class="card-body">
+                        <div class="card-body p-1 " id="cardBody">
                             <a class="card-text dark-grey-text" id="trunk" th:href="@{/my/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"> </a>
-                            <p class="blue-text" th:text="'Цена: ' + ${product.getPrice()}"></p>
+                            <p class="blue-text mt-1 align-bottom" id="cardPrice" th:text="${product.getPrice()} + '0руб.'"></p>
                         </div>
                     </div>
                 </div>
