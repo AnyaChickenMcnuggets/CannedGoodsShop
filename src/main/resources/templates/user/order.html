@@ -39,36 +39,47 @@
 </nav>
 
 <div class="card-columns row d-flex justify-content-center">
-    <div class="card border-info m-4 p-2 col-6" th:each="order : ${orders}">
+    <div class="card m-3 p-2 col-8 orderRad" th:each="order : ${orders}">
         <h3 class="card-header text-left" th:text="'Заказ № ' + ${order.getNumber()}"></h3>
         <div class="container">
             <div class="row">
-                <div class="row d-flex col-3 mt-5">
-                    <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy')}"></p>
-                    <p th:text="'Статус заказа: ' + ${order.getStatus()}"></p>
+                <div class="container align-self-center col-2">
+                    <div class="row justify-content-between">
+                        <div class="col-12">
+                            <p>Дата заказа:</p>
+                            <p th:text="${#temporals.format(order.getDateTime(), 'dd-MMMyyyy')}"></p>
+                        </div>
+                        <div class="col-12">
+                            <p th:text="'Статус заказа: ' + ${order.getStatus()}"></p>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="col-sm">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th scope="col">Товар</th>
-                            <th scope="col">Кол-во</th>
-                            <th scope="col">Цена</th>
+                            <th class="col-md" scope="col">Товар</th>
+                            <th class="col-1" scope="col">Кол-во</th>
+                            <th class="col-1" scope="col">Цена</th>
+                            <th class="col-1" scope="col">Стоимость</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="product_order:${productOrders}">
                             <div th:each="product:${products}" th:if="${order.getId() == product_order.getOrderId() && product.getId() == product_order.getProductId()}">
-                                <td ><a class="link-info" th:href="@{/my/product/info/{id}(id=${product.getId()})}" th:text="${product_order.getProductTitle()}"></a></td>
+                                <td ><a class="link-info" id="productTitle" th:href="@{/my/product/info/{id}(id=${product.getId()})}" th:text="${product_order.getProductTitle()}"></a></td>
                                 <td th:text="${product_order.getQuantity()}"></td>
                                 <td th:text="${product_order.getPrice()}"></td>
+                                <td th:text="${product_order.getPrice() * product_order.getQuantity()}"></td>
                             </div>
                         </tr>
                         </tbody>
                         <tr>
-                            <td >Стоимость заказа: </td>
-                            <td ></td>
-                            <td th:text="${order.getFinalPrice()}"></td>
+                            <th >Стоимость заказа: </th>
+                            <th ></th>
+                            <th ></th>
+                            <th th:text="${order.getFinalPrice()}"></th>
                         </tr>
                     </table>
                 </div>

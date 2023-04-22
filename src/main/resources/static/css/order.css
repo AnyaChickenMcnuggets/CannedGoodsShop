@@ -1,0 +1,15 @@
+#productTitle{
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-decoration: none;
+    color: black;
+}
+.table{
+    font-size: 10pt;
+}
+.orderRad{
+    border: 2px solid #767522;
+    border-radius: 50px;
+}
