@@ -12,9 +12,6 @@
 ## Страница регистрации
 ![image](https://user-images.githubusercontent.com/44460590/231833881-80198020-5f47-44a0-8cc8-fc83b8052ea4.png)
 
-## Хэширование паролей bcrypt
-![image](https://user-images.githubusercontent.com/44460590/231833959-290f3510-a296-4957-bf82-4d1c459db912.png)
-
 ## Управление товарами
 ![image](https://user-images.githubusercontent.com/44460590/231834000-2bca097a-6d8e-4f0e-975a-545cbd67a1b2.png)
 ![image](https://user-images.githubusercontent.com/44460590/231834050-5fd3dd17-aa35-466d-ba50-917321f5b57f.png)
@@ -26,7 +23,7 @@
 ![image](https://user-images.githubusercontent.com/44460590/233782341-7161c933-78f1-47e4-a60f-5eae5e622a78.png)
 
 ## Управление пользователями
-![image](https://user-images.githubusercontent.com/44460590/231834213-2ed5af9a-47f3-4a18-9d64-706fb9f8e006.png)
+![image](https://user-images.githubusercontent.com/44460590/233784467-402d9458-a9e3-4202-87f4-a21ddcf2593c.png)
 
 ## Товары у неавторизованного пользователя
 ![image](https://user-images.githubusercontent.com/44460590/233776019-1b990016-f10f-4b84-85ce-37d25ccf6db1.png)
