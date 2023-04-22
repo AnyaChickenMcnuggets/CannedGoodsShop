@@ -38,9 +38,9 @@ public class OrderService {
 
     public List<Order> getByNumberEndingWith(String search){
         if (search.length() >=4){
-            return orderRepository.findByNumberEndingWith(search.substring(search.length() - 4));
+            return orderRepository.findByNumberEndingWithOrderByDateTimeDesc(search.substring(search.length() - 4));
         } else {
-            return orderRepository.findByNumberEndingWith(search);
+            return orderRepository.findByNumberEndingWithOrderByDateTimeDesc(search);
         }
 
     }

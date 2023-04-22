@@ -118,7 +118,6 @@ public class AdminController {
 
         model.addAttribute("search_order", orderService.getByNumberEndingWith(search));
 
-        List<Order> orderList = orderService.getAllByTimeDesc();
         List<ProductOrder> productOrderList = productOrderService.getAll();
         List<Product> productList = productService.getAllProduct();
         List<Person> personList = personService.getAll();
@@ -126,19 +125,16 @@ public class AdminController {
         model.addAttribute("users", personList);
         model.addAttribute("products", productList);
         model.addAttribute("productOrders", productOrderList);
-        model.addAttribute("orders", orderList);
         model.addAttribute("value_search", "");
         return "admin/order";
     }
 
     @PostMapping("/admin/order/status_upgrade/{id}")
     public String orderUpgradeStatus(@PathVariable("id") int id, @RequestParam(value = "search", defaultValue = "") String search, Model model){
-        System.out.println(search);
         Order order = orderService.getOrderById(id);
         orderService.updateProductById(order, id);
         model.addAttribute("search_order", orderService.getByNumberEndingWith(search));
 
-        List<Order> orderList = orderService.getAllByTimeDesc();
         List<ProductOrder> productOrderList = productOrderService.getAll();
         List<Product> productList = productService.getAllProduct();
         List<Person> personList = personService.getAll();
@@ -146,7 +142,6 @@ public class AdminController {
         model.addAttribute("users", personList);
         model.addAttribute("products", productList);
         model.addAttribute("productOrders", productOrderList);
-        model.addAttribute("orders", orderList);
         model.addAttribute("value_search", search);
         return "admin/order";
     }
@@ -157,7 +152,6 @@ public class AdminController {
         orderService.stopProductById(order, id);
         model.addAttribute("search_order", orderService.getByNumberEndingWith(search));
 
-        List<Order> orderList = orderService.getAllByTimeDesc();
         List<ProductOrder> productOrderList = productOrderService.getAll();
         List<Product> productList = productService.getAllProduct();
         List<Person> personList = personService.getAll();
@@ -165,7 +159,6 @@ public class AdminController {
         model.addAttribute("users", personList);
         model.addAttribute("products", productList);
         model.addAttribute("productOrders", productOrderList);
-        model.addAttribute("orders", orderList);
         model.addAttribute("value_search", search);
         return "admin/order";
     }
@@ -174,7 +167,6 @@ public class AdminController {
     public String orderSearch(@RequestParam(value = "search", defaultValue = "") String search, Model model){
         model.addAttribute("search_order", orderService.getByNumberEndingWith(search));
 
-        List<Order> orderList = orderService.getAllByTimeDesc();
         List<ProductOrder> productOrderList = productOrderService.getAll();
         List<Product> productList = productService.getAllProduct();
         List<Person> personList = personService.getAll();
@@ -182,7 +174,6 @@ public class AdminController {
         model.addAttribute("users", personList);
         model.addAttribute("products", productList);
         model.addAttribute("productOrders", productOrderList);
-        model.addAttribute("orders", orderList);
         model.addAttribute("value_search", search);
         return "admin/order";
     }
