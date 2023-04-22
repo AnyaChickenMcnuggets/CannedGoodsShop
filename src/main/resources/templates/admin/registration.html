@@ -30,16 +30,13 @@
           <a class="btn btBlue mx-1" aria-current="page" href="/admin/person"><i class="fa-solid fa-users"></i></a>
         </li>
       </ul>
-      <form class="d-flex" role="search" th:method="POST" th:action="@{/admin/order}">
-        <input class="form-control me-2" type="search" placeholder="Поиск заказа" aria-label="Search" id="search" name="search" th:value="*{value_search}">
-        <button class="btn" id="searchBtn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-      </form>
       <form method="post" th:action="@{/logout}">
         <button class="btn mx-2" id="logoutBtn" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
       </form>
     </div>
   </div>
 </nav>
+
 <div class="bform py-5 m-5 d-flex justify-content-center">
   <div class="row">
     <div class="container">

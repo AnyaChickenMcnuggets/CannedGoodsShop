@@ -1,0 +1,8 @@
+.tableCon{
+    border: 2px solid #767522;
+    border-radius: 10px;
+    background-color: white;
+}
+#addUser{
+    height: 40px;
+}
