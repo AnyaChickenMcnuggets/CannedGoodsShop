@@ -13,10 +13,12 @@
 ![image](https://user-images.githubusercontent.com/44460590/231833881-80198020-5f47-44a0-8cc8-fc83b8052ea4.png)
 
 ## Управление товарами
-![image](https://user-images.githubusercontent.com/44460590/231834000-2bca097a-6d8e-4f0e-975a-545cbd67a1b2.png)
-![image](https://user-images.githubusercontent.com/44460590/231834050-5fd3dd17-aa35-466d-ba50-917321f5b57f.png)
-![image](https://user-images.githubusercontent.com/44460590/231834062-ca747a1f-65d7-4881-85fa-74e653230b07.png)
-![image](https://user-images.githubusercontent.com/44460590/231834086-30f01628-43f8-473c-8026-d5324cd4cfdb.png)
+![image](https://user-images.githubusercontent.com/44460590/233787501-364e0946-5f8d-41ce-80cd-a8206055a752.png)
+![image](https://user-images.githubusercontent.com/44460590/233787513-bd96f6c0-856c-460c-8088-a06581b5e715.png)
+![image](https://user-images.githubusercontent.com/44460590/233797502-82a32aac-f669-4792-a61e-4feb30b72644.png)
+![image](https://user-images.githubusercontent.com/44460590/233797533-905b4fcf-a2aa-4cc6-939e-738fe9544226.png)
+![image](https://user-images.githubusercontent.com/44460590/233797536-f16554e6-3acb-4b60-a149-f785cbfbf7ed.png)
+![image](https://user-images.githubusercontent.com/44460590/233797650-9287353b-e1d8-4adb-88d1-98d9d2f8979d.png)
 
 ## Управление заказами
 ![image](https://user-images.githubusercontent.com/44460590/233782335-255be4a3-750b-4f2c-ac07-c482ede52606.png)
