@@ -3,8 +3,7 @@
 Проект интернет магазина используя Spring (MVC, Boot, Security, JPA, Validation), с использованием шаблонизатора Thymeleaf, и Bootstrap для фронта
 
 Схема используемой базы данных Postgresql
-![image](https://user-images.githubusercontent.com/44460590/231834597-3a085b52-db45-4cd1-ba7d-593c7ecb90b9.png)
-
+![image](https://user-images.githubusercontent.com/44460590/233801659-d33fcbbe-1c6e-4330-b139-697c3f632238.png)
 
 ## Страница входа
 ![image](https://user-images.githubusercontent.com/44460590/233798813-1e12362f-4229-435a-97e6-b0d6ab0fc4be.png)
