@@ -12,7 +12,9 @@
 ![image](https://user-images.githubusercontent.com/44460590/233798830-4e112872-f654-435b-93fb-ebbbf4e1010e.png)
 
 ## Страница регистрации
-![image](https://user-images.githubusercontent.com/44460590/231833881-80198020-5f47-44a0-8cc8-fc83b8052ea4.png)
+![image](https://user-images.githubusercontent.com/44460590/233799452-0c1f63e9-e987-40b9-8a6b-2575483aedc6.png)
+![image](https://user-images.githubusercontent.com/44460590/233799462-f36176a1-801c-4d86-9f36-940a85cb032d.png)
+![image](https://user-images.githubusercontent.com/44460590/233799473-d415acc3-211f-4694-a952-3cccbf7e9f8f.png)
 
 ## Управление товарами
 ![image](https://user-images.githubusercontent.com/44460590/233787501-364e0946-5f8d-41ce-80cd-a8206055a752.png)
