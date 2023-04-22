@@ -29,16 +29,19 @@
 ![image](https://user-images.githubusercontent.com/44460590/231834213-2ed5af9a-47f3-4a18-9d64-706fb9f8e006.png)
 
 ## Товары у неавторизованного пользователя
-![image](https://user-images.githubusercontent.com/44460590/233611857-633662f5-73fd-48ca-b1d9-d6373bfe7375.png)
-![image](https://user-images.githubusercontent.com/44460590/233611902-0f21b188-3ef6-41e9-add3-580f40e35124.png)
+![image](https://user-images.githubusercontent.com/44460590/233776019-1b990016-f10f-4b84-85ce-37d25ccf6db1.png)
+![image](https://user-images.githubusercontent.com/44460590/233776025-2b0529c8-48dc-4c81-a8c3-38c4831fd4bb.png)
+![image](https://user-images.githubusercontent.com/44460590/233776036-16158115-890d-470e-8636-815e548e0244.png)
+![image](https://user-images.githubusercontent.com/44460590/233776052-84331e06-6c5e-428d-8d32-bd69b90938f2.png)
 
 ## Страницы у авторизованного пользователя
-![image](https://user-images.githubusercontent.com/44460590/233611958-f97b899d-4f5a-4377-8c44-8fa4107addab.png)
-![image](https://user-images.githubusercontent.com/44460590/233612034-914b5ead-d77f-42f3-ac71-3480438d3cd8.png)
-![image](https://user-images.githubusercontent.com/44460590/233612053-a18b5afe-6463-458a-af9f-d8c50a58a4d1.png)
+![image](https://user-images.githubusercontent.com/44460590/233776070-64159244-7475-40cd-a776-502a0bacc60c.png)
+![image](https://user-images.githubusercontent.com/44460590/233776082-382639c0-ca90-4c87-9421-712b6ba8c11b.png)
+![image](https://user-images.githubusercontent.com/44460590/233776104-cfe98771-5852-4dc4-9375-4c26e5207185.png)
+![image](https://user-images.githubusercontent.com/44460590/233776153-58884b38-abe7-49ab-bfcb-89eb8394b9b7.png)
+
 
 ## Удаленный товар
-![image](https://user-images.githubusercontent.com/44460590/233612108-52885623-b0f7-44c7-83d3-e3b6381140f5.png)
-
+![image](https://user-images.githubusercontent.com/44460590/233776135-1847e9ce-606e-4e1f-bbdc-495d9b9f3bcd.png)
 
 
