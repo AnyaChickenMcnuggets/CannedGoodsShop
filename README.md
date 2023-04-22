@@ -7,10 +7,14 @@
 
 
 ## Страница входа
-![image](https://user-images.githubusercontent.com/44460590/231833815-f64a071b-c51a-40b4-872a-22378a5aa793.png)
+![image](https://user-images.githubusercontent.com/44460590/233798813-1e12362f-4229-435a-97e6-b0d6ab0fc4be.png)
+![image](https://user-images.githubusercontent.com/44460590/233798822-ff570061-2ddf-48b3-abd8-ef3c6915cf42.png)
+![image](https://user-images.githubusercontent.com/44460590/233798830-4e112872-f654-435b-93fb-ebbbf4e1010e.png)
 
 ## Страница регистрации
-![image](https://user-images.githubusercontent.com/44460590/231833881-80198020-5f47-44a0-8cc8-fc83b8052ea4.png)
+![image](https://user-images.githubusercontent.com/44460590/233799452-0c1f63e9-e987-40b9-8a6b-2575483aedc6.png)
+![image](https://user-images.githubusercontent.com/44460590/233799462-f36176a1-801c-4d86-9f36-940a85cb032d.png)
+![image](https://user-images.githubusercontent.com/44460590/233799473-d415acc3-211f-4694-a952-3cccbf7e9f8f.png)
 
 ## Управление товарами
 ![image](https://user-images.githubusercontent.com/44460590/233787501-364e0946-5f8d-41ce-80cd-a8206055a752.png)
