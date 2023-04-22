@@ -7,30 +7,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/9bdd9eb751.js" crossorigin="anonymous"></script>
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/cart.css" rel="stylesheet">
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand">Brand</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand m-2" href="/my/product">CannedGoods</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/my/product">Главная</a>
                 </li>
-
             </ul>
-            <form class="d-flex" role="search" th:method="POST" th:action="@{/my/product}">
-                <input class="form-control me-2" type="search" placeholder="Поиск по товарам" aria-label="Search" id="search" name="search" th:value="*{value_search}">
-                <button class="btn btn-outline-warning" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <form class="d-flex mx-1" role="search" th:method="POST" th:action="@{/my/product}">
+                <input class="form-control me-2" type="search" placeholder="Поиск по товарам" aria-label="Search" id="search"
+                       name="search">
+                <button class="btn" id="searchBtn"  type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
-            <a class="btn btn-outline-success mx-1" href="/my/order"><i class="fa-solid fa-cubes"></i></a>
-            <a class="btn btn-outline-success mx-1" href="/my/cart"><i class="fa-solid fa-cart-shopping"></i></a>
-            <form method="post" th:action="@{/logout}">
-                <button class="btn btn-outline-danger mx-1" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+            <a class="btn mx-1" href="/my/order" id="orderBtn"><i class="fa-solid fa-cubes"></i></a>
+            <a class="btn mx-1" href="/my/cart" id="cartBtn"><i class="fa-solid fa-cart-shopping"></i></a>
+            <form class="mx-1" method="post" th:action="@{/logout}">
+                <button class="btn" type="submit" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
             </form>
         </div>
     </div>
@@ -41,34 +43,35 @@
     </div>
     <div th:if="${!cart_product.isEmpty()}">
         <div class="row">
-            <div class="col-8 p-3 m-3" style="border-radius: 10px;border: #0d6efd 2px solid">
+            <div class="col-8 p-3 m-3 conRad">
                 <div th:each="cart_thing : ${cart}">
-                    <div class="card mb-3 text-bg-light border-info" th:each="product : ${cart_product}" th:if="${cart_thing.getProductId()==product.getId()}">
-                        <div class="row g-0 align-items-end">
-                            <div class="col-md-4">
-                                <img th:src="'/img/' + ${product.imageList[0].getFileName()}" class="img-fluid rounded-start" alt="">
+                    <div class="card mb-3 " th:each="product : ${cart_product}" th:if="${cart_thing.getProductId()==product.getId()}">
+                        <div class="row g-0  ">
+                            <div class="col-md-4 imgCon">
+                                <img th:src="'/img/' + ${product.imageList[0].getFileName()}" class="cardImg" alt="">
                             </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5><a class="card-title" th:href="@{/my/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}" ></a></h5>
-
-                                </div>
-                                <div class="container">
-                                    <div class="row m-5 align-items-end">
-                                        <div class="col-6">
-                                            <p th:text="'Стоимость: ' + ${product.getPrice() * cart_thing.getQuantity()}"></p>
-                                        </div>
-                                        <div class="text-end col-6">
-                                            <div class="input-group col-12" id="cart_control">
-                                                <a th:href="@{/my/cart/remove_one/{id}(id=${product.getId()})}" class="btn btn-info col-2 text-center" type="button" id="button-minus" >-</a>
-                                                <input class="form-control text-center" id="quantity" name="quantity" type="number" readonly th:value="${cart_thing.getQuantity()}">
-                                                <a th:href="@{/my/cart/add_one/{id}(id=${product.getId()})}" class="btn btn-info col-2 text-center" type="button" id="button-plus">+</a>
-                                                <a class="btn btn-danger col-3 text-center" th:href="@{/my/cart/delete/{id}(id=${product.getId()})}">x</a>
+                            <div class="container col-md-8 text-center cartBorder d-flex align-content-stretch flex-wrap">
+                                <div class="row">
+                                    <div class="card-body align-self-start mt-2">
+                                        <h5><a class="card-title" id="trunk" th:href="@{/my/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}" ></a></h5>
+                                    </div>
+                                    <div class="container align-self-end">
+                                        <div class="row m-5 justify-content-between">
+                                            <div class="col-6 priceText">
+                                                <p th:text="'Стоимость: ' + ${product.getPrice() * cart_thing.getQuantity()} + ' руб.'"></p>
                                             </div>
-
+                                            <div class="text-end col-6 ">
+                                                <div class="input-group col-12" id="cart_control">
+                                                    <a th:href="@{/my/cart/remove_one/{id}(id=${product.getId()})}" class="btn btRed col-2 text-center" type="button" id="button-minus" >-</a>
+                                                    <input class="form-control text-center" id="quantity" name="quantity" type="number" readonly th:value="${cart_thing.getQuantity()}">
+                                                    <a th:href="@{/my/cart/add_one/{id}(id=${product.getId()})}" class="btn btGreen col-2 text-center" type="button" id="button-plus">+</a>
+                                                    <a class="btn btRed col-3 text-center" th:href="@{/my/cart/delete/{id}(id=${product.getId()})}">x</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
 
                             </div>
 
@@ -76,18 +79,17 @@
                     </div>
                 </div>
 
-
                 <div class="text-end">
-                    <a href="/my/cart/cancel" class="btn btn-danger">Очистить корзину</a>
+                    <a href="/my/cart/cancel" class="btn btRed">Очистить корзину</a>
                 </div>
 
             </div>
-            <div class="col-3 m-3 text-center" >
-                <div class="p-5" style="border-radius: 10px;border: #0d6efd 2px solid">
+            <div class="col-3 m-3 text-center " >
+                <div class="p-5 sticky-top conRad" style="top: 75%">
 
                     <h6 th:text="'Итого: ' + ${final_price}"></h6>
 
-                    <a class="btn btn-outline-success" href="/my/order/create">Оформить заказ</a>
+                    <a class="btn btGreen" href="/my/order/create">Оформить заказ</a>
 
                 </div>
             </div>

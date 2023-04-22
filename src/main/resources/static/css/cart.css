@@ -1,0 +1,32 @@
+.conRad{
+    border: 2px solid #767522;
+    border-radius: 20px;
+    background-color: white;
+}
+#quantity{
+    text-align: center;
+    background-color:  #ABA27D;
+    color: black;
+    border: 2px solid #767522;
+}
+.imgCon{
+    height: 250px;
+    text-align: center;
+}
+.cardImg {
+    object-fit: cover;
+    max-height: 250px;
+    max-width: min-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+.card{
+    border: none;
+}
+.cartBorder{
+    border: 2px solid #767522;
+    background-color: #CFC0BD;
+}
+.priceText{
+    font-size: 12pt;
+}

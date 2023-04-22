@@ -24,15 +24,6 @@ input[type="number"]::-webkit-inner-spin-button {
     margin-left: auto;
     margin-right: auto;
 }
-#trunk{
-    -webkit-line-clamp: 2;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-decoration: none;
-    color: black;
-    font-size: 16pt;
-}
 #cardPrice{
     font-size: 14pt;
 }

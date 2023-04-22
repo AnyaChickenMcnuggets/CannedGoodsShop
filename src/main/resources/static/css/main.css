@@ -5,11 +5,11 @@ body{
     background-color: #CFC0BD;
     border: 1px solid #767522;
 }
-#searchBtn, #loginBtn{
+#searchBtn, #loginBtn, .btGreen{
     background-color: #60712F;
     color: white;
 }
-#searchBtn:hover, #loginBtn:hover{
+#searchBtn:hover, #loginBtn:hover, .btGreen:hover{
     background-color: #989976;
     border-color: #60712F;
     color: black;
@@ -23,12 +23,29 @@ body{
     border-color: #446D79;
     color: black;
 }
-#logoutBtn{
+#logoutBtn, .btRed{
     background-color: #88292F;
     color: white;
 }
-#logoutBtn:hover{
+#logoutBtn:hover, .btRed:hover{
     background-color: #AC7576;
     border-color: #88292F;
     color: black;
+}
+#button-minus{
+    width: 40px;
+    text-align: center;
+}
+#button-plus{
+    width: 40px;
+    text-align: center;
+}
+#trunk{
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-decoration: none;
+    color: black;
+    font-size: 16pt;
 }

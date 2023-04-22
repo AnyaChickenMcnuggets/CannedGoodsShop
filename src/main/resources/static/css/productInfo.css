@@ -8,7 +8,6 @@
 .carousel-control-prev /*, .carousel-indicators */ {
     filter: invert(100%);
 }
-
 .imgCon{
     height: 350px;
 }
@@ -23,40 +22,11 @@
     border: 2px solid #767522;
     border-radius: 10px;
     background-color:  #ABA27D;
-    color: white;
-}
-
-#productAdd{
-    background-color: #767522;
-    color: white;
-}
-#productAdd:hover{
-    background-color: #A39B70;
-    color: black;
-}
-#button-minus{
-    background-color: #88292F;
-    color: white;
-    width: 50px;
-    text-align: center;
-}
-#button-minus:hover{
-    background-color: #AC7576;
-    color: black;
-}
-#button-plus{
-    background-color: #60712F;
-    color: white;
-    width: 50px;
-    text-align: center;
-}
-#button-plus:hover{
-    background-color: #989976;
     color: black;
 }
 #quantity, #price{
     text-align: center;
     background-color:  #ABA27D;
-    color: white;
+    color: black;
     border: 2px solid #767522;
 }
