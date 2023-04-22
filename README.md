@@ -13,7 +13,8 @@
 ![image](https://user-images.githubusercontent.com/44460590/231833881-80198020-5f47-44a0-8cc8-fc83b8052ea4.png)
 
 ## Управление товарами
-![image](https://user-images.githubusercontent.com/44460590/231834000-2bca097a-6d8e-4f0e-975a-545cbd67a1b2.png)
+![image](https://user-images.githubusercontent.com/44460590/233787501-364e0946-5f8d-41ce-80cd-a8206055a752.png)
+![image](https://user-images.githubusercontent.com/44460590/233787513-bd96f6c0-856c-460c-8088-a06581b5e715.png)
 ![image](https://user-images.githubusercontent.com/44460590/231834050-5fd3dd17-aa35-466d-ba50-917321f5b57f.png)
 ![image](https://user-images.githubusercontent.com/44460590/231834062-ca747a1f-65d7-4881-85fa-74e653230b07.png)
 ![image](https://user-images.githubusercontent.com/44460590/231834086-30f01628-43f8-473c-8026-d5324cd4cfdb.png)
