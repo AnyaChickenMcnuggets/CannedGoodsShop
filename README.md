@@ -40,6 +40,7 @@
 ![image](https://user-images.githubusercontent.com/44460590/233776104-cfe98771-5852-4dc4-9375-4c26e5207185.png)
 ![image](https://user-images.githubusercontent.com/44460590/233776153-58884b38-abe7-49ab-bfcb-89eb8394b9b7.png)
 ![image](https://user-images.githubusercontent.com/44460590/233779204-4813f28b-15f9-4a89-8b27-52b49944f9d4.png)
+![image](https://user-images.githubusercontent.com/44460590/233780232-4806a351-88ee-4ba5-8270-52c12af7b7f8.png)
 
 
 ## Удаленный товар
