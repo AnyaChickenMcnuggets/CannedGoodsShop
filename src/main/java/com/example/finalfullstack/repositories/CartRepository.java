@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Integer> {
 
-    List<Cart> findByPersonId(int id);
+    List<Cart> findByPersonIdOrderByProductIdAsc(int id);
 
     List<Cart> findByPersonIdAndProductId(int person_id, int product_id);
     @Modifying

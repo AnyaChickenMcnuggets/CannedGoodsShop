@@ -28,7 +28,7 @@ public class CartService {
     }
 
     public List<Cart> getByPerson(int person_id){
-        return cartRepository.findByPersonId(person_id);
+        return cartRepository.findByPersonIdOrderByProductIdAsc(person_id);
     }
 
     @Transactional
