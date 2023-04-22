@@ -14,11 +14,11 @@ body{
     border-color: #60712F;
     color: black;
 }
-#orderBtn, #cartBtn{
+#orderBtn, #cartBtn, .btBlue{
     background-color: #446D79;
     color: white;
 }
-#orderBtn:hover, #cartBtn:hover{
+#orderBtn:hover, #cartBtn:hover, .btBlue:hover{
     background-color: #8E9EA4;
     border-color: #446D79;
     color: black;

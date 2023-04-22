@@ -11,37 +11,37 @@
   <link href="/css/adminOrder.css" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary" >
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
   <div class="container">
-    <a class="navbar-brand">Функции администратора: </a>
+    <a class="navbar-brand m-2">Функции администратора: </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/admin">Товары</a>
+          <a class="btn btBlue mx-1" aria-current="page" href="/admin"><i class="fa-solid fa-shop"></i></i></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/admin/order">Заказы</a>
+          <a class="btn btBlue mx-1" aria-current="page" href="/admin/order"><i class="fa-solid fa-cubes"></i></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/admin/person">Пользователи</a>
+          <a class="btn btBlue mx-1" aria-current="page" href="/admin/person"><i class="fa-solid fa-users"></i></a>
         </li>
       </ul>
       <form class="d-flex" role="search" th:method="POST" th:action="@{/admin/order}">
         <input class="form-control me-2" type="search" placeholder="Поиск заказа" aria-label="Search" id="search" name="search" th:value="*{value_search}">
-        <button class="btn btn-outline-warning" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button class="btn" id="searchBtn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
       </form>
       <form method="post" th:action="@{/logout}">
-        <button class="btn btn-outline-danger mx-2" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+        <button class="btn mx-2" id="logoutBtn" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
       </form>
     </div>
   </div>
 </nav>
 
 <div class="card-columns row d-flex justify-content-center">
-  <div class="card border-info m-4 p-2 col-6" th:each="order : ${search_order}">
+  <div class="card m-4 p-2 col-8 orderRad" th:each="order : ${search_order}">
     <div class="card-header col d-flex ">
       <h5 class="col-7" th:text="'Заказ № ' + ${order.getNumber()}"></h5>
       <div th:each="user:${users}" th:if="${user.getId()==order.getPerson().getId()}">
@@ -85,17 +85,17 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-10">
+    <div class="row text-center">
+      <div class="col-6">
         <form method="post" th:action="@{/admin/order/status_upgrade/{id}(id=${order.getId()})}">
-          <button class="btn btn-success mx-5 col-12" type="submit">Повысить статус</button>
+          <button class="btn btGreen col-11" type="submit"><i class="fa-solid fa-thumbs-up"></i></button>
           <input type="hidden" placeholder="Поиск заказа" aria-label="Search" name="search" th:value="*{value_search}">
         </form>
       </div>
-      <div class="col-1">
+      <div class="col-6">
         <form method="post" th:action="@{/admin/order/status_remove/{id}(id=${order.getId()})}">
           <input type="hidden" placeholder="Поиск заказа" aria-label="Search" name="search" th:value="*{value_search}">
-          <button class="btn btn-danger mx-5" type="submit"><i class="fa-solid fa-thumbs-down"></i></button>
+          <button class="btn btRed col-11" type="submit"><i class="fa-solid fa-thumbs-down"></i></button>
         </form>
       </div>
     </div>
