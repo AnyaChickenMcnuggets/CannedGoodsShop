@@ -4,3 +4,11 @@
 .invalid-feedback, .infoImg{
     color: #88292F;
 }
+.regA{
+    color: #88292F;
+    text-decoration: none;
+}
+.regA:hover{
+    color: #88292F;
+    text-decoration: underline;
+}
