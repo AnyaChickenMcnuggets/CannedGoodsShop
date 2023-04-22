@@ -12,7 +12,7 @@
     height: 350px;
 }
 .cardImg {
-    object-fit: cover;
+    object-fit: fill;
     max-height: 350px;
     max-width: min-content;
     margin-left: auto;
