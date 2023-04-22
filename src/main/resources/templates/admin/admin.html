@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/9bdd9eb751.js" crossorigin="anonymous"></script>
     <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/adminProducts.css" rel="stylesheet">
 
 </head>
 <body>
@@ -39,37 +40,54 @@
 </nav>
 
 <div class="container d-flex justify-content-center" style="position:fixed;bottom:5px;right: 5px;left: 5px;z-index: 1" >
-    <a class="btn btn-primary btn-lg col-4 m-2 p-2 "  role="button"  href="admin/product/add">Добавить товар</a>
+    <a class="btn btGreen btn-lg col-4 m-2 p-2 "  role="button"  href="admin/product/add">Добавить товар</a>
 </div>
-<div class="container">
-    <div class="card-deck m-5">
-        <div class="row equal h-100">
-            <div class="col-3 mt-3 d-flex align-items-stretch"  th:each="product : ${products}" th:if="${product.getId()!=1}">
-                <div class="card text-center border-info">
-                    <div class="card-body">
-                        <h5 class="card-header" th:text="${product.getTitle()}"></h5>
-                        <p class="col-12 text-truncate" th:text="'Описание: ' + ${product.getDescription()}"></p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item" th:text="'Цена: ' + ${product.getPrice()}"></li>
-                        <li class="list-group-item" th:text="'Склад: ' + ${product.getWarehouse()}"></li>
-                        <li class="list-group-item" th:text="'Продавец: ' + ${product.getSeller()}"></li>
-                        <li class="list-group-item" th:text="'Категория: ' + ${product.getCategory().getName()}"></li>
-                    </ul>
-                    <div class="card-body">
-                        <a class="btn btn-primary m-1" role="button" th:href="@{/admin/product/edit/{id}(id=${product.getId()})}">Редактирование товара</a>
-                        <a class="btn btn-primary m-1" role="button" th:href="@{/admin/product/delete/{id}(id=${product.getId()})}">Удаление товара</a>
-                    </div>
-                </div>
-            </div>
+
+<div class="container col-12 my-5">
+    <div class="my-2 p-3 categoryRad" th:each="category : ${categoryList}">
+        <div class="row col-12 text-center">
+
+            <a class="btn btBlue m-2 col-1 btCollapse" data-bs-toggle="collapse" th:href="'#table' + ${category.getId()}" role="button" aria-expanded="false" th:attr="aria-controls='table' + ${category.getId()}"><i class="fa-solid fa-bars"></i></a>
+            <h4 class="display-6 mb-2 col-11" th:text="${category.getName()}"></h4>
+        </div>
+
+        <div class="collapse" th:id="'table' + ${category.getId()}">
+            <table class="table table-striped" >
+                <thead>
+                <tr>
+                    <th class="col-4" scope="col">Название</th>
+                    <th class="col-4" scope="col">Продавец</th>
+                    <th class="col-2" scope="col">Склад</th>
+                    <th class="col-2" scope="col">Цена</th>
+                    <th class="col-1" scope="col"></th>
+                    <th class="col-1" scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${products}" th:if="${product.getId()!=1 and product.getCategory().getName().equals(category.getName())}">
+                    <td class="col-9" th:text="${product.getTitle()}"></td>
+                    <td class="col-2" th:text="${product.getSeller()}"></td>
+                    <td class="col-2" th:text="${product.getWarehouse()}"></td>
+                    <td class="col-1" th:text="${product.getPrice()}"></td>
+                    <td class="text-center col-1">
+                        <a class="btn btBlue " role="button" th:href="@{/admin/product/edit/{id}(id=${product.getId()})}"><i class="fa-solid fa-pen-to-square"></i></a>
+                    </td>
+                    <td class="text-center col-1">
+                        <a class="btn btRed " role="button" th:href="@{/admin/product/delete/{id}(id=${product.getId()})}"><i class="fa-solid fa-trash-can"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
         </div>
     </div>
 </div>
 
 
 
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+
 </body>
 </html>

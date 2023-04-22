@@ -78,6 +78,7 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String admin(Model model){
+        model.addAttribute("categoryList", categoryService.getAll());
         model.addAttribute("products", productService.getAllProduct());
         return "admin/admin";
     }
