@@ -64,9 +64,9 @@ public class MainController {
         }
 
         if (ot.equals("")) ot = "0";
-        if (Float.parseFloat(ot) < 0) ot = "0";
+        if (Integer.parseInt(ot) < 0) ot = "0";
         if (dO.equals("")) dO = "100000";
-        if (Float.parseFloat(dO) < 0 || Float.parseFloat(dO) > 100000) dO = "100000";
+        if (Integer.parseInt(dO) < 0 || Integer.parseInt(dO) > 100000) dO = "100000";
         List<Category> categoryList = categoryService.getAll();
 
         if (price.equals("sorted_by_ascending_price")) {
@@ -147,7 +147,7 @@ public class MainController {
             productList.add(productService.getProductById(cart.getProductId()));
         }
 
-        float finalPrice = 0;
+        int finalPrice = 0;
         for (Product product :
                 productList) {
             finalPrice += product.getPrice() * cartService.getByPersonAndProduct(person_id, product.getId()).get(0).getQuantity();
@@ -229,13 +229,13 @@ public class MainController {
             productList.add(productService.getProductById(cart.getProductId()));
         }
 
-        float finalPrice = 0;
+        int finalPrice = 0;
         for (Product product :
                 productList) {
             finalPrice += product.getPrice() * cartService.getByPersonAndProduct(person_id, product.getId()).get(0).getQuantity();
         }
 
-        String uuid = UUID.randomUUID().toString() + (int) finalPrice + person_id;
+        String uuid = UUID.randomUUID().toString() + finalPrice + person_id;
         Order newOrder = new Order(uuid, personDetails.getPerson(), finalPrice, Status.Оформлен);
         orderService.saveOrder(newOrder);
 

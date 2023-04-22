@@ -25,7 +25,7 @@ public class Product {
 
     @Column(name = "price", nullable = false)
     @Min(value = 1, message = "Цена должна быть больше 0")
-    private float price;
+    private int price;
 
     @Column(name = "warehouse", nullable = false)
     @NotEmpty(message = "Укажите склад")
@@ -64,7 +64,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(String title, String description, float price, String warehouse, String seller, Category category, LocalDateTime dateTime, List<Image> imageList) {
+    public Product(String title, String description, int price, String warehouse, String seller, Category category, LocalDateTime dateTime, List<Image> imageList) {
         this.title = title;
         this.description = description;
         this.price = price;
@@ -99,11 +99,11 @@ public class Product {
         this.description = description;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

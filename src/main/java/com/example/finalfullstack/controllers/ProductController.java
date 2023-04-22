@@ -38,9 +38,10 @@ public class ProductController {
     public String productSpecific(@RequestParam(name = "search", required = false, defaultValue = "") String search, @RequestParam(name = "ot", required = false, defaultValue = "") String ot, @RequestParam(name = "do", required = false, defaultValue = "") String dO, @RequestParam(name = "price", defaultValue = "sorted_by_ascending_price") String price, @RequestParam(value = "contract", required = false, defaultValue = "null_category") String contract, Model model) {
 
         if (ot.equals("")) ot = "0";
-        if (Float.parseFloat(ot) < 0) ot = "0";
+        if (Integer.parseInt(ot) < 0) ot = "0";
         if (dO.equals("")) dO = "100000";
-        if (Float.parseFloat(dO) < 0 || Float.parseFloat(dO) > 100000) dO = "100000";
+        if (Integer.parseInt(dO) < 0 || Integer.parseInt(dO) > 100000) dO = "100000";
+
         List<Category> categoryList = categoryService.getAll();
         if (price.equals("sorted_by_ascending_price")) {
             //проверяем на отсутствие категории

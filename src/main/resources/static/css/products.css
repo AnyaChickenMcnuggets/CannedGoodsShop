@@ -1,11 +1,7 @@
-body{
-    background-color: #CFC0BD;
-}
-#search, .form-label-custom, .form-label-custom:focus{
+
+.form-label-custom, .form-label-custom:focus{
     background-color: #CFC0BD;
     border: 1px solid #767522;
-
-
 }
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
@@ -43,34 +39,7 @@ input[type="number"]::-webkit-inner-spin-button {
     font-size: 14pt;
 }
 
-#searchBtn, #loginBtn{
-    background-color: #60712F;
-    color: white;
 
-}
-#searchBtn:hover, #loginBtn:hover{
-    background-color: #989976;
-    border-color: #60712F;
-    color: black;
-}
-#orderBtn, #cartBtn{
-    background-color: #446D79;
-    color: white;
-}
-#orderBtn:hover, #cartBtn:hover{
-    background-color: #8E9EA4;
-    border-color: #446D79;
-    color: black;
-}
-#logoutBtn{
-    background-color: #88292F;
-    color: white;
-}
-#logoutBtn:hover{
-    background-color: #AC7576;
-    border-color: #88292F;
-    color: black;
-}
 #cardBody{
     background-color: #BDB19D;
 }

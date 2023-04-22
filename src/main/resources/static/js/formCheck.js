@@ -1,6 +1,6 @@
 function checkNum(){
-    let o = parseFloat(document.getElementById("ot").value);
-    let d = parseFloat(document.getElementById("do").value);
+    let o = parseInt(document.getElementById("ot").value);
+    let d = parseInt(document.getElementById("do").value);
     if (o<=0){
         document.getElementById("ot").value = null;
     }

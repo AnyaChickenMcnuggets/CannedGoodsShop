@@ -36,17 +36,17 @@ public class ProductService {
     }
 
     public List<Product> getByPriceAsc(String search, String ot, String dO){
-        return productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqual(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO));
+        return productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqual(search.toLowerCase(), Integer.parseInt(ot), Integer.parseInt(dO));
     }
 
     public List<Product> getByPriceDesc(String search, String ot, String dO){
-        return productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO));
+        return productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualDesc(search.toLowerCase(), Integer.parseInt(ot), Integer.parseInt(dO));
     }
     public List<Product> getByCategoryAndPriceAsc(String search, String ot, String dO, int c){
-        return productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO), c);
+        return productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(search.toLowerCase(), Integer.parseInt(ot), Integer.parseInt(dO), c);
     }
     public List<Product> getByCategoryAndPriceDesc(String search, String ot, String dO, int c){
-        return productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search.toLowerCase(), Float.parseFloat(ot), Float.parseFloat(dO), c);
+        return productRepository.findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(search.toLowerCase(), Integer.parseInt(ot), Integer.parseInt(dO), c);
     }
     @Transactional
     public void saveProduct(Product product, Category category){

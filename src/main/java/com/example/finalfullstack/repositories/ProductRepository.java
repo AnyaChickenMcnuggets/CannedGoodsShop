@@ -28,16 +28,16 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 //    List<Product> findByTitleAndCategoryOrderByPriceDesc(String title, float ot, float dO, int category);
 
     @Query(value = "select * from product where ((lower(title) LIKE %?1%) or (lower(title) LIKE '?1%') OR (lower(title) LIKE '%?1')) and price >= ?2 and price <= ?3 order by price", nativeQuery = true)
-    List<Product> findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqual(String title, float ot, float dO);
+    List<Product> findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqual(String title, int ot, int dO);
 
     @Query(value = "select * from product where ((lower(title) LIKE %?1%) or (lower(title) LIKE '?1%') OR (lower(title) LIKE '%?1')) and price >= ?2 and price <= ?3 order by price desc ", nativeQuery = true)
-    List<Product> findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualDesc(String title, float ot, float dO);
+    List<Product> findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualDesc(String title, int ot, int dO);
 
     @Query(value = "select * from product where ((lower(title) LIKE %?1%) or (lower(title) LIKE '?1%') OR (lower(title) LIKE '%?1')) and price >= ?2 and price <= ?3 and category_id = ?4 order by price", nativeQuery = true)
-    List<Product> findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(String title, float ot, float dO, int category);
+    List<Product> findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategory(String title, int ot, int dO, int category);
 
     @Query(value = "select * from product where ((lower(title) LIKE %?1%) or (lower(title) LIKE '?1%') OR (lower(title) LIKE '%?1')) and price >= ?2 and price <= ?3 and category_id = ?4  order by price desc", nativeQuery = true)
-    List<Product> findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(String title, float ot, float dO, int category);
+    List<Product> findByTitleContainingIgnoreCaseAndPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryDesc(String title, int ot, int dO, int category);
 
 //
 //    @Query(value = "select * from product where price >= ?1 and price <= ?2", nativeQuery = true)

@@ -51,9 +51,11 @@
     </div>
 
     <div class="mb-3">
-      <input class="form-control form-control-lg"  type="number" th:field="*{price}" placeholder="Цена товара" min="1" step="0.00" id="price" required>
+      <input class="form-control form-control-lg"  type="number" th:field="*{price}" placeholder="Цена товара" min="1" step="1" id="price" required>
       <div class="invalid-feedback">
-        Цена должна быть больше 0
+        <pre>Цена должна быть больше 0
+Цена должна быть указана в рублях
+        </pre>
       </div>
     </div>
 

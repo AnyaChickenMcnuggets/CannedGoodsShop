@@ -1,0 +1,34 @@
+body{
+    background-color: #CFC0BD;
+}
+#search{
+    background-color: #CFC0BD;
+    border: 1px solid #767522;
+}
+#searchBtn, #loginBtn{
+    background-color: #60712F;
+    color: white;
+}
+#searchBtn:hover, #loginBtn:hover{
+    background-color: #989976;
+    border-color: #60712F;
+    color: black;
+}
+#orderBtn, #cartBtn{
+    background-color: #446D79;
+    color: white;
+}
+#orderBtn:hover, #cartBtn:hover{
+    background-color: #8E9EA4;
+    border-color: #446D79;
+    color: black;
+}
+#logoutBtn{
+    background-color: #88292F;
+    color: white;
+}
+#logoutBtn:hover{
+    background-color: #AC7576;
+    border-color: #88292F;
+    color: black;
+}

@@ -11,7 +11,7 @@ public class ProductOrder {
 
     private int quantity;
 
-    private float price;
+    private int price;
 
     @Column(name = "orders_id")
     private int orderId;
@@ -27,7 +27,7 @@ public class ProductOrder {
     public ProductOrder() {
     }
 
-    public ProductOrder(int quantity, float price, int orderId, int productId, String productTitle) {
+    public ProductOrder(int quantity, int price, int orderId, int productId, String productTitle) {
         this.quantity = quantity;
         this.price = price;
         this.orderId = orderId;
@@ -52,11 +52,11 @@ public class ProductOrder {
         this.quantity = quantity;
     }
 
-    public float getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

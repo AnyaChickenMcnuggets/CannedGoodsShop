@@ -17,6 +17,7 @@
             crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/9bdd9eb751.js" crossorigin="anonymous"></script>
     <script src="/js/formCheck.js"></script>
+    <link href="/css/main.css" rel="stylesheet">
     <link href="/css/products.css" rel="stylesheet">
 </head>
 <body>
@@ -127,7 +128,7 @@
                         </div>
                         <div class="card-body p-1 " id="cardBody">
                             <a class="card-text dark-grey-text" id="trunk" th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"> </a>
-                            <p class="blue-text mt-1 align-bottom" id="cardPrice" th:text="${product.getPrice()} + '0руб.'"></p>
+                            <p class="blue-text mt-1 align-bottom" id="cardPrice" th:text="${product.getPrice()} + 'руб.'"></p>
                         </div>
                     </div>
                 </div>

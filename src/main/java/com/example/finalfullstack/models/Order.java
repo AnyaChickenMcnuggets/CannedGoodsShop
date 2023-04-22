@@ -22,7 +22,7 @@ public class Order {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Person person;
 
-    private float finalPrice;
+    private int finalPrice;
 
     private LocalDateTime dateTime;
 
@@ -36,7 +36,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(String number, Person person, float finalPrice, Status status) {
+    public Order(String number, Person person, int finalPrice, Status status) {
         this.number = number;
         this.person = person;
         this.finalPrice = finalPrice;
@@ -75,11 +75,11 @@ public class Order {
         this.person = person;
     }
 
-    public float getFinalPrice() {
+    public int getFinalPrice() {
         return finalPrice;
     }
 
-    public void setFinalPrice(float finalPrice) {
+    public void setFinalPrice(int finalPrice) {
         this.finalPrice = finalPrice;
     }
 
