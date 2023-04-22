@@ -22,8 +22,8 @@
 ![image](https://user-images.githubusercontent.com/44460590/231834086-30f01628-43f8-473c-8026-d5324cd4cfdb.png)
 
 ## Управление заказами
-![image](https://user-images.githubusercontent.com/44460590/233611694-31d17eea-4e09-4a6d-a746-d835b953e0f7.png)
-![image](https://user-images.githubusercontent.com/44460590/233611739-04113a1f-588c-4282-b2a0-f8eb3a139df4.png)
+![image](https://user-images.githubusercontent.com/44460590/233782335-255be4a3-750b-4f2c-ac07-c482ede52606.png)
+![image](https://user-images.githubusercontent.com/44460590/233782341-7161c933-78f1-47e4-a60f-5eae5e622a78.png)
 
 ## Управление пользователями
 ![image](https://user-images.githubusercontent.com/44460590/231834213-2ed5af9a-47f3-4a18-9d64-706fb9f8e006.png)
