@@ -7,7 +7,7 @@ function minus(){
         document.getElementById("quantity").value = v;
     }
     p*=v;
-    document.getElementById("price").value = p;
+    document.getElementById("price").value = p + " руб.";
 }
 function plus(){
     let v = parseFloat(document.getElementById("quantity").value);
@@ -16,5 +16,5 @@ function plus(){
     v+=1;
     document.getElementById("quantity").value = v;
     p*=v;
-    document.getElementById("price").value = p;
+    document.getElementById("price").value = p + " руб.";
 }
