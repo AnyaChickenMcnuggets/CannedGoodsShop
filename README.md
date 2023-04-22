@@ -7,7 +7,9 @@
 
 
 ## Страница входа
-![image](https://user-images.githubusercontent.com/44460590/231833815-f64a071b-c51a-40b4-872a-22378a5aa793.png)
+![image](https://user-images.githubusercontent.com/44460590/233798813-1e12362f-4229-435a-97e6-b0d6ab0fc4be.png)
+![image](https://user-images.githubusercontent.com/44460590/233798822-ff570061-2ddf-48b3-abd8-ef3c6915cf42.png)
+![image](https://user-images.githubusercontent.com/44460590/233798830-4e112872-f654-435b-93fb-ebbbf4e1010e.png)
 
 ## Страница регистрации
 ![image](https://user-images.githubusercontent.com/44460590/231833881-80198020-5f47-44a0-8cc8-fc83b8052ea4.png)
